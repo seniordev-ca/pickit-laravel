@@ -11,11 +11,11 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Products</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Employees</h1>
                 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">App</li>
-                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                        <li class="breadcrumb-item active" aria-current="page">Employees</li>
                     </ol>
                 </nav>
             </div>
@@ -27,60 +27,48 @@
     <div class="content">
         <div class="block block-rounded block-bordered">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Product List</h3>
+                <h3 class="block-title">Employee List</h3>
             </div>
             <div class="block-content block-content-full">
                 <div style="margin-bottom: 10px;">
-                    <a class="btn btn-primary" href="{{url('/products/add')}}"><i class="si si-plus"></i> Add
-                        Product</a>
+                    <a class="btn btn-primary" href="{{url('/employees/add')}}"><i class="fa fa-user-plus"></i> Add Employees</a>
                 </div>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
                     <tr>
-                        <th class="text-center" style="width: 80px;">#</th>
-                        <th class="d-none d-sm-table-cell" style="width: 100px;">Picture</th>
-                        <th class="d-none d-sm-table-cell" style="width: 20%;">Product Name</th>
-                        <th class="d-none d-sm-table-cell">Description</th>
-                        <th class="d-none d-sm-table-cell" style="width: 15%;">Price</th>
-                        <th class="d-none d-sm-table-cell" style="width: 80px;">Show</th>
-                        <th class="d-none d-sm-table-cell" style="width: 80px;">Actions</th>
+                        <th class="text-center" style="width: 80px;">No</th>
+                        <th class="d-none d-sm-table-cell">Name</th>
+                        <th class="d-none d-sm-table-cell">Email</th>
+                        <th class="d-none d-sm-table-cell" style="width: 80px;">Enable</th>
+                        <th class="d-none d-sm-table-cell" style="width: 80px;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($products as $product)
+                    @foreach($employees as $employee)
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="font-w600">
-                                <div align="center">
-                                    <img src="{{asset('/media/images/products/thumbnail/').'/'.$product->picture}}"
-                                         style="width: 80px;">
-                                </div>
+                                {{$employee->first_name.' '.$employee->last_name}}
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <a href="{{url('/products/detail/').'/'.$product->id}}">{{$product->name}}</a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                {{$product->description}}
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                <span class="badge badge-success">{{$product->price}}</span>
+                                {{$employee->email}}
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch custom-control custom-control-inline mb-2"
                                      align="center">
                                     <input type="checkbox" class="custom-control-input"
-                                           id="show-toggle-{{$product->id}}" name="show-toggle-{{$product->id}}"
-                                           @if($product->show_flag == 1) checked @endif >
-                                    <label class="custom-control-label" for="show-toggle-{{$product->id}}"></label>
+                                           id="enable-toggle-{{$employee->id}}" name="enable-toggle-{{$employee->id}}"
+                                           @if($employee->enable_flag == 1) checked @endif >
+                                    <label class="custom-control-label" for="enable-toggle-{{$employee->id}}"></label>
                                 </div>
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <a href="{{url('/products/edit').'/'.$product->id}}"
+                                    <a href="{{url('/employees/edit').'/'.$employee->id}}"
                                        class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
-                                    <a href="javascript:delProduct({{$product->id}})" class="btn btn-sm btn-primary"
+                                    <a href="javascript:delEmployee({{$employee->id}})" class="btn btn-sm btn-primary"
                                        data-toggle="tooltip" title="Delete">
                                         <i class="fa fa-times"></i>
                                     </a>
@@ -104,10 +92,10 @@
     <!-- Page JS Code -->
     <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
     <script>
-        function delProduct(id) {
-            if (confirm("Do you want delete this product?")) {
+        function delEmployee(id) {
+            if (confirm("Do you want delete this employee's account?")) {
                 $.ajax({
-                    url: '{{url('/products/del')}}',
+                    url: '{{url('/employees/del')}}',
                     type: "POST",
                     data: {
                         "_token": Laravel.csrfToken,
@@ -125,10 +113,10 @@
         }
 
         $(document).ready(function () {
-            $("[name^='show-toggle-']").on('change', function () {
-                var id = this.name.split("show-toggle-")[1];
+            $("[name^='enable-toggle-']").on('change', function () {
+                var id = this.name.split("enable-toggle-")[1];
                 $.ajax({
-                    url: '{{url('/products/toggle-visible')}}',
+                    url: '{{url('/employees/toggle-enable')}}',
                     type: "POST",
                     data: {
                         "_token": Laravel.csrfToken,

@@ -30,9 +30,13 @@
                 <h3 class="block-title">Customer List</h3>
             </div>
             <div class="block-content block-content-full">
-                <div style="margin-bottom: 10px;">
-                    <a class="btn btn-primary" href="{{url('/customers/add')}}"><i class="si si-user-follow"></i> Add Customer</a>
-                </div>
+                @if(Session::get('user-type')==1)
+                    <div style="margin-bottom: 10px;">
+                        <a class="btn btn-primary" href="{{url('/customers/add')}}"><i class="si si-user-follow"></i>
+                            Add
+                            Customer</a>
+                    </div>
+                @endif
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
                     <tr>
@@ -40,7 +44,13 @@
                         <th class="d-none d-sm-table-cell">Name</th>
                         <th class="d-none d-sm-table-cell">StartDate</th>
                         <th class="d-none d-sm-table-cell">ExpireDate</th>
-                        <th class="d-none d-sm-table-cell">Action</th>
+                        @if(Session::get('user-type') === 1)
+                            <th class="d-none d-sm-table-cell" style="width: 80px;">Enable</th>
+                        @endif
+                        <th class="d-none d-sm-table-cell" style="width: 80px;">Print</th>
+                        @if(Session::get('user-type') === 1)
+                            <th class="d-none d-sm-table-cell" style="width: 80px;">Action</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
@@ -48,20 +58,46 @@
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="font-w600">
-                                {{$customer->name}}
+                                <a href="{{url('/customers/detail').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                24 June 2020, 09:30AM
+                                {{ date('d M Y', strtotime($customer->start_date)) }}
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                24 June 2021, 09:30AM
+                                {{ date('d M Y', strtotime($customer->expire_date)) }}
                             </td>
-                            <td>
-                                <div class="custom-control custom-switch custom-control-lg custom-control-inline mb-2">
-                                    <input type="checkbox" class="custom-control-input" id="example-sw-custom-inline-lg1" name="example-sw-custom-inline-lg1" checked="">
-                                    <label class="custom-control-label" for="example-sw-custom-inline-lg1"></label>
-                                </div>
+                            @if(Session::get('user-type')==1)
+                                <td class="text-center">
+                                    <div class="custom-control custom-switch custom-control custom-control-inline mb-2"
+                                         align="center">
+                                        <input type="checkbox" class="custom-control-input"
+                                               id="enable-toggle-{{$customer->id}}"
+                                               name="enable-toggle-{{$customer->id}}"
+                                               @if($customer->enable_flag == 1) checked @endif >
+                                        <label class="custom-control-label"
+                                               for="enable-toggle-{{$customer->id}}"></label>
+                                    </div>
+                                </td>
+                            @endif
+                            <td class="text-center">
+                                <a href="{{url('/customers/print-invoice').'/'.$customer->id}}"><i
+                                        class="si si-printer"></i></a>
                             </td>
+                            @if(Session::get('user-type')==1)
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="{{url('/customers/edit').'/'.$customer->id}}"
+                                           class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                        <a href="javascript:delCustomer({{$customer->id}})"
+                                           class="btn btn-sm btn-primary"
+                                           data-toggle="tooltip" title="Delete">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>
@@ -79,5 +115,48 @@
 
     <!-- Page JS Code -->
     <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
+    @if(Session::get('user-type')==1)
+        <script>
+            function delCustomer(id) {
+                if (confirm("Do you want delete this customer?")) {
+                    $.ajax({
+                        url: '{{url('/customers/del')}}',
+                        type: "POST",
+                        data: {
+                            "_token": Laravel.csrfToken,
+                            "id": id,
+                        },
+                        error: function () {
+                        },
+                        success: function (data) {
+                            if (data.status == true) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                }
+            }
 
+            $(document).ready(function () {
+                $("[name^='enable-toggle-']").on('change', function () {
+                    var id = this.name.split("enable-toggle-")[1];
+                    $.ajax({
+                        url: '{{url('/customers/toggle-enable')}}',
+                        type: "POST",
+                        data: {
+                            "_token": Laravel.csrfToken,
+                            "id": id,
+                        },
+                        error: function () {
+                        },
+                        success: function (data) {
+                            if (data.status == true) {
+                                //window.location.reload();
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    @endif
 @endsection

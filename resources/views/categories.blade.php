@@ -55,7 +55,7 @@
                                 </div>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                {{$category->name}}
+                                <a href="{{url('/categories/detail').'/'.$category->id}}">{{$category->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <span class="badge badge-primary">{{$category->tags}}</span>
@@ -124,7 +124,7 @@
             $("[name^='show-toggle-']").on('change', function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
-                    url: '{{url('/categories/toggle_visible')}}',
+                    url: '{{url('/categories/toggle-visible')}}',
                     type: "POST",
                     data: {
                         "_token": Laravel.csrfToken,

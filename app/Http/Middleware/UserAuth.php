@@ -6,14 +6,14 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AdminAuth
+class UserAuth
 {
     public function handle($request, Closure $next, $guard = null) {
 
-        $admin = session()->get('user');
+        $user = session()->get('user');
         $user_type = session()->get('user-type');
 
-        if (isset($admin) && $user_type == 1) {
+        if (isset($user) && ($user_type == 1 || $user_type == 2)) {
             return $next($request);
         }
 

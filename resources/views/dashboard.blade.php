@@ -2,38 +2,64 @@
 
 @section('content')
     <!-- Hero -->
-    <div class="bg-body-light">
-        <div class="content content-full">
-            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Dashboard</h1>
-                <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">App</li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                    </ol>
-                </nav>
+    <div class="bg-image" style="background-image: url({{asset('media/photos/Food4.jpg')}});">
+        <div class="bg-white-90">
+            <div class="content content-full">
+                <div class="row">
+                    <div class="col-md-6 d-md-flex align-items-md-center">
+                        <div class="py-4 py-md-0 text-center text-md-left invisible" data-toggle="appear">
+                            <h1 class="font-size-h2 mb-2">Dashboard</h1>
+                            <h2 class="font-size-lg font-w400 text-muted mb-0">Today is a great one!</h2>
+                        </div>
+                    </div>
+                </div>
             </div>
-       </div>
+        </div>
     </div>
     <!-- END Hero -->
 
     <!-- Page Content -->
     <div class="content">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-xl-5">
-                <div class="block block-rounded block-bordered">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Welcome to your app</h3>
+        <div class="row gutters-tiny push">
+            <div class="col-6 col-md-4 col-xl-3">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/photo19.jpg')}});" href="{{url('/employees')}}">
+                    <div class="block-content block-content-full bg-primary-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
+                        <div>
+                            <div class="font-size-h1 font-w300 text-white">{{$employees}}</div>
+                            <div class="font-w600 mt-3 text-uppercase text-white">Employees</div>
+                        </div>
                     </div>
-                    <div class="block-content">
-                        <p>
-                            We’ve put everything together, so you can start working on your Laravel project as soon as possible! Dashmix assets are integrated and work seamlessly with Laravel Mix, so you can use the npm scripts as you would in any other Laravel project.
-                        </p>
-                        <p>
-                            Feel free to use any examples you like from the full versions to build your own pages. <strong>Wish you all the best and happy coding!</strong>
-                        </p>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/photo18.jpg')}});" href="{{url('/customers')}}">
+                    <div class="block-content block-content-full bg-xsmooth-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
+                        <div>
+                            <div class="font-size-h1 font-w300 text-white">{{$customers}}</div>
+                            <div class="font-w600 mt-3 text-uppercase text-white">Customers</div>
+                        </div>
                     </div>
-                </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/Food4.jpg')}});" href="{{url('/products')}}">
+                    <div class="block-content block-content-full bg-xmodern-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
+                        <div>
+                            <div class="font-size-h1 font-w300 text-white">{{$products}}</div>
+                            <div class="font-w600 mt-3 text-uppercase text-white">Products</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/Food5.jpg')}});" href="{{url('/categories')}}">
+                    <div class="block-content block-content-full bg-gd-sublime-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
+                        <div>
+                            <div class="font-size-h1 font-w300 text-white">{{$categories}}</div>
+                            <div class="font-w600 mt-3 text-uppercase text-white">Categories</div>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

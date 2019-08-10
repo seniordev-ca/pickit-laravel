@@ -101,7 +101,7 @@
                                     <label for="dm-project-new-name">
                                         Price <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" name="product-price" placeholder="eg: 15USD">
+                                    <input type="text" class="form-control" name="product-price" placeholder="eg: 15.23">
                                 </div>
                             </div>
                         </div>
