@@ -105,6 +105,17 @@
                         </div>
                     </div>
                     <!-- END Vital Info -->
+                    <!-- Submit -->
+                    <div class="row push">
+                        <div class="col-lg-8 col-xl-5 offset-lg-4">
+                            <div class="form-group">
+                                <a class="btn btn-warning" href="{{url('/products').'/'.$product->customer_id}}">
+                                    <i class="far fa-arrow-alt-circle-left"></i> Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Submit -->
                 </form>
             </div>
         </div>

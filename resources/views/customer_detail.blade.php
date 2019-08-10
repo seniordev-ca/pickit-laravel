@@ -11,7 +11,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Customer Detail</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Client Detail</h1>
             </div>
         </div>
     </div>
@@ -150,59 +150,73 @@
                         </div>
                     </div>
 
-                    <h2 class="content-heading pt-0">Products</h2>
+{{--                    <h2 class="content-heading pt-0">Products</h2>--}}
+{{--                    <div class="row push">--}}
+{{--                        <div class="block-content block-content-full">--}}
+{{--                            <table--}}
+{{--                                class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">--}}
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th class="text-center" style="width: 80px;">#</th>--}}
+{{--                                    <th class="d-none d-sm-table-cell" style="width: 100px;">Picture</th>--}}
+{{--                                    <th class="d-none d-sm-table-cell" style="width: 20%;">Product Name</th>--}}
+{{--                                    <th class="d-none d-sm-table-cell">Description</th>--}}
+{{--                                    <th class="d-none d-sm-table-cell" style="width: 15%;">Price</th>--}}
+{{--                                    <th class="d-none d-sm-table-cell" style="width: 80px;">Add</th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
+{{--                                <tbody>--}}
+{{--                                @foreach($products as $product)--}}
+{{--                                    <tr>--}}
+{{--                                        <td class="text-center">{{$loop->iteration}}</td>--}}
+{{--                                        <td class="font-w600">--}}
+{{--                                            <div align="center">--}}
+{{--                                                <img--}}
+{{--                                                    src="{{asset('/media/images/products/thumbnail/').'/'.$product->picture}}"--}}
+{{--                                                    style="width: 80px;">--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                        <td class="d-none d-sm-table-cell">--}}
+{{--                                            <a href="{{url('/products/detail/').'/'.$product->id}}">{{$product->name}}</a>--}}
+{{--                                        </td>--}}
+{{--                                        <td class="d-none d-sm-table-cell">--}}
+{{--                                            {{$product->description}}--}}
+{{--                                        </td>--}}
+{{--                                        <td class="d-none d-sm-table-cell">--}}
+{{--                                            <span class="badge badge-success">{{$product->price}}</span>--}}
+{{--                                        </td>--}}
+{{--                                        <td class="text-center">--}}
+{{--                                            <div--}}
+{{--                                                class="custom-control custom-switch custom-control custom-control-inline mb-2"--}}
+{{--                                                align="center">--}}
+{{--                                                <input type="checkbox" class="custom-control-input"--}}
+{{--                                                       id="show-toggle-{{$product->id}}"--}}
+{{--                                                       name="show-toggle-{{$product->id}}"--}}
+{{--                                                       @if($product->has_flag == 1) checked @endif >--}}
+{{--                                                <label class="custom-control-label"--}}
+{{--                                                       for="show-toggle-{{$product->id}}"></label>--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
+{{--                                </tbody>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+                    <!-- Submit -->
+                    @if(Session::get('user-type')!=3)
                     <div class="row push">
-                        <div class="block-content block-content-full">
-                            <table
-                                class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
-                                <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 80px;">#</th>
-                                    <th class="d-none d-sm-table-cell" style="width: 100px;">Picture</th>
-                                    <th class="d-none d-sm-table-cell" style="width: 20%;">Product Name</th>
-                                    <th class="d-none d-sm-table-cell">Description</th>
-                                    <th class="d-none d-sm-table-cell" style="width: 15%;">Price</th>
-                                    <th class="d-none d-sm-table-cell" style="width: 80px;">Add</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($products as $product)
-                                    <tr>
-                                        <td class="text-center">{{$loop->iteration}}</td>
-                                        <td class="font-w600">
-                                            <div align="center">
-                                                <img
-                                                    src="{{asset('/media/images/products/thumbnail/').'/'.$product->picture}}"
-                                                    style="width: 80px;">
-                                            </div>
-                                        </td>
-                                        <td class="d-none d-sm-table-cell">
-                                            <a href="{{url('/products/detail/').'/'.$product->id}}">{{$product->name}}</a>
-                                        </td>
-                                        <td class="d-none d-sm-table-cell">
-                                            {{$product->description}}
-                                        </td>
-                                        <td class="d-none d-sm-table-cell">
-                                            <span class="badge badge-success">{{$product->price}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <div
-                                                class="custom-control custom-switch custom-control custom-control-inline mb-2"
-                                                align="center">
-                                                <input type="checkbox" class="custom-control-input"
-                                                       id="show-toggle-{{$product->id}}"
-                                                       name="show-toggle-{{$product->id}}"
-                                                       @if($product->has_flag == 1) checked @endif >
-                                                <label class="custom-control-label"
-                                                       for="show-toggle-{{$product->id}}"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                        <div class="col-lg-8 col-xl-5 offset-lg-4">
+                            <div class="form-group">
+                                <a class="btn btn-warning" href="{{url('/customers')}}">
+                                    <i class="far fa-arrow-alt-circle-left"></i> Back
+                                </a>
+                            </div>
                         </div>
                     </div>
+                    @endif
+                    <!-- END Submit -->
 
                 </form>
             </div>

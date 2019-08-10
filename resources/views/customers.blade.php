@@ -11,11 +11,11 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Customers</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Clients</h1>
                 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">App</li>
-                        <li class="breadcrumb-item active" aria-current="page">Customers</li>
+                        <li class="breadcrumb-item active" aria-current="page">Clients</li>
                     </ol>
                 </nav>
             </div>
@@ -27,14 +27,14 @@
     <div class="content">
         <div class="block block-rounded block-bordered">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Customer List</h3>
+                <h3 class="block-title">Client List</h3>
             </div>
             <div class="block-content block-content-full">
                 @if(Session::get('user-type')==1)
                     <div style="margin-bottom: 10px;">
                         <a class="btn btn-primary" href="{{url('/customers/add')}}"><i class="si si-user-follow"></i>
                             Add
-                            Customer</a>
+                            Client</a>
                     </div>
                 @endif
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
@@ -42,6 +42,7 @@
                     <tr>
                         <th class="text-center" style="width: 80px;">No</th>
                         <th class="d-none d-sm-table-cell">Name</th>
+                        <th class="d-none d-sm-table-cell">Company</th>
                         <th class="d-none d-sm-table-cell">StartDate</th>
                         <th class="d-none d-sm-table-cell">ExpireDate</th>
                         @if(Session::get('user-type') === 1)
@@ -59,6 +60,9 @@
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="font-w600">
                                 <a href="{{url('/customers/detail').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                {{ $customer->company }}
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 {{ date('d M Y', strtotime($customer->start_date)) }}

@@ -41,9 +41,9 @@
                     </div>
                 @endif
 
-                <form action="/products/add" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <!-- Vital Info -->
+                <form action="{{url('products/'.$customer_id.'/add')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <!-- Vital Info -->
                     <h2 class="content-heading pt-0">Vital Info</h2>
                     <div class="row push">
                         <div class="col-lg-4">
@@ -62,7 +62,8 @@
                                 <label>
                                     اسم المنتج <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" name="product-name-ar" placeholder="مثال: بيتزا" dir="rtl">
+                                <input type="text" class="form-control" name="product-name-ar" placeholder="مثال: بيتزا"
+                                       dir="rtl">
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-8">
@@ -101,7 +102,15 @@
                                     <label for="dm-project-new-name">
                                         Price <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" name="product-price" placeholder="eg: 15.23">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                KWD
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-center" name="product-price"
+                                               placeholder="15.23">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,13 +127,15 @@
                         <div class="col-lg-4 col-xl-3">
                             <div class="form-group">
                                 <label for="dm-project-edit-description">Description</label>
-                                <textarea class="form-control" name="product-description" rows="6" placeholder="Product Description Here..."></textarea>
+                                <textarea class="form-control" name="product-description" rows="6"
+                                          placeholder="Product Description Here..."></textarea>
                             </div>
                         </div>
                         <div class="col-lg-4 col-xl-3">
                             <div class="form-group">
                                 <label for="dm-project-edit-description">وصف</label>
-                                <textarea class="form-control" name="product-description-ar" rows="6" placeholder="وصف المنتج هنا ..." dir="rtl"></textarea>
+                                <textarea class="form-control" name="product-description-ar" rows="6"
+                                          placeholder="وصف المنتج هنا ..." dir="rtl"></textarea>
                             </div>
                         </div>
                     </div>
@@ -135,7 +146,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-check-circle mr-1"></i> Add New Product
                                 </button>
-                                <a class="btn btn-warning" href="{{url('/products')}}">
+                                <a class="btn btn-warning" href="{{url('/products').'/'.$customer_id}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>

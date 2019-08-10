@@ -10,7 +10,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Add Customer</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Add Client</h1>
             </div>
         </div>
     </div>
@@ -36,6 +36,13 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
+                    </div>
+                @endif
+
+                @if (isset($warning))
+                    <div class="alert alert-warning alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>There is no client yet. <br>You have to add client before add products.</strong>
                     </div>
                 @endif
 
@@ -73,17 +80,22 @@
                                 <label>
                                     Birthday
                                 </label>
-                                <input type="text" class="js-datepicker form-control" name="birthday" data-week-start="0" data-autoclose="true" data-today-highlight="true" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy">
+                                <input type="text" class="js-datepicker form-control" name="birthday"
+                                       data-week-start="0" data-autoclose="true" data-today-highlight="true"
+                                       data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy">
                             </div>
                             <div class="form-group">
                                 <label class="d-block">Gender</label>
                                 <div class="custom-control custom-radio custom-control-inline custom-control-primary">
-                                    <input type="radio" class="custom-control-input" id="example-radio-custom-inline1" name="gender" value="Male">
+                                    <input type="radio" class="custom-control-input" id="example-radio-custom-inline1"
+                                           name="gender" value="Male">
                                     <label class="custom-control-label" for="example-radio-custom-inline1">Male</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline custom-control-primary">
-                                    <input type="radio" class="custom-control-input" id="example-radio-custom-inline2" name="gender" value="Female">
-                                    <label class="custom-control-label" for="example-radio-custom-inline2">Female</label>
+                                    <input type="radio" class="custom-control-input" id="example-radio-custom-inline2"
+                                           name="gender" value="Female">
+                                    <label class="custom-control-label"
+                                           for="example-radio-custom-inline2">Female</label>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -91,7 +103,8 @@
                                     <label for="dm-project-new-name">
                                         PhoneNumber <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" name="phone-number" placeholder="+18003030203">
+                                    <input type="text" class="form-control" name="phone-number"
+                                           placeholder="+18003030203">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="dm-project-new-name">
@@ -132,14 +145,17 @@
                                     <label>
                                         Start Date ~ Expire Date <span class="text-danger">*</span>
                                     </label>
-                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="0" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" name="start-date" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy"
+                                         data-week-start="0" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" name="start-date" placeholder="From"
+                                               data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                         <div class="input-group-prepend input-group-append">
                                             <span class="input-group-text font-w600">
                                                 <i class="fa fa-fw fa-arrow-right"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" name="expire-date" placeholder="To" data-week-start="0" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" name="expire-date" placeholder="To"
+                                               data-week-start="0" data-autoclose="true" data-today-highlight="true">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -149,10 +165,11 @@
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                $
+                                                KWD
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control text-center" name="price" placeholder="00">
+                                        <input type="text" class="form-control text-center" name="price"
+                                               placeholder="00">
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +202,9 @@
     <!-- Page JS Plugins -->
     <script src="{{asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 
-    <script>jQuery(function(){ Dashmix.helpers(['datepicker']); });</script>
+    <script>jQuery(function () {
+            Dashmix.helpers(['datepicker']);
+        });</script>
     <!-- Page JS Code -->
     <script>
 

@@ -104,8 +104,16 @@
                                     <label for="dm-project-new-name">
                                         Price <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" name="product-price" placeholder="eg: 15USD"
-                                           value="{{$product->price}}">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                KWD
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control text-center" name="product-price"
+                                               placeholder="15.23" value="{{$product->price}}">
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -143,7 +151,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-check-circle mr-1"></i> Update Product
                                 </button>
-                                <a class="btn btn-warning" href="{{url('/products')}}">
+                                <a class="btn btn-warning" href="{{url('/products').'/'.$product->customer_id}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>

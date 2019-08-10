@@ -102,7 +102,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-check-circle mr-1"></i> Update Category
                                 </button>
-                                <a class="btn btn-warning" href="{{url('/categories')}}">
+                                <a class="btn btn-warning" href="{{url('/categories').'/'.$category->customer_id}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>

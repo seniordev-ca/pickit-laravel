@@ -586,23 +586,56 @@ class AdminController
             'total' => $total,
         ]);
     }
+
+    public function showProductFirstPage()
+    {
+        if (session()->get('user-type') != 3) {
+            $customers_cnt = Customers::count();
+            if ($customers_cnt > 0) {
+                $customers = Customers::get();
+                return redirect('products/' . $customers[0]->id);
+            }
+
+            return view('customer_add')->with([
+                'warning' => 'Warning'
+            ]);
+        }
+        return redirect('products/'.session()->get('user')->id);
+    }
+
     public function showProductsPage()
     {
-        $products = Products::get();
-        return view('products')->with('products', $products);
+        $customer_id = request('customer_id');
+        if (session()->get('user-type') != 3 || $customer_id == session()->get('user')->id) {
+            $products = Products::where('customer_id', $customer_id)->get();
+            $customers = Customers::get();
+            return view('products')->with([
+                'products' => $products,
+                'customer_id' => $customer_id,
+                'customers' => $customers
+            ]);
+        }
+        return redirect('products/'.session()->get('user')->id);
     }
 
     public function showProductAddPage()
     {
-        $categories = Categories::get();
-        return view('product_add')->with('categories', $categories);
+        $customer_id = request('customer_id');
+        if (session()->get('user-type') == 3) {
+            $customer_id = session()->get('user')->id;
+        }
+        $categories = Categories::where('customer_id', $customer_id)->get();
+        return view('product_add')->with([
+            'categories' => $categories,
+            'customer_id' => $customer_id,
+        ]);
     }
 
     public function showProductEditPage()
     {
         $id = request('id');
         $product = Products::where('id', $id)->first();
-        $categories = Categories::get();
+        $categories = Categories::where('customer_id', $product->customer_id)->get();
         if ($product != null) {
             return view('product_edit')->with([
                 'product' => $product,
@@ -628,6 +661,10 @@ class AdminController
 
     public function addProduct()
     {
+        $customer_id = request('customer_id');
+        if (session()->get('user-type') == 3) {
+            $customer_id = session()->get('user')->id;
+        }
         $name = request('product-name');
         $name_ar = request('product-name-ar');
         $category_id = request('category');
@@ -636,11 +673,11 @@ class AdminController
         $description_ar = request('product-description-ar');
 
         request()->validate([
-          //  'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'product-name' => 'required',
             'product-name-ar' => 'required',
             'product-price' => 'required',
-            'category' => 'required'
+            'category' => 'required',
         ]);
 
         $imageName = time() . '.' . request()->image->getClientOriginalExtension();
@@ -664,6 +701,7 @@ class AdminController
             ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         $product = new Products();
+        $product->customer_id = $customer_id;
         $product->name = $name;
         $product->name_ar = $name_ar;
         $product->price = $price;
@@ -760,15 +798,44 @@ class AdminController
         return Utils::makeResponse();
     }
 
+    public function showCategoryFirstPage()
+    {
+        if (session()->get('user-type') != 3) {
+            $customers_cnt = Customers::count();
+            if ($customers_cnt > 0) {
+                $customers = Customers::get();
+                return redirect('categories/' . $customers[0]->id);
+            }
+
+            return view('customer_add')->with([
+                'warning' => 'Warning'
+            ]);
+        }
+        return redirect('categories/'.session()->get('user')->id);
+    }
+
     public function showCategoriesPage()
     {
-        $categories = Categories::get();
-        return view('categories')->with('categories', $categories);
+        $customer_id = request('customer_id');
+        if (session()->get('user-type') != 3 || $customer_id == session()->get('user')->id) {
+            $categories = Categories::where('customer_id', $customer_id)->get();
+            $customers = Customers::get();
+            return view('categories')->with([
+                'categories' => $categories,
+                'customer_id' => $customer_id,
+                'customers' => $customers
+            ]);
+        }
+        return redirect('categories/'.session()->get('user')->id);
     }
 
     public function showCategoryAddPage()
     {
-        return view('category_add');
+        $customer_id = request('customer_id');
+        if (session()->get('user-type') == 3) {
+            $customer_id = session()->get('user')->id;
+        }
+        return view('category_add')->with('customer_id', $customer_id);
     }
 
     public function showCategoryEditPage()
@@ -799,6 +866,10 @@ class AdminController
 
     public function addCategory()
     {
+        $customer_id = request('customer_id');
+        if (session()->get('user-type') == 3) {
+            $customer_id = session()->get('user')->id;
+        }
         $name = request('category-name');
         $name_ar = request('category-name-ar');
         $tags = request('category-tags');
@@ -833,6 +904,7 @@ class AdminController
             ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         $category = new Categories();
+        $category->customer_id = $customer_id;
         $category->name = $name;
         $category->tags = $tags;
         $category->name_ar = $name_ar;

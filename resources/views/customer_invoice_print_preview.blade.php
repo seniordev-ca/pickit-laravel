@@ -6,7 +6,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Customer Invoice Print Preview</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Client Invoice Print Preview</h1>
             </div>
         </div>
     </div>
@@ -51,14 +51,14 @@
                                 {{ date('d M Y', strtotime($invoice->expire_date)) }}
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                {{ $invoice->price.'KWD' }}
+                                {{ $invoice->price.' KWD' }}
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
                 <div style="margin-top: 10px; border-top: 1px solid; margin-bottom: 30px;">
-                    <span style="font-weight: bold">Total: </span> {{$total.'KWD'}}
+                    <span style="font-weight: bold">Total: </span> {{$total.' KWD'}}
                 </div>
             </div>
         </div>

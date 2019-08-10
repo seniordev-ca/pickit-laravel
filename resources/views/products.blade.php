@@ -25,13 +25,33 @@
 
     <!-- Page Content -->
     <div class="content">
+
+        @if(Session::get('user-type')!=3)
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-md-6" style="display: flex;">
+                    <div style="display: flex; align-items: center; margin-right: 10px;">
+                        <span>Client:</span>
+                    </div>
+
+                    <select class="custom-select" id="sel-client">
+                        @foreach($customers as $customer)
+                            <option value="{{$customer->id}}" @if($customer->id == $customer_id) selected @endif>
+                                {{$customer->company}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
+
         <div class="block block-rounded block-bordered">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Product List</h3>
             </div>
             <div class="block-content block-content-full">
                 <div style="margin-bottom: 10px;">
-                    <a class="btn btn-primary" href="{{url('/products/add')}}"><i class="si si-plus"></i> Add
+                    <a class="btn btn-primary" href="{{url('/products/').'/'.$customer_id.'/add'}}"><i
+                            class="si si-plus"></i> Add
                         Product</a>
                 </div>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
@@ -63,7 +83,7 @@
                                 {{$product->description}}
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <span class="badge badge-success">{{$product->price}}</span>
+                                <span class="badge badge-success">{{$product->price.' KWD'}}</span>
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch custom-control custom-control-inline mb-2"
@@ -125,6 +145,7 @@
         }
 
         $(document).ready(function () {
+
             $("[name^='show-toggle-']").on('change', function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
@@ -142,6 +163,10 @@
                         }
                     }
                 });
+            });
+
+            $("#sel-client").on("change", () => {
+                window.location.href = $("#sel-client").val();
             });
         });
     </script>

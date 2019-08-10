@@ -25,13 +25,33 @@
 
     <!-- Page Content -->
     <div class="content">
+
+        @if(Session::get('user-type')!=3)
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-md-6" style="display: flex;">
+                    <div style="display: flex; align-items: center; margin-right: 10px;">
+                        <span>Client:</span>
+                    </div>
+
+                    <select class="custom-select" id="sel-client">
+                        @foreach($customers as $customer)
+                            <option value="{{$customer->id}}" @if($customer->id == $customer_id) selected @endif>
+                                {{$customer->company}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
+
         <div class="block block-rounded block-bordered">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Category List</h3>
             </div>
             <div class="block-content block-content-full">
                 <div style="margin-bottom: 10px;">
-                    <a class="btn btn-primary" href="{{url('/categories/add')}}"><i class="si si-plus"></i> Add Category</a>
+                    <a class="btn btn-primary" href="{{url('/categories').'/'.$customer_id.'/add'}}"><i
+                            class="si si-plus"></i> Add Category</a>
                 </div>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
@@ -138,6 +158,10 @@
                         }
                     }
                 });
+            });
+
+            $("#sel-client").on("change", () => {
+                window.location.href = $("#sel-client").val();
             });
         });
     </script>
