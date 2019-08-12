@@ -10,4 +10,9 @@ class Products extends Model
     protected $table = 't_products';
 
     public $timestamps = false;
+
+    public function category()
+    {
+        return $this->hasOne(Categories::class, 'id', 'category_id');
+    }
 }

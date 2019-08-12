@@ -59,7 +59,7 @@
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="font-w600">
-                                <a href="{{url('/customers/detail').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                                <a href="{{url('/customers/edit').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 {{ $customer->company }}

@@ -180,7 +180,7 @@
                                 <div class="col-md-3 d-flex flex-column-reverse">
                                     <div class="d-flex flex-row-reverse">
                                         <a href="javascript:onCancelButtonClicked();" class="btn btn-danger" id="cancel-button" style="display: none">Cancel</a>
-                                        <a href="javascript:resuscitateCustomer({{$customer->id}});" class="btn btn-primary hidden" id="save-button" style="margin-right: 5px; display: none">Save</a>
+                                        <a href="javascript:;" class="btn btn-primary hidden" id="save-button" style="margin-right: 5px; display: none">Save</a>
                                         <a href="javascript:onEditButtonClicked();" class="btn btn-success" id="edit-button"><i class="fa fa-pencil-alt"></i> Edit</a>
 
                                     </div>
@@ -210,6 +210,33 @@
         </div>
     </div>
     <!-- END Page Content -->
+
+    <!-- Fade In Block Modal -->
+    <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog" aria-labelledby="modal-block-fadein" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Please confirm</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Do you want add new history of invoice of this customer or just edit this invoice ?</p>
+                    </div>
+                    <div class="block-content block-content-full text-right bg-light">
+                        <a href="javascript:resuscitateCustomer({{$customer->id}}, 1);" class="btn btn-sm btn-primary">Add new invoice</a>
+                        <a href="javascript:resuscitateCustomer({{$customer->id}}, 0);" class="btn btn-sm btn-success">Edit current invoice</a>
+                        <button class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Fade In Block Modal -->
 @endsection
 
 @section('js_after')
@@ -242,33 +269,44 @@
             $("[name='expire-date']").attr("disabled", "disabled");
             $("[name='price']").attr("disabled", "disabled");
         }
-        function resuscitateCustomer(id) {
-            if (confirm("This will add new history of invoice of this customer.\nDo you want ?")) {
-                $.ajax({
-                    url: '{{url('/customers/resuscitate-customer')}}',
-                    type: "POST",
-                    data: {
-                        "_token": Laravel.csrfToken,
-                        "id": id,
-                        "start-date":  $("[name='start-date']").val(),
-                        "expire-date":  $("[name='expire-date']").val(),
-                        "price":  $("[name='price']").val(),
-                    },
-                    error: function () {
-                    },
-                    success: function (data) {
-                        if (data.status == true) {
+        function resuscitateCustomer(id, add_flag) {
+            $.ajax({
+                url: '{{url('/customers/resuscitate-customer')}}',
+                type: "POST",
+                data: {
+                    "_token": Laravel.csrfToken,
+                    "id": id,
+                    "start-date":  $("[name='start-date']").val(),
+                    "expire-date":  $("[name='expire-date']").val(),
+                    "price":  $("[name='price']").val(),
+                    "add_flag": add_flag
+                },
+                error: function () {
+                },
+                success: function (data) {
+                    if (data.status == true) {
+                        if (add_flag == 1) {
                             alert("You have successfully resuscitated this customer.");
-                            $("#edit-button").show();
-                            $("#save-button").hide();
-                            $("#cancel-button").hide();
-                            $("[name='start-date']").attr("disabled", "disabled");
-                            $("[name='expire-date']").attr("disabled", "disabled");
-                            $("[name='price']").attr("disabled", "disabled");
+                        } else {
+                            alert("You have successfully edit current invoice.");
                         }
+                        $("#edit-button").show();
+                        $("#save-button").hide();
+                        $("#cancel-button").hide();
+                        $("[name='start-date']").attr("disabled", "disabled");
+                        $("[name='expire-date']").attr("disabled", "disabled");
+                        $("[name='price']").attr("disabled", "disabled");
+                        $("#modal-confirm").modal('hide');
                     }
-                });
-            }
+                }
+            });
         }
+
+        $(document).ready(()=>{
+
+            $("#save-button").on("click", () => {
+                $("#modal-confirm").modal('show');
+            });
+        });
     </script>
 @endsection

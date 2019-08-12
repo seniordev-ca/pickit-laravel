@@ -83,5 +83,7 @@ Route::middleware('admin-auth')->group(function (){
         Route::post('/toggle-enable', 'AdminController@toggleCustomerEnable');
         Route::get('/print-invoice/{id}', 'AdminController@showCustomerInvoicePrintPreviewPage');
         Route::get('/print-invoice/{id}/print', 'AdminController@printCustomerInvoice');
+        Route::post('/resuscitate-customer', 'AdminController@resuscitateCustomer');
+
     });
 });

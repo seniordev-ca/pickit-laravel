@@ -75,7 +75,7 @@
                                 </div>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <a href="{{url('/categories/detail').'/'.$category->id}}">{{$category->name}}</a>
+                                <a href="{{url('/categories/edit').'/'.$category->id}}">{{$category->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <span class="badge badge-primary">{{$category->tags}}</span>

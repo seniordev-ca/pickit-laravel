@@ -60,6 +60,7 @@
                         <th class="text-center" style="width: 80px;">#</th>
                         <th class="d-none d-sm-table-cell" style="width: 100px;">Picture</th>
                         <th class="d-none d-sm-table-cell" style="width: 20%;">Product Name</th>
+                        <th class="d-none d-sm-table-cell" style="width: 100px;">Category</th>
                         <th class="d-none d-sm-table-cell">Description</th>
                         <th class="d-none d-sm-table-cell" style="width: 15%;">Price</th>
                         <th class="d-none d-sm-table-cell" style="width: 80px;">Show</th>
@@ -77,7 +78,10 @@
                                 </div>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <a href="{{url('/products/detail/').'/'.$product->id}}">{{$product->name}}</a>
+                                <a href="{{url('/products/edit/').'/'.$product->id}}">{{$product->name}}</a>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                <a href="{{url('categories/detail/').'/'.$product->category->id}}">{{$product->category->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 {{$product->description}}

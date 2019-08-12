@@ -385,15 +385,19 @@ class AdminController
         $customer->expire_date = $expire_date;
         $customer->price = $price;
 
-        $customer_id = $customer->save();
+        $customer->save();
 
         $invoice = new Invoices();
-        $invoice->customer_id = $customer_id;
+        $invoice->customer_id = $customer->id;
         $invoice->start_date = $start_date;
         $invoice->expire_date = $expire_date;
         $invoice->price = $price;
 
         $invoice->save();
+
+        Customers::where('id', $customer->id)->update([
+            'current_invoice_id' => $invoice->id
+        ]);
 
         return back()
             ->with('success', 'You have successfully add new customer.');
@@ -485,6 +489,7 @@ class AdminController
         $start_date = request('start-date');
         $expire_date = request('expire-date');
         $price = request('price');
+        $add_flag = request('add_flag');
 
         request()->validate([
             'start-date' => 'required|date',
@@ -495,19 +500,36 @@ class AdminController
         $start_date = date('Y-m-d', strtotime($start_date));
         $expire_date = date('Y-m-d', strtotime($expire_date));
 
-        $invoice = new Invoices();
-        $invoice->customer_id = $id;
-        $invoice->start_date = $start_date;
-        $invoice->expire_date = $expire_date;
-        $invoice->price = $price;
+        if ($add_flag == 1) {
+            $invoice = new Invoices();
+            $invoice->customer_id = $id;
+            $invoice->start_date = $start_date;
+            $invoice->expire_date = $expire_date;
+            $invoice->price = $price;
 
-        $invoice->save();
+            $invoice->save();
 
-        Customers::where('id', $id)->update([
-            'start_date' => $start_date,
-            'expire_date' => $expire_date,
-            'price' => $price,
-        ]);
+            Customers::where('id', $id)->update([
+                'start_date' => $start_date,
+                'expire_date' => $expire_date,
+                'price' => $price,
+                'current_invoice_id' => $invoice->id,
+            ]);
+        } else {
+            Invoices::where('id', Customers::where('id', $id)->first()->current_invoice_id)->update([
+                'start_date' => $start_date,
+                'expire_date' => $expire_date,
+                'price' => $price,
+            ]);
+
+            Customers::where('id', $id)->update([
+                'start_date' => $start_date,
+                'expire_date' => $expire_date,
+                'price' => $price,
+            ]);
+        }
+
+
 
         return Utils::makeResponse();
     }
@@ -607,7 +629,7 @@ class AdminController
     {
         $customer_id = request('customer_id');
         if (session()->get('user-type') != 3 || $customer_id == session()->get('user')->id) {
-            $products = Products::where('customer_id', $customer_id)->get();
+            $products = Products::where('customer_id', $customer_id)->with('category')->get();
             $customers = Customers::get();
             return view('products')->with([
                 'products' => $products,

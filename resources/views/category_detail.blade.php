@@ -36,10 +36,15 @@
                                         Image
                                     </label>
                                     <!-- bootstrap-imageupload. -->
-                                    <div class="imageupload panel panel-default">
-                                        <img id="preview"
-                                             src="{{asset('media/images/categories/original').'/'.$category->picture}}"
-                                             class="image-preview-edit"/>
+                                    <div class="imageupload panel panel-default" style="
+                                    width: 100%;
+                                    padding-top: 80%;
+                                    position: relative; ">
+                                        <div style="position: absolute; top: 0; right: 0; left: 0; bottom: 0;">
+                                            <img id="preview"
+                                                 src="{{asset('media/images/categories/original').'/'.$category->picture}}"
+                                                 class="image-preview-detail"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
