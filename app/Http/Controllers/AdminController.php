@@ -418,9 +418,6 @@ class AdminController
         $city = request('city');
         $state = request('state');
         $zipcode = request('zip-code');
-        $start_date = request('start-date');
-        $expire_date = request('expire-date');
-        $price = request('price');
 
         request()->validate([
             'first-name' => 'required',
@@ -428,19 +425,10 @@ class AdminController
             'email' => 'required|email',
             'birthday' => 'required|date',
             'phone-number' => 'required',
-            'start-date' => 'required|date',
-            'expire-date' => 'required|date',
-            'price' => 'required|numeric',
         ]);
 
         $birthday = strtotime($birthday);
         $birthday = date('Y-m-d', $birthday);
-
-        $start_date = strtotime($start_date);
-        $start_date = date('Y-m-d', $start_date);
-
-        $expire_date = strtotime($expire_date);
-        $expire_date = date('Y-m-d', $expire_date);
 
         if ($password != '') {
             Customers::where('id', $id)->update([
@@ -456,9 +444,6 @@ class AdminController
                 'city' => $city,
                 'state' => $state,
                 'zipcode' => $zipcode,
-                'start_date' => $start_date,
-                'expire_date' => $expire_date,
-                'price' => $price,
             ]);
         } else {
             Customers::where('id', $id)->update([
@@ -473,9 +458,6 @@ class AdminController
                 'city' => $city,
                 'state' => $state,
                 'zipcode' => $zipcode,
-                'start_date' => $start_date,
-                'expire_date' => $expire_date,
-                'price' => $price,
             ]);
         }
 
@@ -901,8 +883,6 @@ class AdminController
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'category-name' => 'required',
             'category-name-ar' => 'required',
-            'category-tags' => 'required',
-            'category-tags-ar' => 'required',
         ]);
 
         $imageName = time() . '.' . request()->image->getClientOriginalExtension();

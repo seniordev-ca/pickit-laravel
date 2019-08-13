@@ -109,7 +109,7 @@
                                             </span>
                                         </div>
                                         <input type="text" class="form-control text-center" name="product-price"
-                                               placeholder="15.23">
+                                               placeholder="15.233">
                                     </div>
                                 </div>
                             </div>

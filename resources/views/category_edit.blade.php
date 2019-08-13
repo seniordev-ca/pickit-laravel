@@ -81,13 +81,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-new-name">
-                                    Tags <span class="text-danger">*</span>
+                                    Tags
                                 </label>
                                 <input type="text" class="form-control" name="category-tags" placeholder="eg: Tag1, Tag2, Tag3" value="{{$category->tags}}">
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-new-name">
-                                    بطاقة <span class="text-danger">*</span>
+                                    بطاقة
                                 </label>
                                 <input type="text" class="form-control" name="category-tags-ar" dir="rtl" placeholder="eg: Tag1, Tag2, Tag3"  value="{{$category->tags_ar}}">
                             </div>

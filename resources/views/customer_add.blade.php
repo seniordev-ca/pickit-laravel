@@ -169,7 +169,7 @@
                                             </span>
                                         </div>
                                         <input type="text" class="form-control text-center" name="price"
-                                               placeholder="00">
+                                               placeholder="00.000">
                                     </div>
                                 </div>
                             </div>

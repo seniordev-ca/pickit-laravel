@@ -174,7 +174,7 @@
                                             </span>
                                         </div>
                                         <input type="text" class="form-control text-center" name="price"
-                                               placeholder="00" value="{{$customer->price}}" disabled="disabled">
+                                               placeholder="00.000" value="{{$customer->price}}" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="col-md-3 d-flex flex-column-reverse">
