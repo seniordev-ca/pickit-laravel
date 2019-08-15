@@ -2,6 +2,7 @@
 
 @section('css_before')
     <!-- Page JS Plugins CSS -->
+    <link rel="stylesheet" href="{{asset('js/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('js/plugins/datatables/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" href="{{asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css')}}">
 @endsection
@@ -33,7 +34,7 @@
                         <span>Client:</span>
                     </div>
 
-                    <select class="custom-select" id="sel-client">
+                    <select class="js-select2 form-control" id="sel-client" name="val-select2" style="width: 100%;" data-placeholder="Choose one..">
                         @foreach($customers as $customer)
                             <option value="{{$customer->id}}" @if($customer->id == $customer_id) selected @endif>
                                 {{$customer->company}}
@@ -117,7 +118,11 @@
     <script src="{{asset('js/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
     <!-- Page JS Code -->
+    <script src="{{asset('js/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
+
+    <!-- Page JS Helpers (Select2 plugin) -->
+    <script>jQuery(function(){ Dashmix.helpers('select2'); });</script>
 
     <script>
         function delCategory(id) {
