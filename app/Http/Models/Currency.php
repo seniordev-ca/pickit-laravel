@@ -4,10 +4,11 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerProducts extends Model
+class Currency extends Model
 {
     //
-    protected $table = 't_customer_products';
+    protected $table = 't_currency';
 
     public $timestamps = false;
+
 }

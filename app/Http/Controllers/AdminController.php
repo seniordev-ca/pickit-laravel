@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Models\Admin;
 use App\Http\Models\Categories;
+use App\Http\Models\Currency;
 use App\Http\Models\CustomerProducts;
 use App\Http\Models\Customers;
 use App\Http\Models\Invoices;
@@ -629,9 +630,11 @@ class AdminController
             $customer_id = session()->get('user')->id;
         }
         $categories = Categories::where('customer_id', $customer_id)->get();
+        $currency_list = Currency::get();
         return view('product_add')->with([
             'categories' => $categories,
             'customer_id' => $customer_id,
+            'currency_list' => $currency_list
         ]);
     }
 
@@ -640,10 +643,12 @@ class AdminController
         $id = request('id');
         $product = Products::where('id', $id)->first();
         $categories = Categories::where('customer_id', $product->customer_id)->get();
+        $currency_list = Currency::get();
         if ($product != null) {
             return view('product_edit')->with([
                 'product' => $product,
-                'categories' => $categories
+                'categories' => $categories,
+                'currency_list' => $currency_list,
             ]);
         }
         return redirect('/products');
@@ -675,13 +680,14 @@ class AdminController
         $price = request('product-price');
         $description = request('product-description');
         $description_ar = request('product-description-ar');
+        $currency = request('currency');
 
         request()->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'product-name' => 'required',
-            'product-name-ar' => 'required',
             'product-price' => 'required',
             'category' => 'required',
+            'currency' => 'required',
         ]);
 
         $imageName = time() . '.' . request()->image->getClientOriginalExtension();
@@ -707,11 +713,12 @@ class AdminController
         $product = new Products();
         $product->customer_id = $customer_id;
         $product->name = $name;
-        $product->name_ar = $name_ar;
+        $product->name_second = $name_ar;
         $product->price = $price;
+        $product->currency_id = $currency;
         $product->category_id = $category_id;
         $product->description = $description;
-        $product->description_ar = $description_ar;
+        $product->description_second = $description_ar;
         $product->picture = $imageName;
 
         $product->save();
@@ -729,13 +736,14 @@ class AdminController
         $price = request('product-price');
         $description = request('product-description');
         $description_ar = request('product-description-ar');
+        $currency = request('currency');
 
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'product-name' => 'required',
-            'product-name-ar' => 'required',
             'product-price' => 'required',
-            'category' => 'required'
+            'category' => 'required',
+            'currency' => 'required',
         ]);
 
         if (isset(request()->image)) {
@@ -761,21 +769,23 @@ class AdminController
 
             Products::where('id', $id)->update([
                 'name' => $name,
-                'name_ar' => $name_ar,
+                'name_second' => $name_ar,
                 'price' => $price,
+                'currency_id' => $currency,
                 'category_id' => $category_id,
                 'description' => $description,
-                'description_ar' => $description_ar,
+                'description_second' => $description_ar,
                 'picture' => $imageName
             ]);
         } else {
             Products::where('id', $id)->update([
                 'name' => $name,
-                'name_ar' => $name_ar,
+                'name_second' => $name_ar,
                 'price' => $price,
+                'currency_id' => $currency,
                 'category_id' => $category_id,
                 'description' => $description,
-                'description_ar' => $description_ar,
+                'description_second' => $description_ar,
             ]);
         }
         return back()
@@ -882,7 +892,6 @@ class AdminController
         request()->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'category-name' => 'required',
-            'category-name-ar' => 'required',
         ]);
 
         $imageName = time() . '.' . request()->image->getClientOriginalExtension();
@@ -909,8 +918,8 @@ class AdminController
         $category->customer_id = $customer_id;
         $category->name = $name;
         $category->tags = $tags;
-        $category->name_ar = $name_ar;
-        $category->tags_ar = $tags_ar;
+        $category->name_second = $name_ar;
+        $category->tags_second = $tags_ar;
         $category->picture = $imageName;
 
         $category->save();
@@ -931,9 +940,7 @@ class AdminController
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'category-name' => 'required',
-            'category-name-ar' => 'required',
             'category-tags' => 'required',
-            'category-tags-ar' => 'required',
         ]);
 
         if (isset(request()->image)) {
@@ -959,16 +966,16 @@ class AdminController
             Categories::where('id', $id)->update([
                 'name' => $name,
                 'tags' => $tags,
-                'name_ar' => $name_ar,
-                'tags_ar' => $tags_ar,
+                'name_second' => $name_ar,
+                'tags_second' => $tags_ar,
                 'picture' => $imageName
             ]);
         } else {
             Categories::where('id', $id)->update([
                 'name' => $name,
                 'tags' => $tags,
-                'name_ar' => $name_ar,
-                'tags_ar' => $tags_ar
+                'name_second' => $name_ar,
+                'tags_second' => $tags_ar
             ]);
         }
         return back()

@@ -54,15 +54,19 @@
                         <div class="col-lg-8 col-xl-5">
                             <div class="form-group">
                                 <label for="dm-project-new-name">
-                                    Category Name <span class="text-danger">*</span>
+                                    Category Name (English) <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="category-name" placeholder="eg: Pizza">
                             </div>
                             <div class="form-group">
-                                <label for="dm-project-new-name">
-                                    اسم التصنيف <span class="text-danger">*</span>
+                                <label>
+                                    Category Name (Other language)
                                 </label>
-                                <input type="text" class="form-control" name="category-name-ar" dir="rtl" placeholder="مثال: بيتزا">
+                                <div class="custom-control custom-checkbox custom-control-inline custom-control-primary mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl">
+                                    <label class="custom-control-label" for="checkbox-name-rtl">RTL?</label>
+                                </div>
+                                <input type="text" class="form-control" name="category-name-ar" placeholder="eg: Pizza">
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-8">
@@ -84,15 +88,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-new-name">
-                                    Tags
+                                    Tags (English)
                                 </label>
                                 <input type="text" class="form-control" name="category-tags" placeholder="eg: Tag1, Tag2, Tag3">
                             </div>
                             <div class="form-group">
-                                <label for="dm-project-new-name">
-                                    بطاقة
-                                </label>
-                                <input type="text" class="form-control" name="category-tags-ar" dir="rtl" placeholder="eg: Tag1, Tag2, Tag3">
+                                <label for="dm-project-edit-description">Tags (Other language)</label>
+                                <div
+                                    class="custom-control custom-checkbox custom-control-inline custom-control-primary">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-tags-rtl">
+                                    <label class="custom-control-label" for="checkbox-tags-rtl">RTL?</label>
+                                </div>
+                                <input type="text" class="form-control" name="category-tags-ar" placeholder="eg: Tag1, Tag2, Tag3">
                             </div>
                         </div>
                     </div>
@@ -126,5 +133,26 @@
     <script>
         var $imageupload = $('.imageupload');
         $imageupload.imageupload();
+
+        $(document).ready(() => {
+
+            $("#checkbox-name-rtl").on("change", () => {
+                if ($("#checkbox-name-rtl").prop("checked") == true) {
+                    $("[name='category-name-ar']").attr("dir", "rtl");
+                } else {
+                    $("[name='category-name-ar']").removeAttr("dir");
+                }
+            });
+
+            $("#checkbox-tags-rtl").on("change", () => {
+                if ($("#checkbox-tags-rtl").prop("checked") == true) {
+                    $("[name='category-tags-ar']").attr("dir", "rtl");
+                } else {
+                    $("[name='category-tags-ar']").removeAttr("dir");
+                }
+            });
+
+        });
+
     </script>
 @endsection

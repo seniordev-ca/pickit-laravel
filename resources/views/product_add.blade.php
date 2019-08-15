@@ -54,16 +54,19 @@
                         <div class="col-lg-8 col-xl-5">
                             <div class="form-group">
                                 <label>
-                                    Product Name <span class="text-danger">*</span>
+                                    Product Name (English) <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="product-name" placeholder="eg: Pizza">
                             </div>
                             <div class="form-group">
                                 <label>
-                                    اسم المنتج <span class="text-danger">*</span>
+                                    Product Name (Other language)
                                 </label>
-                                <input type="text" class="form-control" name="product-name-ar" placeholder="مثال: بيتزا"
-                                       dir="rtl">
+                                <div class="custom-control custom-checkbox custom-control-inline custom-control-primary mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl" >
+                                    <label class="custom-control-label" for="checkbox-name-rtl">RTL?</label>
+                                </div>
+                                <input type="text" class="form-control" name="product-name-ar" placeholder="eg: Pizza">
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-8">
@@ -103,16 +106,19 @@
                                         Price <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                KWD
-                                            </span>
+                                        <input type="text" class="form-control text-center" name="product-price" placeholder="15.233">
+                                        <div class="input-group-append">
+                                            <select class="custom-select" name="currency" style="border-radius: 0px 4px 4px 0px;">
+                                                <option value="0" disabled="disabled" selected>Currency</option>
+                                                @foreach($currency_list as $currency)
+                                                    <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <input type="text" class="form-control text-center" name="product-price"
-                                               placeholder="15.233">
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!-- END Vital Info -->
@@ -126,16 +132,20 @@
                         </div>
                         <div class="col-lg-4 col-xl-3">
                             <div class="form-group">
-                                <label for="dm-project-edit-description">Description</label>
+                                <label for="dm-project-edit-description">Description (English)</label>
                                 <textarea class="form-control" name="product-description" rows="6"
                                           placeholder="Product Description Here..."></textarea>
                             </div>
                         </div>
                         <div class="col-lg-4 col-xl-3">
                             <div class="form-group">
-                                <label for="dm-project-edit-description">وصف</label>
+                                <label for="dm-project-edit-description">Description (Other language)</label>
+                                <div class="custom-control custom-checkbox custom-control-inline custom-control-primary">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-description-rtl">
+                                    <label class="custom-control-label" for="checkbox-description-rtl">RTL?</label>
+                                </div>
                                 <textarea class="form-control" name="product-description-ar" rows="6"
-                                          placeholder="وصف المنتج هنا ..." dir="rtl"></textarea>
+                                          placeholder="Product Description Here..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -168,5 +178,25 @@
     <script>
         var $imageupload = $('.imageupload');
         $imageupload.imageupload();
+
+        $(document).ready(()=>{
+
+            $("#checkbox-name-rtl").on("change", () => {
+                if ($("#checkbox-name-rtl").prop("checked") == true) {
+                    $("[name='product-name-ar']").attr("dir", "rtl");
+                } else {
+                    $("[name='product-name-ar']").removeAttr("dir");
+                }
+            });
+
+            $("#checkbox-description-rtl").on("change", () => {
+                if ($("#checkbox-description-rtl").prop("checked") == true) {
+                    $("[name='product-description-ar']").attr("dir", "rtl");
+                } else {
+                    $("[name='product-description-ar']").removeAttr("dir");
+                }
+            });
+
+        });
     </script>
 @endsection
