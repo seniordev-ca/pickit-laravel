@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\APIAuth;
 use App\Http\Middleware\CustomerAuth;
 use App\Http\Middleware\UserAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -22,6 +23,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -66,6 +68,7 @@ class Kernel extends HttpKernel
         'admin-auth' => AdminAuth::class,
         'user-auth' => UserAuth::class,
         'customer-auth' => CustomerAuth::class,
+        'api-auth' => APIAuth::class,
     ];
 
     /**

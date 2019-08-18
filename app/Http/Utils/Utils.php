@@ -6,10 +6,9 @@ namespace App\Http\Utils;
 
 class Utils
 {
-    public static function makeResponse($data = [], $message = '', $status = true)
+    public static function makeResponse($data = [], $message = '')
     {
         return response()->json([
-            'status' => $status,
             'message' => $message,
             'data' => $data
         ]);
