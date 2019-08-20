@@ -89,7 +89,7 @@
                                 {{$product->description}}
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <span class="badge badge-success">{{$product->price.' KWD'}}</span>
+                                <span class="badge badge-success">{{$product->price.' '.$product->currency->name}}</span>
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch custom-control custom-control-inline mb-2"

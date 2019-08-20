@@ -15,4 +15,8 @@ class Products extends Model
     {
         return $this->hasOne(Categories::class, 'id', 'category_id');
     }
+
+    public function currency() {
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
+    }
 }

@@ -61,7 +61,7 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
-        $categories =Categories::where([
+        $categories = Categories::where([
             ['customer_id', $client->id],
             ['show_flag', 1]
         ])->get();
@@ -75,6 +75,17 @@ class APIController
     public function getProductsByCategory()
     {
         $category_id = request('category_id');
+        $title = request('title');
+        $search_keyword = request('search_keyword');
+
+        $where_clause = [];
+        if ($search_keyword != "" && isset($search_keyword)) {
+            $where_clause[] = ['name', 'like', "%$search_keyword%"];
+            $where_clause[] = ['name_second', 'like', "%$search_keyword%"];
+            $where_clause[] = ['description', 'like', "%$search_keyword%"];
+            $where_clause[] = ['description_second', 'like', "%$search_keyword%"];
+        }
+
         if (!isset($category_id)) {
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
@@ -82,7 +93,14 @@ class APIController
         $products = Products::where([
             ['category_id', $category_id],
             ['show_flag', 1]
-        ])->with('category')->get();
+        ])->where(function ($query) use ($where_clause) {
+            if (count($where_clause ) > 0) {
+                $query->where([$where_clause[0]]);
+                for ($i = 1; $i < count($where_clause); $i++) {
+                    $query->orwhere([$where_clause[$i]]);
+                }
+            }
+        })->with('category', 'currency')->get();
 
         return Utils::makeResponse([
             'product_array' => $products
@@ -100,7 +118,7 @@ class APIController
         $product = Products::where([
             ['id', $product_id],
             ['show_flag', 1]
-        ])->with('category')->first();
+        ])->with('category', 'currency')->first();
 
         if ($product == null) {
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
@@ -112,6 +130,27 @@ class APIController
 
     }
 
+    public function getClientDetail()
+    {
+        $client_email = request('email');
+        if (!isset($client_email)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
 
+        $client = Customers::where('email', $client_email)->first();
+
+        if ($client == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $client = $client->setHidden([
+            'password'
+        ]);
+
+        return Utils::makeResponse([
+            'client' => $client
+        ]);
+
+    }
 
 }

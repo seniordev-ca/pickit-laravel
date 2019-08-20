@@ -612,7 +612,7 @@ class AdminController
     {
         $customer_id = request('customer_id');
         if (session()->get('user-type') != 3 || $customer_id == session()->get('user')->id) {
-            $products = Products::where('customer_id', $customer_id)->with('category')->get();
+            $products = Products::where('customer_id', $customer_id)->with('category', 'currency')->get();
             $customers = Customers::get();
             return view('products')->with([
                 'products' => $products,
