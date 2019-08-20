@@ -134,7 +134,7 @@ class AdminController
         $last_name = request('last-name');
         $email = request('email');
         $password = request('password');
-
+        $color = request('theme-color');
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'first-name' => 'required',
@@ -163,13 +163,33 @@ class AdminController
             $update_array['avatar'] = $imageName;
         }
 
-        $isAdmin = session()->get('user-type');
-        if($isAdmin === 1) {
+        if (isset(request()->company_logo)) {
+            $imageName = time() . '.' . request()->company_logo->getClientOriginalExtension();
+
+            $original_image_path = public_path('media/company_logos');
+            if (!file_exists($original_image_path)) {
+                mkdir($original_image_path);
+            }
+
+            request()->company_logo->move($original_image_path, $imageName);
+            $update_array['company_logo'] = $imageName;
+        }
+
+        $user_type = session()->get('user-type');
+
+        if (isset($color) && $user_type === 3) {
+            $update_array['template_color'] = $color;
+        }
+
+        if($user_type === 1) {
             Admin::where('id', $id)->update($update_array);
             session()->put('user', Admin::where('id', $id)->first());
-        } else {
+        } else if($user_type === 2) {
             Employees::where('id', $id)->update($update_array);
             session()->put('user', Employees::where('id', $id)->first());
+        } else {
+            Customers::where('id', $id)->update($update_array);
+            session()->put('user', Customers::where('id', $id)->first());
         }
 
         return back()
@@ -308,19 +328,7 @@ class AdminController
             return redirect('/my-page');
         }
 
-        $products = DB::select("
-        SELECT
-            t1.*,
-        IF
-            ( t2.id, 1, 0 ) has_flag 
-        FROM
-            t_products t1
-            LEFT JOIN ( SELECT * FROM t_customer_products WHERE customer_id = $id ) t2 ON t1.id = t2.product_id 
-        WHERE
-            t1.show_flag = 1 
-        ORDER BY
-            has_flag
-        ");
+        $products = Products::where('customer_id', $id)->with('category','currency')->get();
         if ($customer != null) {
             return view('customer_detail')->with([
                 'customer' => $customer,
@@ -697,6 +705,11 @@ class AdminController
             mkdir($original_image_path);
         }
 
+        $appview_image_path = public_path('media/images/products/appview');
+        if (!file_exists($appview_image_path)) {
+            mkdir($appview_image_path);
+        }
+
         $thumbnail_image_path = public_path('media/images/products/thumbnail');
         if (!file_exists($thumbnail_image_path)) {
             mkdir($thumbnail_image_path);
@@ -704,6 +717,13 @@ class AdminController
 
         //Save original image
         request()->image->move($original_image_path, $imageName);
+
+        // generate appview image
+        Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
+            ->resize(1200, 1200, function($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         // generate thumbnail image
         Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)

@@ -90,7 +90,7 @@ MAIN CONTENT LAYOUT
             <div class="content-header bg-white-10 header-div-logo">
                 <!-- Logo -->
                 <a class="font-w600 font-size-lg text-white" href="{{url('/dashboard')}}">
-                    <img src="{{asset('/media/logo.png')}}">
+                    <img src="{{asset('/media/logo.png')}}" style="width: 80px;">
                     {{--                            <span class="text-white-75">Dash</span><span class="text-white">mix</span>--}}
                 </a>
                 <!-- END Logo -->
