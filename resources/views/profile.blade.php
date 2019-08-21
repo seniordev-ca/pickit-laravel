@@ -117,6 +117,24 @@
                                                 <i></i>
                                             </span>
                                         </div>
+                                        <a href="javascript:resetThemeColor();" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-undo"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label for="example-colorpicker2">Background Color</label>
+                                    <div class="js-colorpicker input-group" data-format="hex">
+                                        <input type="text" class="form-control" name="background-color" value="{{$user->background_color}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text colorpicker-input-addon">
+                                                <i></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript:resetBackgroundColor()" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-undo"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -203,6 +221,16 @@
         function removeImage1() {
             $('#preview-company-logo').attr('src', "{{asset('media/company_logos').'/'.$user->company_logo}}");
 //      $("#remove").val(1);
+        }
+
+        function resetThemeColor() {
+            $("[name='theme-color']").val("#161616");
+            $("[name='theme-color']").trigger("change");
+        }
+
+        function resetBackgroundColor() {
+            $("[name='background-color']").val("#292929");
+            $("[name='background-color']").trigger("change");
         }
     </script>
 @endsection

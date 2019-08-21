@@ -65,6 +65,7 @@
                         <th class="d-none d-sm-table-cell" style="width: 100px;">Category</th>
                         <th class="d-none d-sm-table-cell">Description</th>
                         <th class="d-none d-sm-table-cell" style="width: 15%;">Price</th>
+                        <th class="d-none d-sm-table-cell" style="width: 80px;">Video</th>
                         <th class="d-none d-sm-table-cell" style="width: 80px;">Show</th>
                         <th class="d-none d-sm-table-cell" style="width: 80px;">Actions</th>
                     </tr>
@@ -90,6 +91,9 @@
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <span class="badge badge-success">{{$product->price.' '.$product->currency->name}}</span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:openVideoDialog('{{$product->video_id}}', '{{$product->name}}');"><i class="far fa-play-circle"></i> </a>
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch custom-control custom-control-inline mb-2"
@@ -119,6 +123,27 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-block-fadein" tabindex="-1" role="dialog" aria-labelledby="modal-block-fadein" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent mb-0" >
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Modal Title</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content" style="padding: 8px 8px 0px 8px;">
+                        <iframe src="" frameborder="0" allowfullscreen class="iframe-video" width="100%" height="300" ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- END Page Content -->
 @endsection
 
@@ -180,5 +205,11 @@
                 window.location.href = $("#sel-client").val();
             });
         });
+
+        function openVideoDialog(videoId, productName) {
+            $("#modal-block-fadein .block-title").html(productName);
+            $("#modal-block-fadein iframe").attr("src", "https://www.youtube.com/embed/" + videoId);
+            $("#modal-block-fadein").modal('show');
+        }
     </script>
 @endsection

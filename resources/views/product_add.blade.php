@@ -86,6 +86,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>
+                                    Video ID (Youtube video ID: If your video URL is like this - https://www.youtube.com/watch?v=GLSG_Wh_YWc then your video ID is GLSG_Wh_YWc)
+                                </label>
+                                <input type="text" class="form-control" name="video-id" placeholder="GLSG_Wh_YWc">
+                            </div>
                             <div class="form-group row">
                                 <div class="col-lg-8">
                                     <label for="dm-project-new-name">

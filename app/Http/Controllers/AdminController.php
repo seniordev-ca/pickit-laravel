@@ -134,7 +134,8 @@ class AdminController
         $last_name = request('last-name');
         $email = request('email');
         $password = request('password');
-        $color = request('theme-color');
+        $theme_color = request('theme-color');
+        $background_color = request('background-color');
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'first-name' => 'required',
@@ -177,8 +178,12 @@ class AdminController
 
         $user_type = session()->get('user-type');
 
-        if (isset($color) && $user_type === 3) {
-            $update_array['template_color'] = $color;
+        if (isset($theme_color) && $user_type === 3) {
+            $update_array['template_color'] = $theme_color;
+        }
+
+        if (isset($background_color) && $user_type === 3) {
+            $update_array['background_color'] = $background_color;
         }
 
         if($user_type === 1) {
@@ -686,6 +691,7 @@ class AdminController
         $name_ar = request('product-name-ar');
         $category_id = request('category');
         $price = request('product-price');
+        $video_id = request('video-id');
         $description = request('product-description');
         $description_ar = request('product-description-ar');
         $currency = request('currency');
@@ -740,6 +746,7 @@ class AdminController
         $product->description = $description;
         $product->description_second = $description_ar;
         $product->picture = $imageName;
+        $product->video_id = $video_id;
 
         $product->save();
 
@@ -757,6 +764,7 @@ class AdminController
         $description = request('product-description');
         $description_ar = request('product-description-ar');
         $currency = request('currency');
+        $video_id = request('video-id');
 
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
@@ -795,7 +803,8 @@ class AdminController
                 'category_id' => $category_id,
                 'description' => $description,
                 'description_second' => $description_ar,
-                'picture' => $imageName
+                'video_id' => $video_id,
+                'picture' => $imageName,
             ]);
         } else {
             Products::where('id', $id)->update([
@@ -806,6 +815,7 @@ class AdminController
                 'category_id' => $category_id,
                 'description' => $description,
                 'description_second' => $description_ar,
+                'video_id' => $video_id
             ]);
         }
         return back()
@@ -960,7 +970,6 @@ class AdminController
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'category-name' => 'required',
-            'category-tags' => 'required',
         ]);
 
         if (isset(request()->image)) {
