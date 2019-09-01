@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>OMNI</title>
+    <title>Pick it</title>
 
-    <meta name="description" content="Welcome to Omni restaurant">
-    <meta name="author" content="Gao">
+    <meta name="description" content="Welcome to Pick it system">
+    <meta name="author" content="James">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- CSRF Token -->
@@ -371,10 +371,10 @@ MAIN CONTENT LAYOUT
                 <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
                     Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600"
                                                                                href="https://www.freelancer.com/u/leemilun?w=f"
-                                                                               target="_blank">Gao</a>
+                                                                               target="_blank">James</a>
                 </div>
                 <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                    <a class="font-w600" href="{{url('/')}}" target="_blank">OMNI</a> &copy; <span
+                    <a class="font-w600" href="{{url('/')}}" target="_blank">Pick it</a> &copy; <span
                         data-toggle="year-copy">2019</span>
                 </div>
             </div>

@@ -95,6 +95,7 @@ class AdminController
     public function logout()
     {
         session()->remove('user');
+        session()->remove('user-type');
         return redirect('/login');
     }
 
@@ -134,8 +135,11 @@ class AdminController
         $last_name = request('last-name');
         $email = request('email');
         $password = request('password');
-        $theme_color = request('theme-color');
-        $background_color = request('background-color');
+        $template_no = request('template-no');
+        $category_background_color = request('category-background-color');
+        $product_background_color = request('product-background-color');
+        $banner_color = request('banner-color');
+        $font_color = request('font-color');
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'first-name' => 'required',
@@ -178,12 +182,24 @@ class AdminController
 
         $user_type = session()->get('user-type');
 
-        if (isset($theme_color) && $user_type === 3) {
-            $update_array['template_color'] = $theme_color;
+        if (isset($category_background_color) && $user_type === 3) {
+            $update_array['category_background_color'] = $category_background_color;
         }
 
-        if (isset($background_color) && $user_type === 3) {
-            $update_array['background_color'] = $background_color;
+        if (isset($product_background_color) && $user_type === 3) {
+            $update_array['product_background_color'] = $product_background_color;
+        }
+
+        if (isset($banner_color) && $user_type === 3) {
+            $update_array['banner_color'] = $banner_color;
+        }
+
+        if (isset($font_color) && $user_type === 3) {
+            $update_array['font_color'] = $font_color;
+        }
+
+        if (isset($template_no) && $user_type === 3) {
+            $update_array['template_no'] = $template_no;
         }
 
         if($user_type === 1) {

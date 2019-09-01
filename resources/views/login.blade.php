@@ -11,7 +11,7 @@
                     <!-- Header -->
                     <div class="mb-3 text-center">
                         <a class="link-fx font-w700 font-size-h1" href="{{url('/')}}">
-                            <span class="text-dark">OM</span><span class="text-primary">NI</span>
+                            <span class="text-dark">Pick</span><span class="text-primary"> it</span>
                         </a>
                         <p class="text-uppercase font-w700 font-size-sm text-muted">Sign In</p>
                     </div>
@@ -49,7 +49,7 @@
             <div class="hero-static col-md-6 d-none d-md-flex align-items-md-center justify-content-md-center text-md-center">
                 <div class="p-3">
                     <p class="display-4 font-w700 text-white mb-3">
-                        Welcome to Omni restaurants
+                        Welcome to Pick it System
                     </p>
                     <p class="font-size-lg font-w600 text-white-75 mb-0">
                         Copyright &copy; <span class="js-year-copy">2019</span>

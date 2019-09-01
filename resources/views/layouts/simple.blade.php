@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-        <title>OMNI</title>
+        <title>Pick it</title>
 
-        <meta name="description" content="Welcome to Omni restaurant">
+        <meta name="description" content="Welcome to Pick it system">
         <meta name="author" content="James">
         <meta name="robots" content="noindex, nofollow">
 

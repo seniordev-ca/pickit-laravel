@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/restaurant/{customer_id}', 'FrontendController@showProductPage');
+Route::post('/product/get', 'FrontendController@getProductDetail');
+
 Route::get('/', 'AdminController@index');
 Route::get('/login', 'AdminController@index');
 Route::post('/login', 'AdminController@doLogin');
