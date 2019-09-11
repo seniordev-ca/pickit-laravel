@@ -7,7 +7,7 @@
     <title>Pick it</title>
 
     <meta name="description" content="Welcome to Pick it system">
-    <meta name="author" content="James">
+    <meta name="author" content="Mr focus">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- CSRF Token -->
@@ -370,8 +370,8 @@ MAIN CONTENT LAYOUT
             <div class="row font-size-sm">
                 <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
                     Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600"
-                                                                               href="https://www.freelancer.com/u/leemilun?w=f"
-                                                                               target="_blank">James</a>
+                                                                               href="https://www.mrfocuskw.com"
+                                                                               target="_blank">Mr focus</a>
                 </div>
                 <div class="col-sm-6 order-sm-1 text-center text-sm-left">
                     <a class="font-w600" href="{{url('/')}}" target="_blank">Pick it</a> &copy; <span

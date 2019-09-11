@@ -40,7 +40,9 @@ class FrontendController
         ])->first();
 
         if (!isset($category_id)) {
-            $category_id = $first_category->id;
+            if ($first_category != null)
+                $category_id = $first_category->id;
+            else $category_id = 0;
         }
 
         $category_array = Categories::where([
@@ -61,17 +63,20 @@ class FrontendController
             $search_clause[] = ['description_second', 'like', "%$search%"];
         }
 
-        $product_array = Products::where([
-            ['category_id', $category_id],
-            ['show_flag', 1]
-        ])->where(function ($query) use ($search_clause) {
-            if (count($search_clause) > 0) {
-                $query->where([$search_clause[0]]);
-                for ($i = 1; $i < count($search_clause); $i++) {
-                    $query->orwhere([$search_clause[$i]]);
+        $product_array = [];
+        if ($category_id != 0) {
+            $product_array = Products::where([
+                ['category_id', $category_id],
+                ['show_flag', 1]
+            ])->where(function ($query) use ($search_clause) {
+                if (count($search_clause) > 0) {
+                    $query->where([$search_clause[0]]);
+                    for ($i = 1; $i < count($search_clause); $i++) {
+                        $query->orwhere([$search_clause[$i]]);
+                    }
                 }
-            }
-        })->get();
+            })->get();
+        }
 
         $theme = $theme->setHidden([
             'password',

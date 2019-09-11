@@ -172,7 +172,7 @@
                     error: function () {
                     },
                     success: function (data) {
-                        if (data.status == true) {
+                        if (data.message.length == 0) {
                             window.location.reload();
                         }
                     }
@@ -194,7 +194,7 @@
                     error: function () {
                     },
                     success: function (data) {
-                        if (data.status == true) {
+                        if (data.message.length == true) {
                             //window.location.reload();
                         }
                     }

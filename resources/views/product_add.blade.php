@@ -88,9 +88,9 @@
                             </div>
                             <div class="form-group">
                                 <label>
-                                    Video ID <br>(Youtube video ID: If your video URL is like this - https://www.youtube.com/watch?v=GLSG_Wh_YWc then your video ID is GLSG_Wh_YWc)
+                                    Youtube video URL
                                 </label>
-                                <input type="text" class="form-control" name="video-id" placeholder="GLSG_Wh_YWc">
+                                <input type="text" class="form-control" name="video-url" placeholder="https://www.youtube.com/watch?v=GLSG_Wh_YWc">
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-8">

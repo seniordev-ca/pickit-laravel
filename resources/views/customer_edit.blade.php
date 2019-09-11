@@ -187,6 +187,13 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label for="dm-project-new-name">
+                                    URL (Frontend Site URL)
+                                </label>
+                                <label class="form-control">{{url('/restaurant').'/'.$customer->id}}</label>
+                            </div>
+
                         </div>
                     </div>
 

@@ -56,6 +56,9 @@
 
     <!-- Page Content -->
     <div class="content">
+        @if($category_id == 0)
+            <p style="color: {{$theme->font_color}};">Coming soon...</p>
+        @endif
         @foreach($product_array as $product)
             @if($loop->index % 4 == 0)
                 <div class="row">

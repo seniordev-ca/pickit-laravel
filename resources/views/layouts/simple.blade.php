@@ -7,7 +7,7 @@
         <title>Pick it</title>
 
         <meta name="description" content="Welcome to Pick it system">
-        <meta name="author" content="James">
+        <meta name="author" content="Mr focus">
         <meta name="robots" content="noindex, nofollow">
 
         <!-- CSRF Token -->

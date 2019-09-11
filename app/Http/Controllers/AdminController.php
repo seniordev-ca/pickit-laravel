@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use App\Http\Models\Admin;
 use App\Http\Models\Categories;
 use App\Http\Models\Currency;
-use App\Http\Models\CustomerProducts;
 use App\Http\Models\Customers;
 use App\Http\Models\Invoices;
 use App\Http\Models\Products;
@@ -707,7 +706,7 @@ class AdminController
         $name_ar = request('product-name-ar');
         $category_id = request('category');
         $price = request('product-price');
-        $video_id = request('video-id');
+        $video_url = request('video-url');
         $description = request('product-description');
         $description_ar = request('product-description-ar');
         $currency = request('currency');
@@ -752,6 +751,10 @@ class AdminController
             ->fit(320, 320)
             ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
 
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match))
+            $video_id = $match[1];
+        else $video_id = $video_url;
+
         $product = new Products();
         $product->customer_id = $customer_id;
         $product->name = $name;
@@ -763,6 +766,7 @@ class AdminController
         $product->description_second = $description_ar;
         $product->picture = $imageName;
         $product->video_id = $video_id;
+        $product->video_url = $video_url;
 
         $product->save();
 
@@ -780,7 +784,7 @@ class AdminController
         $description = request('product-description');
         $description_ar = request('product-description-ar');
         $currency = request('currency');
-        $video_id = request('video-id');
+        $video_url = request('video-url');
 
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
@@ -789,6 +793,10 @@ class AdminController
             'category' => 'required',
             'currency' => 'required',
         ]);
+
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match))
+            $video_id = $match[1];
+        else $video_id = $video_url;
 
         if (isset(request()->image)) {
             $imageName = time() . '.' . request()->image->getClientOriginalExtension();
@@ -820,6 +828,7 @@ class AdminController
                 'description' => $description,
                 'description_second' => $description_ar,
                 'video_id' => $video_id,
+                'video_url' => $video_url,
                 'picture' => $imageName,
             ]);
         } else {
@@ -831,7 +840,8 @@ class AdminController
                 'category_id' => $category_id,
                 'description' => $description,
                 'description_second' => $description_ar,
-                'video_id' => $video_id
+                'video_id' => $video_id,
+                'video_url' => $video_url
             ]);
         }
         return back()
