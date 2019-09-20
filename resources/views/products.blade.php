@@ -51,10 +51,15 @@
                 <h3 class="block-title">Product List</h3>
             </div>
             <div class="block-content block-content-full">
-                <div style="margin-bottom: 10px;">
+                <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
                     <a class="btn btn-primary" href="{{url('/products/').'/'.$customer_id.'/add'}}"><i
-                            class="si si-plus"></i> Add
-                        Product</a>
+                            class="si si-plus"></i> Add Product</a>
+                    <div>
+                        <a class="btn btn-success" href="{{url('/products/show-all')}}"><i
+                                class="far fa-eye"></i> Show all</a>
+                        <a class="btn btn-warning" href="{{url('/products/hide-all')}}"><i
+                                class="far fa-eye-slash"></i> Hide all</a>
+                    </div>
                 </div>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
@@ -62,9 +67,10 @@
                         <th class="text-center" style="width: 80px;">#</th>
                         <th class="d-none d-sm-table-cell" style="width: 100px;">Picture</th>
                         <th class="d-none d-sm-table-cell" style="width: 20%;">Product Name</th>
-                        <th class="d-none d-sm-table-cell" style="width: 100px;">Category</th>
+                        <th class="d-none d-sm-table-cell" style="width: 150px;">Category</th>
                         <th class="d-none d-sm-table-cell">Description</th>
-                        <th class="d-none d-sm-table-cell" style="width: 15%;">Price</th>
+                        <th class="d-none d-sm-table-cell" style="width: 150px;">Price</th>
+                        <th class="d-none d-sm-table-cell" style="width: 80px;">Order</th>
                         <th class="d-none d-sm-table-cell" style="width: 80px;">Video</th>
                         <th class="d-none d-sm-table-cell" style="width: 80px;">Show</th>
                         <th class="d-none d-sm-table-cell" style="width: 80px;">Actions</th>
@@ -91,6 +97,9 @@
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <span class="badge badge-success">{{$product->price.' '.$product->currency->name}}</span>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                {{$product->show_order}}
                             </td>
                             <td class="text-center">
                                 <a href="javascript:openVideoDialog('{{$product->video_id}}', '{{$product->name}}');"><i class="far fa-play-circle"></i> </a>
@@ -182,7 +191,7 @@
 
         $(document).ready(function () {
 
-            $("[name^='show-toggle-']").on('change', function () {
+            $(document).on('change', "[name^='show-toggle-']", function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
                     url: '{{url('/products/toggle-visible')}}',
@@ -201,9 +210,6 @@
                 });
             });
 
-            $("#sel-client").on("change", () => {
-                window.location.href = $("#sel-client").val();
-            });
         });
 
         function openVideoDialog(videoId, productName) {

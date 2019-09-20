@@ -63,28 +63,10 @@
                                     Category Name (Other language)
                                 </label>
                                 <div class="custom-control custom-checkbox custom-control-inline custom-control-primary mb-1">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl" name="rtl-direction">
                                     <label class="custom-control-label" for="checkbox-name-rtl">RTL?</label>
                                 </div>
                                 <input type="text" class="form-control" name="category-name-ar" placeholder="eg: Pizza">
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-8">
-                                    <label for="dm-project-new-category">
-                                        Image <span class="text-danger">*</span>
-                                    </label>
-                                    <!-- bootstrap-imageupload. -->
-                                    <div class="imageupload panel panel-default">
-                                        <div class="file-tab panel-body">
-                                            <label class="btn btn-primary btn-file" style="margin-bottom: 0px;">
-                                                <span>Browse</span>
-                                                <!-- The file is stored here. -->
-                                                <input type="file" name="image">
-                                            </label>
-                                            <button type="button" class="btn btn-danger">Remove</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-new-name">
@@ -94,12 +76,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-edit-description">Tags (Other language)</label>
-                                <div
-                                    class="custom-control custom-checkbox custom-control-inline custom-control-primary">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-tags-rtl">
-                                    <label class="custom-control-label" for="checkbox-tags-rtl">RTL?</label>
-                                </div>
                                 <input type="text" class="form-control" name="category-tags-ar" placeholder="eg: Tag1, Tag2, Tag3">
+                            </div>
+                            <div class="form-group">
+                                <label for="dm-project-new-name">
+                                    Display Order
+                                </label>
+                                <input type="text" class="form-control" name="order" placeholder="1">
                             </div>
                         </div>
                     </div>
@@ -127,27 +110,17 @@
 @endsection
 
 @section('js_after')
-    <!-- Page JS Plugins -->
-    <script src="{{asset('js/plugins/bootstrap-imageupload/js/bootstrap-imageupload.min.js')}}"></script>
     <!-- Page JS Code -->
     <script>
-        var $imageupload = $('.imageupload');
-        $imageupload.imageupload();
 
         $(document).ready(() => {
 
             $("#checkbox-name-rtl").on("change", () => {
                 if ($("#checkbox-name-rtl").prop("checked") == true) {
                     $("[name='category-name-ar']").attr("dir", "rtl");
-                } else {
-                    $("[name='category-name-ar']").removeAttr("dir");
-                }
-            });
-
-            $("#checkbox-tags-rtl").on("change", () => {
-                if ($("#checkbox-tags-rtl").prop("checked") == true) {
                     $("[name='category-tags-ar']").attr("dir", "rtl");
                 } else {
+                    $("[name='category-name-ar']").removeAttr("dir");
                     $("[name='category-tags-ar']").removeAttr("dir");
                 }
             });

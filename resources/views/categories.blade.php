@@ -50,36 +50,39 @@
                 <h3 class="block-title">Category List</h3>
             </div>
             <div class="block-content block-content-full">
-                <div style="margin-bottom: 10px;">
+                <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
                     <a class="btn btn-primary" href="{{url('/categories').'/'.$customer_id.'/add'}}"><i
                             class="si si-plus"></i> Add Category</a>
+                    <div>
+                        <a class="btn btn-success" href="{{url('/categories/show-all')}}"><i
+                                class="far fa-eye"></i> Show all</a>
+                        <a class="btn btn-warning" href="{{url('/categories/hide-all')}}"><i
+                                class="far fa-eye-slash"></i> Hide all</a>
+                    </div>
                 </div>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
                     <tr>
                         <th class="text-center" style="width: 80px;">#</th>
-                        <th class="d-none d-sm-table-cell" style="width: 100px;">Picture</th>
                         <th class="d-none d-sm-table-cell">Category Name</th>
                         <th class="d-none d-sm-table-cell">Tags</th>
-                        <th class="d-none d-sm-table-cell" style="width: 80px;">Show</th>
-                        <th class="d-none d-sm-table-cell" style="width: 80px;">Actions</th>
+                        <th class="d-none d-sm-table-cell" style="width: 120px;">Order</th>
+                        <th class="d-none d-sm-table-cell" style="width: 120px;">Show</th>
+                        <th class="d-none d-sm-table-cell" style="width: 120px;">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($categories as $category)
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
-                            <td class="font-w600">
-                                <div align="center">
-                                    <img src="{{asset('/media/images/categories/thumbnail/').'/'.$category->picture}}"
-                                         style="width: 80px;">
-                                </div>
-                            </td>
                             <td class="d-none d-sm-table-cell">
                                 <a href="{{url('/categories/edit').'/'.$category->id}}">{{$category->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <span class="badge badge-primary">{{$category->tags}}</span>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                {{$category->show_order}}
                             </td>
                             <td class="text-center">
                                 <div class="custom-control custom-switch custom-control custom-control-inline mb-2"

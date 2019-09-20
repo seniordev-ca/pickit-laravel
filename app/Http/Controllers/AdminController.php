@@ -128,44 +128,25 @@ class AdminController
         }
     }
 
-    public function editProfile() {
+    public function showDesignPage() {
+        $user = session()->get('user');
+        return view('design')->with('user', $user);
+    }
+
+    public function editDesign() {
+        $user_type = session()->get('user-type');
+        if ($user_type !== 3) {
+            return back();
+        }
+
         $id = request('id');
-        $first_name = request('first-name');
-        $last_name = request('last-name');
-        $email = request('email');
-        $password = request('password');
         $template_no = request('template-no');
         $category_background_color = request('category-background-color');
         $product_background_color = request('product-background-color');
         $banner_color = request('banner-color');
         $font_color = request('font-color');
-        request()->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
-            'first-name' => 'required',
-            'last-name' => 'required',
-            'email' => 'required|email',
-        ]);
 
-        $update_array = array(
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'email' => $email,
-        );
-
-        if ($password != '') {
-            $update_array['password'] = hash::make($password);
-        }
-        if (isset(request()->image)) {
-            $imageName = time() . '.' . request()->image->getClientOriginalExtension();
-
-            $original_image_path = public_path('media/avatars');
-            if (!file_exists($original_image_path)) {
-                mkdir($original_image_path);
-            }
-
-            request()->image->move($original_image_path, $imageName);
-            $update_array['avatar'] = $imageName;
-        }
+        $update_array = array();
 
         if (isset(request()->company_logo)) {
             $imageName = time() . '.' . request()->company_logo->getClientOriginalExtension();
@@ -179,26 +160,78 @@ class AdminController
             $update_array['company_logo'] = $imageName;
         }
 
-        $user_type = session()->get('user-type');
-
-        if (isset($category_background_color) && $user_type === 3) {
+        if (isset($category_background_color)) {
             $update_array['category_background_color'] = $category_background_color;
         }
 
-        if (isset($product_background_color) && $user_type === 3) {
+        if (isset($product_background_color)) {
             $update_array['product_background_color'] = $product_background_color;
         }
 
-        if (isset($banner_color) && $user_type === 3) {
+        if (isset($banner_color)) {
             $update_array['banner_color'] = $banner_color;
         }
 
-        if (isset($font_color) && $user_type === 3) {
+        if (isset($font_color)) {
             $update_array['font_color'] = $font_color;
         }
 
-        if (isset($template_no) && $user_type === 3) {
+        if (isset($template_no)) {
             $update_array['template_no'] = $template_no;
+        }
+
+        Customers::where('id', $id)->update($update_array);
+        session()->put('user', Customers::where('id', $id)->first());
+
+        return back()
+            ->with('success', 'You have successfully updated your design.');
+    }
+
+    public function editProfile() {
+        $id = request('id');
+        $first_name = request('first-name');
+        $last_name = request('last-name');
+        $email = request('email');
+        $password = request('password');
+        $user_type = session()->get('user-type');
+
+        if ($user_type === 3) {
+            request()->validate([
+                'first-name' => 'required',
+                'last-name' => 'required',
+                'email' => 'required|email',
+            ]);
+        } else {
+            request()->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
+                'first-name' => 'required',
+                'last-name' => 'required',
+                'email' => 'required|email',
+            ]);
+        }
+
+        $update_array = array(
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+        );
+
+        if ($password != '') {
+            $update_array['password'] = hash::make($password);
+        }
+
+        if ($user_type !== 3) {
+            if (isset(request()->image)) {
+                $imageName = time() . '.' . request()->image->getClientOriginalExtension();
+
+                $original_image_path = public_path('media/avatars');
+                if (!file_exists($original_image_path)) {
+                    mkdir($original_image_path);
+                }
+
+                request()->image->move($original_image_path, $imageName);
+                $update_array['avatar'] = $imageName;
+            }
         }
 
         if($user_type === 1) {
@@ -710,6 +743,7 @@ class AdminController
         $description = request('product-description');
         $description_ar = request('product-description-ar');
         $currency = request('currency');
+        $direction = request('rtl-direction');
 
         request()->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
@@ -718,6 +752,10 @@ class AdminController
             'category' => 'required',
             'currency' => 'required',
         ]);
+
+        $rtl_direction = 0;
+        if (isset($direction) && $direction == 'on')
+            $rtl_direction = 1;
 
         $imageName = time() . '.' . request()->image->getClientOriginalExtension();
 
@@ -767,6 +805,7 @@ class AdminController
         $product->picture = $imageName;
         $product->video_id = $video_id;
         $product->video_url = $video_url;
+        $product->rtl_direction = $rtl_direction;
 
         $product->save();
 
@@ -785,6 +824,7 @@ class AdminController
         $description_ar = request('product-description-ar');
         $currency = request('currency');
         $video_url = request('video-url');
+        $direction = request('rtl-direction');
 
         request()->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
@@ -793,6 +833,10 @@ class AdminController
             'category' => 'required',
             'currency' => 'required',
         ]);
+
+        $rtl_direction = 0;
+        if (isset($direction) && $direction == 'on')
+            $rtl_direction = 1;
 
         if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match))
             $video_id = $match[1];
@@ -829,6 +873,7 @@ class AdminController
                 'description_second' => $description_ar,
                 'video_id' => $video_id,
                 'video_url' => $video_url,
+                'rtl_direction' => $rtl_direction,
                 'picture' => $imageName,
             ]);
         } else {
@@ -841,6 +886,7 @@ class AdminController
                 'description' => $description,
                 'description_second' => $description_ar,
                 'video_id' => $video_id,
+                'rtl_direction' => $rtl_direction,
                 'video_url' => $video_url
             ]);
         }
@@ -868,6 +914,31 @@ class AdminController
         return Utils::makeResponse();
     }
 
+    public function toggleProductAllVisible() {
+
+        $user_type = session()->get('user-type');
+        if ($user_type === 1 || $user_type === 2) {
+            Products::where(true)->update(['show_flag', 1]);
+        } else {
+            $customer_id = session()->get('user')->id;
+            Products::where('customer_id', $customer_id)->update(['show_flag' => 1]);
+        }
+        return back();
+    }
+
+    public function toggleProductAllInvisible() {
+
+        $user_type = session()->get('user-type');
+        if ($user_type === 1 || $user_type === 2) {
+            Products::where(true)->update(['show_flag', 0]);
+        } else {
+            $customer_id = session()->get('user')->id;
+            Products::where('customer_id', $customer_id)->update(['show_flag' => 0]);
+        }
+        return back();
+
+    }
+
     public function showCategoryFirstPage()
     {
         if (session()->get('user-type') != 3) {
@@ -888,7 +959,7 @@ class AdminController
     {
         $customer_id = request('customer_id');
         if (session()->get('user-type') != 3 || $customer_id == session()->get('user')->id) {
-            $categories = Categories::where('customer_id', $customer_id)->get();
+            $categories = Categories::where('customer_id', $customer_id)->orderBy('show_order')->get();
             $customers = Customers::get();
             return view('categories')->with([
                 'categories' => $categories,
@@ -944,45 +1015,29 @@ class AdminController
         $name_ar = request('category-name-ar');
         $tags = request('category-tags');
         $tags_ar = request('category-tags-ar');
+        $order = request('order');
+        $direction = request('rtl-direction');
 
         request()->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'category-name' => 'required',
         ]);
 
-        $imageName = time() . '.' . request()->image->getClientOriginalExtension();
-
-        $original_image_path = public_path('media/images/categories/original');
-        if (!file_exists($original_image_path)) {
-            mkdir($original_image_path);
-        }
-
-        $thumbnail_image_path = public_path('media/images/categories/thumbnail');
-        if (!file_exists($thumbnail_image_path)) {
-            mkdir($thumbnail_image_path);
-        }
-
-        //Save original image
-        request()->image->move($original_image_path, $imageName);
-
-        // generate thumbnail image
-        Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
-            ->fit(320, 320)
-            ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
-
+        $rtl_direction = 0;
+        if (isset($direction) && $direction == 'on')
+            $rtl_direction = 1;
         $category = new Categories();
         $category->customer_id = $customer_id;
         $category->name = $name;
         $category->tags = $tags;
         $category->name_second = $name_ar;
         $category->tags_second = $tags_ar;
-        $category->picture = $imageName;
+        $category->show_order = $order;
+        $category->rtl_direction = $rtl_direction;
 
         $category->save();
 
         return back()
-            ->with('success', 'You have successfully add new category.')
-            ->with('image', $imageName);
+            ->with('success', 'You have successfully add new category.');
     }
 
     public function editCategory()
@@ -992,47 +1047,26 @@ class AdminController
         $name_ar = request('category-name-ar');
         $tags = request('category-tags');
         $tags_ar = request('category-tags-ar');
+        $order = request('order');
+        $direction = request('rtl-direction');
 
         request()->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'category-name' => 'required',
         ]);
 
-        if (isset(request()->image)) {
-            $imageName = time() . '.' . request()->image->getClientOriginalExtension();
+        $rtl_direction = 0;
+        if (isset($direction) && $direction == 'on')
+            $rtl_direction = 1;
 
-            $original_image_path = public_path('media/images/categories/original');
-            if (!file_exists($original_image_path)) {
-                mkdir($original_image_path);
-            }
+        Categories::where('id', $id)->update([
+            'name' => $name,
+            'tags' => $tags,
+            'name_second' => $name_ar,
+            'tags_second' => $tags_ar,
+            'show_order' => $order,
+            'rtl_direction' => $rtl_direction
+        ]);
 
-            $thumbnail_image_path = public_path('media/images/categories/thumbnail');
-            if (!file_exists($thumbnail_image_path)) {
-                mkdir($thumbnail_image_path);
-            }
-
-            //Save original image
-            request()->image->move($original_image_path, $imageName);
-
-            // generate thumbnail image
-            Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
-                ->fit(320, 320)
-                ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
-            Categories::where('id', $id)->update([
-                'name' => $name,
-                'tags' => $tags,
-                'name_second' => $name_ar,
-                'tags_second' => $tags_ar,
-                'picture' => $imageName
-            ]);
-        } else {
-            Categories::where('id', $id)->update([
-                'name' => $name,
-                'tags' => $tags,
-                'name_second' => $name_ar,
-                'tags_second' => $tags_ar
-            ]);
-        }
         return back()
             ->with('success', 'You have successfully updated category.');
     }
@@ -1057,4 +1091,27 @@ class AdminController
 
         return Utils::makeResponse();
     }
+
+    public function toggleCategoryAllVisible() {
+        $user_type = session()->get('user-type');
+        if ($user_type === 1 || $user_type === 2) {
+            Categories::where(true)->update(['show_flag', 1]);
+        } else {
+            $customer_id = session()->get('user')->id;
+            Categories::where('customer_id', $customer_id)->update(['show_flag' => 1]);
+        }
+        return back();
+    }
+
+    public function toggleCategoryAllInvisible() {
+        $user_type = session()->get('user-type');
+        if ($user_type === 1 || $user_type === 2) {
+            Categories::where(true)->update(['show_flag', 1]);
+        } else {
+            $customer_id = session()->get('user')->id;
+            Categories::where('customer_id', $customer_id)->update(['show_flag' => 0]);
+        }
+        return back();
+    }
+
 }

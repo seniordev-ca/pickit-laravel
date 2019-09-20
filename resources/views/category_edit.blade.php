@@ -63,25 +63,10 @@
                                     Category Name (Other language)
                                 </label>
                                 <div class="custom-control custom-checkbox custom-control-inline custom-control-primary mb-1">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl" name="rtl-direction" @if($category->rtl_direction == 1) checked @endif>
                                     <label class="custom-control-label" for="checkbox-name-rtl">RTL?</label>
                                 </div>
-                                <input type="text" class="form-control" name="category-name-ar" placeholder="eg: Pizza" value="{{$category->name_second}}">
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-8">
-                                    <label for="dm-project-new-category">
-                                        Image <span class="text-danger">*</span>
-                                    </label>
-                                    <!-- bootstrap-imageupload. -->
-                                    <div class="imageupload panel panel-default">
-                                        <img id="preview" src="{{asset('media/images/categories/original').'/'.$category->picture}}" class="image-preview-edit"/>
-                                        <input type="file" id="image" name="image" style="display: none;"/>
-                                        <!--<input type="hidden" style="display: none" value="0" name="remove" id="remove">-->
-                                        <a href="javascript:changeProfile()" class="btn btn-primary">Change</a>
-                                        <a href="javascript:removeImage()" class="btn btn-danger">Original</a>
-                                    </div>
-                                </div>
+                                <input type="text" class="form-control" name="category-name-ar" placeholder="eg: Pizza" value="{{$category->name_second}}" @if($category->rtl_direction == 1) dir="rtl" @endif>
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-new-name">
@@ -91,12 +76,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="dm-project-edit-description">Tags (Other language)</label>
-                                <div
-                                    class="custom-control custom-checkbox custom-control-inline custom-control-primary">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-tags-rtl">
-                                    <label class="custom-control-label" for="checkbox-tags-rtl">RTL?</label>
-                                </div>
-                                <input type="text" class="form-control" name="category-tags-ar" placeholder="eg: Tag1, Tag2, Tag3"  value="{{$category->tags_second}}">
+                                <input type="text" class="form-control" name="category-tags-ar" placeholder="eg: Tag1, Tag2, Tag3"  value="{{$category->tags_second}}" @if($category->rtl_direction == 1) dir="rtl" @endif>
+                            </div>
+                            <div class="form-group">
+                                <label for="dm-project-new-name">
+                                    Display Order
+                                </label>
+                                <input type="text" class="form-control" name="order" placeholder="1" value="{{$category->show_order}}">
                             </div>
                         </div>
                     </div>
@@ -124,50 +110,17 @@
 @endsection
 
 @section('js_after')
-    <!-- Page JS Plugins -->
-    <script src="{{asset('js/plugins/bootstrap-imageupload/js/bootstrap-imageupload.min.js')}}"></script>
     <!-- Page JS Code -->
     <script>
-        function changeProfile() {
-            $('#image').click();
-        }
-        $('#image').change(function () {
-            var imgPath = this.value;
-            var ext = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-            if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg")
-                readURL(this);
-            else
-                alert("Please select image file (jpg, jpeg, png).")
-        });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.readAsDataURL(input.files[0]);
-                reader.onload = function (e) {
-                    $('#preview').attr('src', e.target.result);
-//              $("#remove").val(0);
-                };
-            }
-        }
-        function removeImage() {
-            $('#preview').attr('src', "{{asset('media/images/categories/original').'/'.$category->picture}}");
-//      $("#remove").val(1);
-        }
 
         $(document).ready(() => {
 
             $("#checkbox-name-rtl").on("change", () => {
                 if ($("#checkbox-name-rtl").prop("checked") == true) {
                     $("[name='category-name-ar']").attr("dir", "rtl");
-                } else {
-                    $("[name='category-name-ar']").removeAttr("dir");
-                }
-            });
-
-            $("#checkbox-tags-rtl").on("change", () => {
-                if ($("#checkbox-tags-rtl").prop("checked") == true) {
                     $("[name='category-tags-ar']").attr("dir", "rtl");
                 } else {
+                    $("[name='category-name-ar']").removeAttr("dir");
                     $("[name='category-tags-ar']").removeAttr("dir");
                 }
             });

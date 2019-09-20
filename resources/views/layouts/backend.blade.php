@@ -128,13 +128,20 @@ MAIN CONTENT LAYOUT
         <!-- Side Navigation -->
         <div class="content-side content-side-full">
             <ul class="nav-main">
-                @if(Session::get('user-type')==3)
-                    <li class="nav-main-heading">DASHBOARD</li>
+                @if(Session::get('user-type')===3)
+                    <li class="nav-main-heading">General</li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('customers*') ? ' active' : '' }}"
                            href="{{url('/dashboard')}}">
                             <i class="nav-main-link-icon si si-pie-chart"></i>
-                            <span class="nav-main-link-name">Dashboard</span>
+                            <span class="nav-main-link-name">User Info</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link{{ request()->is('design*') ? ' active' : '' }}"
+                           href="{{url('/design')}}">
+                            <i class="nav-main-link-icon si si-pie-chart"></i>
+                            <span class="nav-main-link-name">Tablet design</span>
                         </a>
                     </li>
                     <li class="nav-main-heading">CONTENT</li>
@@ -154,14 +161,15 @@ MAIN CONTENT LAYOUT
                     </li>
                 @else
                     <li class="nav-main-heading">DASHBOARD</li>
-                    <li class="nav-main-item">
-                        <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}"
-                           href="{{url('/dashboard')}}">
-                            <i class="nav-main-link-icon si si-pie-chart"></i>
-                            <span class="nav-main-link-name">Overview</span>
-                        </a>
-                    </li>
                     @if(Session::get('user-type')==1)
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}"
+                               href="{{url('/dashboard')}}">
+                                <i class="nav-main-link-icon si si-pie-chart"></i>
+                                <span class="nav-main-link-name">Overview</span>
+                            </a>
+                        </li>
+
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->is('employees*') ? ' active' : '' }}"
                                href="{{url('/employees')}}">

@@ -63,7 +63,7 @@
                                     Product Name (Other language)
                                 </label>
                                 <div class="custom-control custom-checkbox custom-control-inline custom-control-primary mb-1">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl" >
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-name-rtl" name="rtl-direction">
                                     <label class="custom-control-label" for="checkbox-name-rtl">RTL?</label>
                                 </div>
                                 <input type="text" class="form-control" name="product-name-ar" placeholder="eg: Pizza">
@@ -146,10 +146,6 @@
                         <div class="col-lg-4 col-xl-3">
                             <div class="form-group">
                                 <label for="dm-project-edit-description">Description (Other language)</label>
-                                <div class="custom-control custom-checkbox custom-control-inline custom-control-primary">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-description-rtl">
-                                    <label class="custom-control-label" for="checkbox-description-rtl">RTL?</label>
-                                </div>
                                 <textarea class="form-control" name="product-description-ar" rows="6"
                                           placeholder="Product Description Here..."></textarea>
                             </div>
@@ -190,15 +186,9 @@
             $("#checkbox-name-rtl").on("change", () => {
                 if ($("#checkbox-name-rtl").prop("checked") == true) {
                     $("[name='product-name-ar']").attr("dir", "rtl");
-                } else {
-                    $("[name='product-name-ar']").removeAttr("dir");
-                }
-            });
-
-            $("#checkbox-description-rtl").on("change", () => {
-                if ($("#checkbox-description-rtl").prop("checked") == true) {
                     $("[name='product-description-ar']").attr("dir", "rtl");
                 } else {
+                    $("[name='product-name-ar']").removeAttr("dir");
                     $("[name='product-description-ar']").removeAttr("dir");
                 }
             });

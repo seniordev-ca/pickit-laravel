@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('auth')->group(function () {
-    Route::post('login', 'ApiController@doLogin');
+    Route::post('login', 'APIController@doLogin');
 });
 
 Route::middleware('api-auth')->group(function (){

@@ -65,7 +65,7 @@ class APIController
         $categories = Categories::where([
             ['customer_id', $client->id],
             ['show_flag', 1]
-        ])->get();
+        ])->orderBy('show_order')->get();
 
         return Utils::makeResponse([
             'category_array' => $categories
