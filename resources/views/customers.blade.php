@@ -131,7 +131,6 @@
                         url: '{{url('/customers/del')}}',
                         type: "POST",
                         data: {
-                            "_token": Laravel.csrfToken,
                             "id": id,
                         },
                         error: function () {
@@ -152,7 +151,6 @@
                         url: '{{url('/customers/toggle-enable')}}',
                         type: "POST",
                         data: {
-                            "_token": Laravel.csrfToken,
                             "id": id,
                         },
                         error: function () {

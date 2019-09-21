@@ -95,6 +95,7 @@ class AdminController
     {
         session()->remove('user');
         session()->remove('user-type');
+        session()->remove('selected-client-id');
         return redirect('/login');
     }
 
@@ -656,6 +657,11 @@ class AdminController
     public function showProductFirstPage()
     {
         if (session()->get('user-type') != 3) {
+
+            $client_id = session()->get('selected-client-id');
+            if (isset($client_id)) {
+                return redirect('products/' . $client_id);
+            }
             $customers_cnt = Customers::count();
             if ($customers_cnt > 0) {
                 $customers = Customers::get();
@@ -955,6 +961,12 @@ class AdminController
     public function showCategoryFirstPage()
     {
         if (session()->get('user-type') != 3) {
+
+            $client_id = session()->get('selected-client-id');
+            if (isset($client_id)) {
+                return redirect('categories/' . $client_id);
+            }
+
             $customers_cnt = Customers::count();
             if ($customers_cnt > 0) {
                 $customers = Customers::get();
@@ -1127,4 +1139,9 @@ class AdminController
         return back();
     }
 
+    public function setClientIdToSession() {
+        $id = request('id');
+        session()->put('selected-client-id', $id);
+        return Utils::makeResponse();
+    }
 }

@@ -247,10 +247,8 @@
                     url: '{{url('/customers/toggle-add-product')}}',
                     type: "POST",
                     data: {
-                        "_token": Laravel.csrfToken,
                         "product_id": id,
                         "customer_id": "{{$customer->id}}",
-
                     },
                     error: function () {
                     },

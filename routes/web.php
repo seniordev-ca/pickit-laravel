@@ -67,7 +67,9 @@ Route::middleware('customer-auth')->group(function (){
 });
 
 Route::middleware('user-auth')->group(function (){
+
     Route::get('/dashboard', 'AdminController@dashboard');
+    Route::post('/set-client-to-session', 'AdminController@setClientIdToSession');
 
     Route::prefix('customers')->group(function () {
         Route::get('/', 'AdminController@showCustomersPage');

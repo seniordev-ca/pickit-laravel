@@ -281,7 +281,6 @@
                 url: '{{url('/customers/resuscitate-customer')}}',
                 type: "POST",
                 data: {
-                    "_token": Laravel.csrfToken,
                     "id": id,
                     "start-date":  $("[name='start-date']").val(),
                     "expire-date":  $("[name='expire-date']").val(),

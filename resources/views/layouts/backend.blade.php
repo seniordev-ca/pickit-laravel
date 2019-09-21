@@ -398,7 +398,14 @@ MAIN CONTENT LAYOUT
 <!-- Laravel Scaffolding JS -->
 <script src="{{ mix('js/laravel.app.js') }}"></script>
 
-<script>window.baseUrl = '{{url('/')}}';</script>
+<script>
+    window.baseUrl = '{{url('/')}}';
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 @yield('js_after')
 </body>
 </html>

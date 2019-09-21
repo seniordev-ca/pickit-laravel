@@ -98,7 +98,6 @@
                     url: '{{url('/employees/del')}}',
                     type: "POST",
                     data: {
-                        "_token": Laravel.csrfToken,
                         "id": id,
                     },
                     error: function () {
@@ -119,7 +118,6 @@
                     url: '{{url('/employees/toggle-enable')}}',
                     type: "POST",
                     data: {
-                        "_token": Laravel.csrfToken,
                         "id": id,
                     },
                     error: function () {

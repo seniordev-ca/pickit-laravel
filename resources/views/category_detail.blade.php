@@ -190,7 +190,6 @@
                         url: '{{url('/products/del')}}',
                         type: "POST",
                         data: {
-                            "_token": Laravel.csrfToken,
                             "id": id,
                         },
                         error: function () {
@@ -211,7 +210,6 @@
                         url: '{{url('/products/toggle-visible')}}',
                         type: "POST",
                         data: {
-                            "_token": Laravel.csrfToken,
                             "id": id,
                         },
                         error: function () {

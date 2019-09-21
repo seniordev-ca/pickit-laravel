@@ -197,13 +197,12 @@
                     url: '{{url('/products/toggle-visible')}}',
                     type: "POST",
                     data: {
-                        "_token": Laravel.csrfToken,
                         "id": id,
                     },
                     error: function () {
                     },
                     success: function (data) {
-                        if (data.message.length == true) {
+                        if (data.message.length == 0) {
                             //window.location.reload();
                         }
                     }
@@ -211,7 +210,20 @@
             });
 
             $("#sel-client").on("change", () => {
-                window.location.href = $("#sel-client").val();
+                $.ajax({
+                    url: '{{url('/set-client-to-session')}}',
+                    type: "POST",
+                    data: {
+                        "id": $("#sel-client").val(),
+                    },
+                    error: function () {
+                    },
+                    success: function (data) {
+                        if (data.message.length == 0) {
+                            window.location.href = $("#sel-client").val();
+                        }
+                    }
+                });
             });
 
         });
