@@ -74,6 +74,10 @@ Route::middleware('user-auth')->group(function (){
         Route::post('/toggle-add-product', 'AdminController@toggleCustomerAddProduct');
     });
 
+    Route::prefix('customers')->group(function () {
+        Route::get('/print-invoice/{id}', 'AdminController@showCustomerInvoicePrintPreviewPage');
+        Route::get('/print-invoice/{id}/print', 'AdminController@printCustomerInvoice');
+    });
 });
 
 Route::middleware('admin-auth')->group(function (){
@@ -96,8 +100,7 @@ Route::middleware('admin-auth')->group(function (){
         Route::post('/edit', 'AdminController@editCustomer');
         Route::post('/del', 'AdminController@delCustomer');
         Route::post('/toggle-enable', 'AdminController@toggleCustomerEnable');
-        Route::get('/print-invoice/{id}', 'AdminController@showCustomerInvoicePrintPreviewPage');
-        Route::get('/print-invoice/{id}/print', 'AdminController@printCustomerInvoice');
+
         Route::post('/resuscitate-customer', 'AdminController@resuscitateCustomer');
 
     });

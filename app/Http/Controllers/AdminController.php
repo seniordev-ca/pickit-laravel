@@ -850,6 +850,11 @@ class AdminController
                 mkdir($original_image_path);
             }
 
+            $appview_image_path = public_path('media/images/products/appview');
+            if (!file_exists($appview_image_path)) {
+                mkdir($appview_image_path);
+            }
+
             $thumbnail_image_path = public_path('media/images/products/thumbnail');
             if (!file_exists($thumbnail_image_path)) {
                 mkdir($thumbnail_image_path);
@@ -857,6 +862,14 @@ class AdminController
 
             //Save original image
             request()->image->move($original_image_path, $imageName);
+
+            // generate appview image
+            Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
+                ->resize(1200, 1200, function($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
+
 
             // generate thumbnail image
             Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)

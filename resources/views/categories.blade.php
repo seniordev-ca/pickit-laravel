@@ -149,7 +149,7 @@
         }
 
         $(document).ready(function () {
-            $("[name^='show-toggle-']").on('change', function () {
+            $(document).on('change', "[name^='show-toggle-']", function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
                     url: '{{url('/categories/toggle-visible')}}',

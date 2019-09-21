@@ -59,7 +59,11 @@
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="font-w600">
-                                <a href="{{url('/customers/edit').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                                @if(Session::get('user-type')==1)
+                                    <a href="{{url('/customers/edit').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                                @elseif(Session::get('user-type')==2)
+                                    <a href="{{url('/customers/detail').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                                @endif
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 {{ $customer->company }}

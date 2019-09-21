@@ -25,9 +25,11 @@
                     @csrf
                     <h2 class="content-heading pt-0">Customer Info</h2>
 
+                    @if(Session::get('user-type')==3)
                     <div class="alert alert-info" role="alert">
                         <p class="mb-0">You can change your account information on <a class="alert-link" href="{{url('profile')}}">Profile</a> page!</p>
                     </div>
+                    @endif
 
                     <div class="row push">
                         <div class="col-md-8">

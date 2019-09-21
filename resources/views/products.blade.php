@@ -210,6 +210,10 @@
                 });
             });
 
+            $("#sel-client").on("change", () => {
+                window.location.href = $("#sel-client").val();
+            });
+
         });
 
         function openVideoDialog(videoId, productName) {
