@@ -1047,6 +1047,16 @@ class AdminController
             'category-name' => 'required',
         ]);
 
+        if(isset($order)) {
+            if (Categories::where([
+                ['customer_id', $customer_id],
+                ['show_order', $order],
+            ])->count() > 0) {
+                return back()
+                    ->with('warning', 'The Order is already set.');
+            }
+        }
+
         $rtl_direction = 0;
         if (isset($direction) && $direction == 'on')
             $rtl_direction = 1;
@@ -1078,6 +1088,18 @@ class AdminController
         request()->validate([
             'category-name' => 'required',
         ]);
+
+        $customer_id = Categories::where('id', $id)->first()->customer_id;
+        if(isset($order)) {
+            if (Categories::where([
+                    ['customer_id', $customer_id],
+                    ['show_order', $order],
+                    ['id', '!=', $id],
+                ])->count() > 0) {
+                return back()
+                    ->with('warning', 'The Order is already set.');
+            }
+        }
 
         $rtl_direction = 0;
         if (isset($direction) && $direction == 'on')

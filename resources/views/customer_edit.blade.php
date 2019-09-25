@@ -290,7 +290,7 @@
                 error: function () {
                 },
                 success: function (data) {
-                    if (data.status == true) {
+                    if (data.message.length == 0) {
                         if (add_flag == 1) {
                             alert("You have successfully resuscitated this customer.");
                         } else {

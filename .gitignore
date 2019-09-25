@@ -1,5 +1,6 @@
 /node_modules
 /public/hot
+/public/media/images
 /public/storage
 /storage/*.key
 /vendor
@@ -11,3 +12,9 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+public/media/images/products/appview/1569118980.jpg
+public/media/images/products/appview/1569119193.jpg
+public/media/images/products/original/1569118980.jpg
+public/media/images/products/original/1569119193.jpg
+public/media/images/products/thumbnail/1569118980.jpg
+public/media/images/products/thumbnail/1569119193.jpg
