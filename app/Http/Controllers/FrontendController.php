@@ -48,7 +48,7 @@ class FrontendController
         $category_array = Categories::where([
             ['customer_id', $customer_id],
             ['show_flag', 1],
-        ])->get();
+        ])->orderBy('show_order')->get();
 
         $theme = Customers::where('id', $customer_id)->first();
         if ($theme == null) {
