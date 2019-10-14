@@ -37,7 +37,7 @@ class FrontendController
         $first_category = Categories::where([
             ['customer_id', $customer_id],
             ['show_flag', 1],
-        ])->first();
+        ])->orderBy('show_order')->first();
 
         if (!isset($category_id)) {
             if ($first_category != null)

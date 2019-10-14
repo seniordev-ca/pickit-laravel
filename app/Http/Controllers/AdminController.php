@@ -937,7 +937,7 @@ class AdminController
 
         $user_type = session()->get('user-type');
         if ($user_type === 1 || $user_type === 2) {
-            Products::where(true)->update(['show_flag', 1]);
+            Products::query()->update(['show_flag' => 1]);
         } else {
             $customer_id = session()->get('user')->id;
             Products::where('customer_id', $customer_id)->update(['show_flag' => 1]);
@@ -949,7 +949,7 @@ class AdminController
 
         $user_type = session()->get('user-type');
         if ($user_type === 1 || $user_type === 2) {
-            Products::where(true)->update(['show_flag', 0]);
+            Products::query()->update(['show_flag' => 0]);
         } else {
             $customer_id = session()->get('user')->id;
             Products::where('customer_id', $customer_id)->update(['show_flag' => 0]);
@@ -1142,7 +1142,7 @@ class AdminController
     public function toggleCategoryAllVisible() {
         $user_type = session()->get('user-type');
         if ($user_type === 1 || $user_type === 2) {
-            Categories::where(true)->update(['show_flag', 1]);
+            Categories::query()->update(['show_flag' => 1]);
         } else {
             $customer_id = session()->get('user')->id;
             Categories::where('customer_id', $customer_id)->update(['show_flag' => 1]);
@@ -1153,7 +1153,7 @@ class AdminController
     public function toggleCategoryAllInvisible() {
         $user_type = session()->get('user-type');
         if ($user_type === 1 || $user_type === 2) {
-            Categories::where(true)->update(['show_flag', 1]);
+            Categories::query()->update(['show_flag' => 0]);
         } else {
             $customer_id = session()->get('user')->id;
             Categories::where('customer_id', $customer_id)->update(['show_flag' => 0]);

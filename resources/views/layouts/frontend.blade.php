@@ -99,7 +99,7 @@ MAIN CONTENT LAYOUT
                 </div>
             </div>
             <div>
-                <h1 style="color: white; margin: 0px; font-size: 30px;">Welcome to Pick it System</h1>
+                <h1 class="front-header-text">Welcome to Pick it System</h1>
             </div>
             <!-- END Left Section -->
 
@@ -109,7 +109,7 @@ MAIN CONTENT LAYOUT
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-fw fa-user d-sm-none"></i>
+                        <i class="fa fa-language d-sm-none"></i>
                         <span class="d-none d-sm-inline-block">{{$lang == 'en' ? 'English' : 'عربي'}}</span>
                         <i class="fa fa-fw fa-angle-down ml-1 d-none d-sm-inline-block"></i>
                     </button>

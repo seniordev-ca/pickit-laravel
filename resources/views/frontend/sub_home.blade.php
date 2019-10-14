@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{asset('js/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('js/plugins/datatables/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" href="{{asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css">
 @endsection
 
 @section('css_after')
@@ -30,25 +31,83 @@
             background: {{$theme->product_background_color}};
             color: {{$theme->font_color}};
         }
+        .category-list-nav-bar-button {
+            padding-bottom: 20px;
+            display: none;
+        }
+        .category-list-nav-bar {
+            padding-bottom: 20px;
+            position: relative;
+        }
+        .front-header-text {
+            color: white; 
+            margin: 0px; 
+            font-size: 30px;
+        }
+        @media(max-width: 992px) {
+            .category-list-nav-bar {
+                display: none;
+            }
+            .category-list-nav-bar-button {
+                display: block;
+            }
+            .front-header-text {
+                font-size: 20px;
+            }
+        }
+
+        @media(max-width: 410px) {
+            .front-header-text {
+                font-size: 15px;
+            }
+        }
     </style>
 @endsection
 @section('content')
     <!-- Hero -->
-    <div class="bg-body-light" style="background-color: {{$theme->product_background_color}} !important;">
-        <div class="content content-full">
-            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                @foreach($category_array as $category)
-                    @if($category->id == $category_id)
-                        <a href="javascript:onCategoryChange({{$category->id}});" style="margin-right: 50px;"><h1 class="flex-sm-fill font-size-h2 mt-2 mb-0 mb-sm-2" style="color: {{$theme->font_color}}; font-weight: bold;">{{$lang == 'en' ? $category->name : $category->name_second}}</h1></a>
-                    @else
-                        <a href="javascript:onCategoryChange({{$category->id}});" style="margin-right: 50px;"><h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2" style="color: {{$theme->font_color}};">{{$lang == 'en' ? $category->name : $category->name_second}}</h1></a>
-                    @endif
 
+    <nav id="sidebar" aria-label="Main Navigation" style="background-color: {{$theme->product_background_color}} !important;">
+        <!-- Side Navigation -->
+        <div class="content-side content-side-full">
+            <ul class="nav-main">
+                @foreach($category_array as $category)
+                <li>
+                    @if($category->id == $category_id)
+                        <a href="javascript:onCategoryChange({{$category->id}});" style="margin-right: 50px;"><h1 class="flex-sm-fill font-size-h2 mt-2 mb-0 mb-sm-2" style="color: {{$theme->font_color}}; font-weight: bold;"><nobr>{{$lang == 'en' ? $category->name : $category->name_second}}</nobr></h1></a>
+                    @else
+                        <a href="javascript:onCategoryChange({{$category->id}});" style="margin-right: 50px;"><h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2" style="color: {{$theme->font_color}};"><nobr>{{$lang == 'en' ? $category->name : $category->name_second}}</nobr></h1></a>
+                    @endif
+                </li>
                 @endforeach
-                <div class="flex-sm-fill"></div>
-                <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
-                    <input type="text" placeholder="Search..." id="text-search" value="{{$search}}"/>
-                </nav>
+            </ul>
+        </div>
+        <!-- END Side Navigation -->
+    </nav>
+
+    <div class="bg-body-light" style="background-color: {{$theme->product_background_color}} !important;">
+        <div class="content content-full" style="padding-bottom: 20px;">
+            <div class="d-flex align-items-sm-center" style="justify-content: space-between;">
+                <div class="category-list-nav-bar" >
+                    <div class="d-flex">
+                        @foreach($category_array as $category)
+                            @if($category->id == $category_id)
+                                <a href="javascript:onCategoryChange({{$category->id}});" style="margin-right: 50px;"><span class="font-size-h2 mt-2 mb-0 mb-sm-2" style="color: {{$theme->font_color}}; font-weight: bold;"><nobr>{{$lang == 'en' ? $category->name : $category->name_second}}</nobr></span></a>
+                            @else
+                                <a href="javascript:onCategoryChange({{$category->id}});" style="margin-right: 50px;"><span class="font-size-h2 font-w400 mt-2 mb-0 mb-sm-2" style="color: {{$theme->font_color}};"><nobr>{{$lang == 'en' ? $category->name : $category->name_second}}</nobr></span></a>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+                <div class="category-list-nav-bar-button">
+                    <button type="button" class="btn btn-dual mr-1" data-toggle="layout" data-action="sidebar_toggle" style="color: white;">
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+                </div>
+                <div style="padding-bottom: 20px;">
+                    <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
+                        <input type="text" placeholder="Search..." id="text-search" value="{{$search}}"/>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -67,7 +126,7 @@
                         <div class="block block-rounded block-link-pop text-center" onclick="onProductSelect({{$product->id}});" >
                             <div class="bg-image" style="width: 100%; position: relative; padding-top:75%; background-image: url('{{asset('media/images/products/thumbnail').'/'.$product->picture}}');">
                                 <div class="block-content block-content-full d-flex justify-content-between" style="background-color: {{$theme->product_background_color.'90'}};">
-                                    <p class="mb-0">{{ $lang == 'en' ? $product->name : $product->name_second}}</p>
+                                    <p class="mb-0">{{ $lang == 'en' ? $product->name : ($product->name_second == null ? $product->name : $product->name_second)}}</p>
                                     @if(isset($product->video_id))
                                     <a href="javascript:;" onclick="event.stopPropagation(); onVideoButtonClicked('{{$product->video_id}}', '{{$lang == 'en' ? $product->name : $product->name_second}}'); " data-id="{{$product->id}}"><i class="far fa-play-circle" style="vertical-align: middle;"></i></a>
                                     @endif
@@ -108,9 +167,9 @@
     <!-- Page JS Plugins -->
     <script src="{{asset('js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
-    <!-- Page JS Code -->
     <script src="{{asset('js/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js"></script>
+    <!-- Page JS Code -->
     <script src="{{asset('js/pages/be_tables_datatables.min.js')}}"></script>
 
     <!-- Page JS Helpers (Select2 plugin) -->
@@ -157,11 +216,12 @@
                 },
                 success: function (data) {
                     if (data.message.length == 0 && data.data.product != undefined) {
+                        var lang = getUrlParameter('lang') == '' ? 'en' : getUrlParameter('lang');
                         var product = data.data.product;
-                        $("#modal-block-fadein .block-title").html(product.name);
+                        $("#modal-block-fadein .block-title").html((lang == 'en' ? product.name : (product.name_second == null ? product.name : product.name_second)));
                         var html_str = '<div style="margin-bottom: 8px;">';
                         html_str += '<img src="' + '{{asset('/media/images/products/original/')}}' + '/' + product.picture + '" style="width:100%;">';
-                        html_str += '<div><p>' + product.description + '</p><p>' + product.price + ' ' + product.currency.name +  '</p></div>'
+                        html_str += '<div><p>' + (lang == 'en' ? product.description : (product.description_second == null ? product.description : product.description_second)) + '</p><p>' + product.price + ' ' + product.currency.name +  '</p></div>'
                         html_str += '</div>';
                         $("#modal-content").html(html_str);
                         $("#modal-block-fadein").modal('show');
@@ -190,6 +250,9 @@
                 urlParams.append('search', $(this).val());
             }
             window.location.search = urlParams;
+        });
+        $(document).ready(function() {
+            $(".category-list-nav-bar").perfectScrollbar();
         });
     </script>
 @endsection
