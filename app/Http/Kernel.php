@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'user-auth' => UserAuth::class,
         'customer-auth' => CustomerAuth::class,
         'api-auth' => APIAuth::class,
+        'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,
     ];
 
     /**

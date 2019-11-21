@@ -43,6 +43,11 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.error-generate-api-token'));
         }
 
+        $categoryList = Categories::where([
+            ['customer_id', $user->id],
+            ['show_flag', 1],
+        ])->get();
+
         $user = $user->setHidden([
             'password'
         ]);
@@ -50,6 +55,7 @@ class APIController
         return Utils::makeResponse([
             'api_token' => $token,
             'user' => $user,
+            'category_array' => $categoryList
         ]);
     }
 
@@ -76,8 +82,8 @@ class APIController
     public function getProductsByCategory()
     {
         $category_id = request('category_id');
-        $title = request('title');
         $search_keyword = request('search_keyword');
+        $shown_count = request('shown_count');
 
         $where_clause = [];
         if ($search_keyword != "" && isset($search_keyword)) {
@@ -91,6 +97,18 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
+        $total_count = Products::where([
+            ['category_id', $category_id],
+            ['show_flag', 1]
+        ])->where(function ($query) use ($where_clause) {
+            if (count($where_clause ) > 0) {
+                $query->where([$where_clause[0]]);
+                for ($i = 1; $i < count($where_clause); $i++) {
+                    $query->orwhere([$where_clause[$i]]);
+                }
+            }
+        })->count();
+
         $products = Products::where([
             ['category_id', $category_id],
             ['show_flag', 1]
@@ -101,10 +119,11 @@ class APIController
                     $query->orwhere([$where_clause[$i]]);
                 }
             }
-        })->with('category', 'currency')->get();
+        })->offset($shown_count)->limit(12)->with('category', 'currency')->get();
 
         return Utils::makeResponse([
-            'product_array' => $products
+            'product_array' => $products,
+            'total' => $total_count
         ]);
 
     }
@@ -144,12 +163,18 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
+        $categoryList = Categories::where([
+            ['customer_id', $client->id],
+            ['show_flag', 1],
+        ])->get();
+
         $client = $client->setHidden([
             'password'
         ]);
 
         return Utils::makeResponse([
-            'client' => $client
+            'client' => $client,
+            'category_array' => $categoryList
         ]);
 
     }

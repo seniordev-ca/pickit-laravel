@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\In;
 use Intervention\Image\Facades\Image;
 use Barryvdh\DomPDF\Facade as PDF;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class AdminController
 {
@@ -681,6 +682,7 @@ class AdminController
         if (session()->get('user-type') != 3 || $customer_id == session()->get('user')->id) {
             $products = Products::where('customer_id', $customer_id)->with('category', 'currency')->get();
             $customers = Customers::get();
+
             return view('products')->with([
                 'products' => $products,
                 'customer_id' => $customer_id,
@@ -789,11 +791,13 @@ class AdminController
                 $constraint->aspectRatio();
             })
             ->save($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
+        ImageOptimizer::optimize($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         // generate thumbnail image
         Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
             ->fit(320, 320)
             ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
+        ImageOptimizer::optimize($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match))
             $video_id = $match[1];
@@ -1166,4 +1170,5 @@ class AdminController
         session()->put('selected-client-id', $id);
         return Utils::makeResponse();
     }
+
 }

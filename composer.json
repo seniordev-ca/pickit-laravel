@@ -12,9 +12,14 @@
         "barryvdh/laravel-cors": "^0.11.3",
         "barryvdh/laravel-dompdf": "^0.8.4",
         "fideloper/proxy": "^4.0",
+        "google/cloud-firestore": "^1.10",
+        "google/cloud-storage": "^1.15",
+        "google/protobuf": "^v3.3.0",
+        "grpc/grpc": "^v1.1.0",
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-image-optimizer": "^1.5",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
