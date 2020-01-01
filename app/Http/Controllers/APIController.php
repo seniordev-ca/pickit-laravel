@@ -9,6 +9,7 @@ use App\Http\Models\Products;
 use App\Http\Utils\Utils;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use function foo\func;
 
 
 class APIController
@@ -26,10 +27,12 @@ class APIController
 
         $credentials = request(['email', 'password']);
 
-        $user = Customers::where([
-            ['email', $credentials['email']],
-            ['enable_flag', 1],
-        ])->first();
+        $user = Customers::select('id','password','first_name', 'last_name', 'email', 'template_no', 'category_background_color',
+            'banner_color', 'font_color', 'product_background_color', 'company_logo')
+            ->where([
+                ['email', $credentials['email']],
+                ['enable_flag', 1],
+            ])->first();
 
         if ($user == null) {
             return Utils::makeResponse([], config('constants.response-message.invalid-credentials'));
@@ -43,10 +46,15 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.error-generate-api-token'));
         }
 
-        $categoryList = Categories::where([
+        $categoryList = Categories::select('id', 'name', 'name_second', 'rtl_direction')->where([
             ['customer_id', $user->id],
             ['show_flag', 1],
-        ])->get();
+        ])->orderBy('show_order')->with(['products' => function($query) {
+            $query->
+            select('category_id','name','name_second','picture','video_id','price','description','description_second','video_url','currency_id')->
+                where('show_flag', 1);
+            ;
+        }])->get();
 
         $user = $user->setHidden([
             'password'
@@ -68,13 +76,13 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
-        $categories = Categories::where([
+        $categoryList = Categories::select('id', 'name', 'name_second', 'rtl_direction')->where([
             ['customer_id', $client->id],
-            ['show_flag', 1]
-        ])->orderBy('show_order')->get();
+            ['show_flag', 1],
+        ])->orderBy('show_order')->with('products:category_id,name,name_second,picture,video_id,price,description,description_second,video_url,currency_id')->get();
 
         return Utils::makeResponse([
-            'category_array' => $categories
+            'category_array' => $categoryList
         ]);
 
     }
@@ -101,7 +109,7 @@ class APIController
             ['category_id', $category_id],
             ['show_flag', 1]
         ])->where(function ($query) use ($where_clause) {
-            if (count($where_clause ) > 0) {
+            if (count($where_clause) > 0) {
                 $query->where([$where_clause[0]]);
                 for ($i = 1; $i < count($where_clause); $i++) {
                     $query->orwhere([$where_clause[$i]]);
@@ -113,7 +121,7 @@ class APIController
             ['category_id', $category_id],
             ['show_flag', 1]
         ])->where(function ($query) use ($where_clause) {
-            if (count($where_clause ) > 0) {
+            if (count($where_clause) > 0) {
                 $query->where([$where_clause[0]]);
                 for ($i = 1; $i < count($where_clause); $i++) {
                     $query->orwhere([$where_clause[$i]]);
@@ -157,16 +165,26 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
-        $client = Customers::where('email', $client_email)->first();
+        $client = Customers::select('id','password','first_name', 'last_name', 'email', 'template_no', 'category_background_color',
+            'banner_color', 'font_color', 'product_background_color',f 'company_logo')
+            ->where([
+                ['email', $client_email],
+                ['enable_flag', 1],
+            ])->first();
 
         if ($client == null) {
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
-        $categoryList = Categories::where([
+        $categoryList = Categories::select('id', 'name', 'name_second', 'rtl_direction')->where([
             ['customer_id', $client->id],
             ['show_flag', 1],
-        ])->get();
+        ])->orderBy('show_order')->with(['products' => function($query) {
+            $query->
+            select('category_id','name','name_second','picture','video_id','price','description','description_second','video_url','currency_id')->
+            where('show_flag', 1);
+            ;
+        }])->get();
 
         $client = $client->setHidden([
             'password'

@@ -20,7 +20,7 @@
             background-color: transparent;
             box-shadow: 0 2px 4px {{$theme->font_color}};
         }
-        div.block p {
+        div.block p, div.block span {
             font-size: 18px;
             color: {{$theme->font_color}};
         }
@@ -40,8 +40,8 @@
             position: relative;
         }
         .front-header-text {
-            color: white; 
-            margin: 0px; 
+            color: white;
+            margin: 0px;
             font-size: 30px;
         }
         @media(max-width: 992px) {
@@ -59,6 +59,9 @@
         @media(max-width: 410px) {
             .front-header-text {
                 font-size: 15px;
+            }
+            .search-bar-div {
+                align-items: center;
             }
         }
     </style>
@@ -79,6 +82,9 @@
                     @endif
                 </li>
                 @endforeach
+                <li>
+                    <a href="tel:{{$theme->phonenumber}}"><i class="fa fa-phone"></i> {{$theme->phonenumber}}</a>
+                </li>
             </ul>
         </div>
         <!-- END Side Navigation -->
@@ -86,7 +92,7 @@
 
     <div class="bg-body-light" style="background-color: {{$theme->product_background_color}} !important;">
         <div class="content content-full" style="padding-bottom: 20px;">
-            <div class="d-flex align-items-sm-center" style="justify-content: space-between;">
+            <div class="d-flex align-items-sm-center search-bar-div" style="justify-content: space-between;">
                 <div class="category-list-nav-bar" >
                     <div class="d-flex">
                         @foreach($category_array as $category)
@@ -102,6 +108,7 @@
                     <button type="button" class="btn btn-dual mr-1" data-toggle="layout" data-action="sidebar_toggle" style="color: white;">
                         <i class="fa fa-fw fa-bars"></i>
                     </button>
+                    <a href="tel:{{$theme->phonenumber}}" style="color: white; font-size: 13px;"><i class="fa fa-phone"></i></a>
                 </div>
                 <div style="padding-bottom: 20px;">
                     <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
@@ -221,7 +228,13 @@
                         $("#modal-block-fadein .block-title").html((lang == 'en' ? product.name : (product.name_second == null ? product.name : product.name_second)));
                         var html_str = '<div style="margin-bottom: 8px;">';
                         html_str += '<img src="' + '{{asset('/media/images/products/original/')}}' + '/' + product.picture + '" style="width:100%;">';
-                        html_str += '<div><p>' + (lang == 'en' ? product.description : (product.description_second == null ? product.description : product.description_second)) + '</p><p>' + product.price + ' ' + product.currency.name +  '</p></div>'
+                        html_str += '<div>' +
+                            '<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">' +
+                            '<span style="font-weight: bold;">' + (lang == 'en' ? product.name : (product.name_second == null ? product.name : product.name_second)) + '</span>' +
+                            '<span>' + product.price + ' ' + product.currency.name + '</span>' +
+                            '</div>' +
+                            '<p>' + (lang == 'en' ? product.description : (product.description_second == null ? product.description : product.description_second)) + '</p>' +
+                            '</div>';
                         html_str += '</div>';
                         $("#modal-content").html(html_str);
                         $("#modal-block-fadein").modal('show');

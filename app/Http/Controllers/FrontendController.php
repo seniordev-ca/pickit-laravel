@@ -91,7 +91,7 @@ class FrontendController
             'theme' => $theme,
             'category_id' => $category_id,
             'lang' => $lang,
-            'search' => $search
+            'search' => $search,
         ]);
     }
 
