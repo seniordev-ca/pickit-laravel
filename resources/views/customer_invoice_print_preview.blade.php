@@ -17,8 +17,8 @@
         <div class="block block-rounded block-bordered">
             <div class="block-content">
                 <div align="right">
-                    <a href="{{url('/customers/print-invoice').'/'.$customer->id.'/print'}}" class="btn btn-primary"><i class="si si-printer"></i> Export to PDF</a>
-                    <a href="{{url('/customers')}}" class="btn btn-warning"><i class="far fa-arrow-alt-circle-left"></i> Back</a>
+                    <a href="{{url('/admin/customers/print-invoice').'/'.$customer->id.'/print'}}" class="btn btn-primary"><i class="si si-printer"></i> Export to PDF</a>
+                    <a href="{{url('/admin/customers')}}" class="btn btn-warning"><i class="far fa-arrow-alt-circle-left"></i> Back</a>
                 </div>
 
                 <div align="center">

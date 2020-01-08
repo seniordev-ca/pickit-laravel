@@ -31,7 +31,7 @@
             </div>
             <div class="block-content block-content-full">
                 <div style="margin-bottom: 10px;">
-                    <a class="btn btn-primary" href="{{url('/employees/add')}}"><i class="fa fa-user-plus"></i> Add Employees</a>
+                    <a class="btn btn-primary" href="{{url('/admin/employees/add')}}"><i class="fa fa-user-plus"></i> Add Employees</a>
                 </div>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
@@ -64,7 +64,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <a href="{{url('/employees/edit').'/'.$employee->id}}"
+                                    <a href="{{url('/admin/employees/edit').'/'.$employee->id}}"
                                        class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
@@ -95,7 +95,7 @@
         function delEmployee(id) {
             if (confirm("Do you want delete this employee's account?")) {
                 $.ajax({
-                    url: '{{url('/employees/del')}}',
+                    url: '{{url('/admin/employees/del')}}',
                     type: "POST",
                     data: {
                         "id": id,
@@ -115,7 +115,7 @@
             $("[name^='enable-toggle-']").on('change', function () {
                 var id = this.name.split("enable-toggle-")[1];
                 $.ajax({
-                    url: '{{url('/employees/toggle-enable')}}',
+                    url: '{{url('/admin/employees/toggle-enable')}}',
                     type: "POST",
                     data: {
                         "id": id,

@@ -22,7 +22,7 @@
                     <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
                     <div class="row no-gutters justify-content-center">
                         <div class="col-sm-8 col-xl-6">
-                            <form class="js-validation-signin" action="{{url('/login')}}" method="post">
+                            <form class="js-validation-signin" action="{{url('/admin/login')}}" method="post">
                                 @csrf
                                 <div class="py-3">
                                     <div class="form-group">

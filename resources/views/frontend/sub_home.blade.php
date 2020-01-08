@@ -212,7 +212,7 @@
 
         function onProductSelect(id) {
             $.ajax({
-                url: baseUrl + "/product/get",
+                url: baseUrl + "/admin/product/get",
                 type: "POST",
                 data: {
                     "_token": Laravel.csrfToken,

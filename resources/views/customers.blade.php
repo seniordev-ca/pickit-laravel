@@ -32,7 +32,7 @@
             <div class="block-content block-content-full">
                 @if(Session::get('user-type')==1)
                     <div style="margin-bottom: 10px;">
-                        <a class="btn btn-primary" href="{{url('/customers/add')}}"><i class="si si-user-follow"></i>
+                        <a class="btn btn-primary" href="{{url('/admin/customers/add')}}"><i class="si si-user-follow"></i>
                             Add
                             Client</a>
                     </div>
@@ -60,9 +60,9 @@
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="font-w600">
                                 @if(Session::get('user-type')==1)
-                                    <a href="{{url('/customers/edit').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                                    <a href="{{url('/admin/customers/edit').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
                                 @elseif(Session::get('user-type')==2)
-                                    <a href="{{url('/customers/detail').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
+                                    <a href="{{url('/admin/customers/detail').'/'.$customer->id}}">{{$customer->first_name.' '.$customer->last_name}}</a>
                                 @endif
                             </td>
                             <td class="d-none d-sm-table-cell">
@@ -88,13 +88,13 @@
                                 </td>
                             @endif
                             <td class="text-center">
-                                <a href="{{url('/customers/print-invoice').'/'.$customer->id}}"><i
+                                <a href="{{url('/admin/customers/print-invoice').'/'.$customer->id}}"><i
                                         class="si si-printer"></i></a>
                             </td>
                             @if(Session::get('user-type')==1)
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <a href="{{url('/customers/edit').'/'.$customer->id}}"
+                                        <a href="{{url('/admin/customers/edit').'/'.$customer->id}}"
                                            class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
@@ -128,7 +128,7 @@
             function delCustomer(id) {
                 if (confirm("Do you want delete this customer?")) {
                     $.ajax({
-                        url: '{{url('/customers/del')}}',
+                        url: '{{url('/admin/customers/del')}}',
                         type: "POST",
                         data: {
                             "id": id,
@@ -148,7 +148,7 @@
                 $("[name^='enable-toggle-']").on('change', function () {
                     var id = this.name.split("enable-toggle-")[1];
                     $.ajax({
-                        url: '{{url('/customers/toggle-enable')}}',
+                        url: '{{url('/admin/customers/toggle-enable')}}',
                         type: "POST",
                         data: {
                             "id": id,

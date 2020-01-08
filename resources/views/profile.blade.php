@@ -109,7 +109,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-check-circle mr-1"></i> Submit
                                 </button>
-                                <a class="btn btn-danger" href="{{url('/dashboard')}}">
+                                <a class="btn btn-danger" href="{{url('/admin/dashboard')}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>

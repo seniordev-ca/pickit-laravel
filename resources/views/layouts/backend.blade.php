@@ -89,7 +89,7 @@ MAIN CONTENT LAYOUT
         <div class="bg-header-dark">
             <div class="content-header bg-white-10 header-div-logo">
                 <!-- Logo -->
-                <a class="font-w600 font-size-lg text-white" href="{{url('/dashboard')}}">
+                <a class="font-w600 font-size-lg text-white" href="{{url('/admin/dashboard')}}">
                     <img src="{{asset('/media/logo.png')}}" style="width: 80px;">
                     {{--                            <span class="text-white-75">Dash</span><span class="text-white">mix</span>--}}
                 </a>
@@ -103,7 +103,7 @@ MAIN CONTENT LAYOUT
         <div class="bg-header-light">
             <div class="content-header bg-white-10 header-div-avatar">
                 <a class="block block-rounded text-center bg-image header-a-avatar"
-                   style="background-image: url({{asset('media/photos/Food1.jpg')}});" href="{{url('/profile')}}">
+                   style="background-image: url({{asset('media/photos/Food1.jpg')}});" href="{{url('/admin/profile')}}">
                     <div class="block-content bg-white-90">
                         <img class="img-avatar img-avatar-thumb"
                              src="{{asset('media/avatars').'/'.Session::get('user')->avatar}}" alt="">
@@ -132,14 +132,14 @@ MAIN CONTENT LAYOUT
                     <li class="nav-main-heading">General</li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('customers*') ? ' active' : '' }}"
-                           href="{{url('/dashboard')}}">
+                           href="{{url('/admin/dashboard')}}">
                             <i class="nav-main-link-icon si si-pie-chart"></i>
                             <span class="nav-main-link-name">User Info</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('design*') ? ' active' : '' }}"
-                           href="{{url('/design')}}">
+                           href="{{url('/admin/design')}}">
                             <i class="nav-main-link-icon si si-pie-chart"></i>
                             <span class="nav-main-link-name">Tablet design</span>
                         </a>
@@ -147,14 +147,14 @@ MAIN CONTENT LAYOUT
                     <li class="nav-main-heading">CONTENT</li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('product*') ? ' active' : '' }}"
-                           href="{{url('/products')}}">
+                           href="{{url('/admin/products')}}">
                             <i class="nav-main-link-icon far fa-edit"></i>
                             <span class="nav-main-link-name">Products</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('categories*') ? ' active' : '' }}"
-                           href="{{url('/categories')}}">
+                           href="{{url('/admin/categories')}}">
                             <i class="nav-main-link-icon si si-notebook"></i>
                             <span class="nav-main-link-name">Categories</span>
                         </a>
@@ -164,7 +164,7 @@ MAIN CONTENT LAYOUT
                     @if(Session::get('user-type')==1)
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}"
-                               href="{{url('/dashboard')}}">
+                               href="{{url('/admin/dashboard')}}">
                                 <i class="nav-main-link-icon si si-pie-chart"></i>
                                 <span class="nav-main-link-name">Overview</span>
                             </a>
@@ -172,7 +172,7 @@ MAIN CONTENT LAYOUT
 
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->is('employees*') ? ' active' : '' }}"
-                               href="{{url('/employees')}}">
+                               href="{{url('/admin/employees')}}">
                                 <i class="nav-main-link-icon far fa-user-circle"></i>
                                 <span class="nav-main-link-name">Employees</span>
                             </a>
@@ -180,7 +180,7 @@ MAIN CONTENT LAYOUT
                     @endif
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('customers*') ? ' active' : '' }}"
-                           href="{{url('/customers')}}">
+                           href="{{url('/admin/customers')}}">
                             <i class="nav-main-link-icon si si-emoticon-smile"></i>
                             <span class="nav-main-link-name">Clients</span>
                         </a>
@@ -200,14 +200,14 @@ MAIN CONTENT LAYOUT
                     <li class="nav-main-heading">CONTENT</li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('product*') ? ' active' : '' }}"
-                           href="{{url('/products')}}">
+                           href="{{url('/admin/products')}}">
                             <i class="nav-main-link-icon far fa-edit"></i>
                             <span class="nav-main-link-name">Products</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link{{ request()->is('categories*') ? ' active' : '' }}"
-                           href="{{url('/categories')}}">
+                           href="{{url('/admin/categories')}}">
                             <i class="nav-main-link-icon si si-notebook"></i>
                             <span class="nav-main-link-name">Categories</span>
                         </a>
@@ -256,11 +256,11 @@ MAIN CONTENT LAYOUT
                             User Options
                         </div>
                         <div class="p-2">
-                            <a class="dropdown-item" href="{{url('/profile')}}">
+                            <a class="dropdown-item" href="{{url('/admin/profile')}}">
                                 <i class="far fa-fw fa-user mr-1"></i> Profile
                             </a>
                             <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{url('/logout')}}">
+                            <a class="dropdown-item" href="{{url('/admin/logout')}}">
                                 <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> Sign Out
                             </a>
                         </div>

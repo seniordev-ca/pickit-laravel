@@ -39,7 +39,7 @@
                     </div>
                 @endif
 
-                <form action="/employees/add" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/admin/employees/add')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row push">
                         <div class="col-md-8">
@@ -79,7 +79,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-check-circle mr-1"></i> Submit
                                 </button>
-                                <a class="btn btn-danger" href="{{url('/employees')}}">
+                                <a class="btn btn-danger" href="{{url('/admin/employees')}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>

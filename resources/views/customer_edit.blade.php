@@ -39,7 +39,7 @@
                     </div>
                 @endif
 
-                <form action="/customers/edit" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/admin/customers/edit')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row push">
                         <div class="col-md-8">
@@ -191,7 +191,7 @@
                                 <label for="dm-project-new-name">
                                     URL (Frontend Site URL)
                                 </label>
-                                <label class="form-control">{{url('/restaurant').'/'.$customer->id}}</label>
+                                <label class="form-control">{{url('/admin/restaurant').'/'.$customer->id}}</label>
                             </div>
 
                         </div>
@@ -205,7 +205,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-check-circle mr-1"></i> Submit
                                 </button>
-                                <a class="btn btn-danger" href="{{url('/customers')}}">
+                                <a class="btn btn-danger" href="{{url('/admin/customers')}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>
@@ -278,7 +278,7 @@
         }
         function resuscitateCustomer(id, add_flag) {
             $.ajax({
-                url: '{{url('/customers/resuscitate-customer')}}',
+                url: '{{url('/admin/customers/resuscitate-customer')}}',
                 type: "POST",
                 data: {
                     "id": id,

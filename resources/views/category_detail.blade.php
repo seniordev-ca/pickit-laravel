@@ -113,7 +113,7 @@
                                             </div>
                                         </td>
                                         <td class="d-none d-sm-table-cell">
-                                            <a href="{{url('/products/detail/').'/'.$product->id}}">{{$product->name}}</a>
+                                            <a href="{{url('/admin/products/detail/').'/'.$product->id}}">{{$product->name}}</a>
                                         </td>
                                         <td class="d-none d-sm-table-cell">
                                             {{$product->description}}
@@ -136,7 +136,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <a href="{{url('/products/edit').'/'.$product->id}}"
+                                                    <a href="{{url('/admin/products/edit').'/'.$product->id}}"
                                                        class="btn btn-sm btn-primary" data-toggle="tooltip"
                                                        title="Edit">
                                                         <i class="fa fa-pencil-alt"></i>
@@ -160,7 +160,7 @@
                     <div class="row push">
                         <div class="col-lg-8 col-xl-5 offset-lg-4">
                             <div class="form-group">
-                                <a class="btn btn-warning" href="{{url('/categories').'/'.$category->customer_id}}">
+                                <a class="btn btn-warning" href="{{url('/admin/categories').'/'.$category->customer_id}}">
                                     <i class="far fa-arrow-alt-circle-left"></i> Back
                                 </a>
                             </div>
@@ -187,7 +187,7 @@
             function delProduct(id) {
                 if (confirm("Do you want delete this product?")) {
                     $.ajax({
-                        url: '{{url('/products/del')}}',
+                        url: '{{url('/admin/products/del')}}',
                         type: "POST",
                         data: {
                             "id": id,
@@ -207,7 +207,7 @@
                 $("[name^='show-toggle-']").on('change', function () {
                     var id = this.name.split("show-toggle-")[1];
                     $.ajax({
-                        url: '{{url('/products/toggle-visible')}}',
+                        url: '{{url('/admin/products/toggle-visible')}}',
                         type: "POST",
                         data: {
                             "id": id,

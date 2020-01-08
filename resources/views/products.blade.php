@@ -52,12 +52,12 @@
             </div>
             <div class="block-content block-content-full">
                 <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
-                    <a class="btn btn-primary" href="{{url('/products/').'/'.$customer_id.'/add'}}"><i
+                    <a class="btn btn-primary" href="{{url('/admin/products/').'/'.$customer_id.'/add'}}"><i
                             class="si si-plus"></i> Add Product</a>
                     <div>
-                        <a class="btn btn-success" href="{{url('/products/show-all')}}"><i
+                        <a class="btn btn-success" href="{{url('/admin/products/show-all')}}"><i
                                 class="far fa-eye"></i> Show all</a>
-                        <a class="btn btn-warning" href="{{url('/products/hide-all')}}"><i
+                        <a class="btn btn-warning" href="{{url('/admin/products/hide-all')}}"><i
                                 class="far fa-eye-slash"></i> Hide all</a>
                     </div>
                 </div>
@@ -87,10 +87,10 @@
                                 </div>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <a href="{{url('/products/edit/').'/'.$product->id}}">{{$product->name}}</a>
+                                <a href="{{url('/admin/products/edit/').'/'.$product->id}}">{{$product->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
-                                <a href="{{url('categories/detail/').'/'.$product->category->id}}">{{$product->category->name}}</a>
+                                <a href="{{url('/admin/categories/detail/').'/'.$product->category->id}}">{{$product->category->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 {{$product->description}}
@@ -115,7 +115,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <a href="{{url('/products/edit').'/'.$product->id}}"
+                                    <a href="{{url('/admin/products/edit').'/'.$product->id}}"
                                        class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
@@ -172,7 +172,7 @@
         function delProduct(id) {
             if (confirm("Do you want delete this product?")) {
                 $.ajax({
-                    url: '{{url('/products/del')}}',
+                    url: '{{url('/admin/products/del')}}',
                     type: "POST",
                     data: {
                         "_token": Laravel.csrfToken,
@@ -194,7 +194,7 @@
             $(document).on('change', "[name^='show-toggle-']", function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
-                    url: '{{url('/products/toggle-visible')}}',
+                    url: '{{url('/admin/products/toggle-visible')}}',
                     type: "POST",
                     data: {
                         "id": id,
@@ -211,7 +211,7 @@
 
             $("#sel-client").on("change", () => {
                 $.ajax({
-                    url: '{{url('/set-client-to-session')}}',
+                    url: '{{url('/admin/set-client-to-session')}}',
                     type: "POST",
                     data: {
                         "id": $("#sel-client").val(),

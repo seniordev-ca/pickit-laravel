@@ -28,9 +28,9 @@ class AdminController
 
         if (isset($user) && isset($user_type)) {
             if ($user_type == 3) {
-                return redirect('/my-page');
+                return redirect('/admin/my-page');
             } else {
-                return redirect('/dashboard');
+                return redirect('/admin/dashboard');
             }
         } else {
             return view('login');
@@ -69,7 +69,7 @@ class AdminController
                 }
                 session()->put('user', $customer);
                 session()->put('user-type', 3);
-                return redirect('/my-page');
+                return redirect('/admin/my-page');
             }
 
             if (!hash::check($password, $user->password)) {
@@ -79,7 +79,7 @@ class AdminController
 
             session()->put('user', $user);
             session()->put('user-type', 2);
-            return redirect('/dashboard');
+            return redirect('/admin/dashboard');
         }
 
         if (!hash::check($password, $admin->password)) {
@@ -89,7 +89,7 @@ class AdminController
 
         session()->put('user', $admin);
         session()->put('user-type', 1);
-        return redirect('/dashboard');
+        return redirect('/admin/dashboard');
     }
 
     public function logout()
@@ -97,7 +97,7 @@ class AdminController
         session()->remove('user');
         session()->remove('user-type');
         session()->remove('selected-client-id');
-        return redirect('/login');
+        return redirect('/admin/login');
     }
 
     public function dashboard()
@@ -124,7 +124,7 @@ class AdminController
         $user_type = session()->get('user-type');
 
         if ($user_type == 3) {
-            return redirect("/customers/detail/$user->id");
+            return redirect("/admin/customers/detail/$user->id");
         } else {
             return view('profile')->with('user', $user);
         }
@@ -368,7 +368,7 @@ class AdminController
                 'customer' => $customer
             ]);
         }
-        return redirect('/customers');
+        return redirect('/admin/customers');
     }
 
     public function showCustomerDetailPage()
@@ -380,7 +380,7 @@ class AdminController
         $user_type = session()->get('user-type');
         $user = session()->get('user');
         if($user_type === 3 && $user->id != $id) {
-            return redirect('/my-page');
+            return redirect('/admin/my-page');
         }
 
         $products = Products::where('customer_id', $id)->with('category','currency')->get();
@@ -390,7 +390,7 @@ class AdminController
                 'products' => $products
             ]);
         }
-        return redirect('/customers');
+        return redirect('/admin/customers');
     }
 
     public function addCustomer()
@@ -661,19 +661,19 @@ class AdminController
 
             $client_id = session()->get('selected-client-id');
             if (isset($client_id)) {
-                return redirect('products/' . $client_id);
+                return redirect('/admin/products/' . $client_id);
             }
             $customers_cnt = Customers::count();
             if ($customers_cnt > 0) {
                 $customers = Customers::get();
-                return redirect('products/' . $customers[0]->id);
+                return redirect('/admin/products/' . $customers[0]->id);
             }
 
             return view('customer_add')->with([
                 'warning' => 'Warning'
             ]);
         }
-        return redirect('products/'.session()->get('user')->id);
+        return redirect('/admin/products/'.session()->get('user')->id);
     }
 
     public function showProductsPage()
@@ -689,7 +689,7 @@ class AdminController
                 'customers' => $customers
             ]);
         }
-        return redirect('products/'.session()->get('user')->id);
+        return redirect('/admin/products/'.session()->get('user')->id);
     }
 
     public function showProductAddPage()
@@ -720,7 +720,7 @@ class AdminController
                 'currency_list' => $currency_list,
             ]);
         }
-        return redirect('/products');
+        return redirect('/admin/products');
     }
 
     public function showProductDetailPage()
@@ -734,7 +734,7 @@ class AdminController
                 'categories' => $categories
             ]);
         }
-        return redirect('/products');
+        return redirect('/admin/products');
     }
 
     public function addProduct()
@@ -968,20 +968,20 @@ class AdminController
 
             $client_id = session()->get('selected-client-id');
             if (isset($client_id)) {
-                return redirect('categories/' . $client_id);
+                return redirect('/admin/categories/' . $client_id);
             }
 
             $customers_cnt = Customers::count();
             if ($customers_cnt > 0) {
                 $customers = Customers::get();
-                return redirect('categories/' . $customers[0]->id);
+                return redirect('/admin/categories/' . $customers[0]->id);
             }
 
             return view('customer_add')->with([
                 'warning' => 'Warning'
             ]);
         }
-        return redirect('categories/'.session()->get('user')->id);
+        return redirect('/admin/categories/'.session()->get('user')->id);
     }
 
     public function showCategoriesPage()
@@ -996,7 +996,7 @@ class AdminController
                 'customers' => $customers
             ]);
         }
-        return redirect('categories/'.session()->get('user')->id);
+        return redirect('/admin/categories/'.session()->get('user')->id);
     }
 
     public function showCategoryAddPage()
@@ -1017,7 +1017,7 @@ class AdminController
                 'category' => $category
             ]);
         }
-        return redirect('/categories');
+        return redirect('/admin/categories');
     }
 
     public function showCategoryDetailPage()
@@ -1031,7 +1031,7 @@ class AdminController
                 'products' => $products
             ]);
         }
-        return redirect('/categories');
+        return redirect('/admin/categories');
     }
 
     public function addCategory()

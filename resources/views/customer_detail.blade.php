@@ -27,7 +27,7 @@
 
                     @if(Session::get('user-type')==3)
                     <div class="alert alert-info" role="alert">
-                        <p class="mb-0">You can change your account information on <a class="alert-link" href="{{url('profile')}}">Profile</a> page!</p>
+                        <p class="mb-0">You can change your account information on <a class="alert-link" href="{{url('/admin/profile')}}">Profile</a> page!</p>
                     </div>
                     @endif
 
@@ -216,7 +216,7 @@
                     <div class="row push">
                         <div class="col-lg-8 col-xl-5 offset-lg-4">
                             <div class="form-group">
-                                <a class="btn btn-warning" href="{{url('/customers')}}">
+                                <a class="btn btn-warning" href="{{url('/admin/customers')}}">
                                     <i class="far fa-arrow-alt-circle-left"></i> Back
                                 </a>
                             </div>
@@ -244,7 +244,7 @@
             $("[name^='show-toggle-']").on('change', function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
-                    url: '{{url('/customers/toggle-add-product')}}',
+                    url: '{{url('/admin/customers/toggle-add-product')}}',
                     type: "POST",
                     data: {
                         "product_id": id,

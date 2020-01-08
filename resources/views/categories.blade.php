@@ -51,12 +51,12 @@
             </div>
             <div class="block-content block-content-full">
                 <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
-                    <a class="btn btn-primary" href="{{url('/categories').'/'.$customer_id.'/add'}}"><i
+                    <a class="btn btn-primary" href="{{url('/admin/categories').'/'.$customer_id.'/add'}}"><i
                             class="si si-plus"></i> Add Category</a>
                     <div>
-                        <a class="btn btn-success" href="{{url('/categories/show-all')}}"><i
+                        <a class="btn btn-success" href="{{url('/admin/categories/show-all')}}"><i
                                 class="far fa-eye"></i> Show all</a>
-                        <a class="btn btn-warning" href="{{url('/categories/hide-all')}}"><i
+                        <a class="btn btn-warning" href="{{url('/admin/categories/hide-all')}}"><i
                                 class="far fa-eye-slash"></i> Hide all</a>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="d-none d-sm-table-cell">
-                                <a href="{{url('/categories/edit').'/'.$category->id}}">{{$category->name}}</a>
+                                <a href="{{url('/admin/categories/edit').'/'.$category->id}}">{{$category->name}}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <span class="badge badge-primary">{{$category->tags}}</span>
@@ -95,7 +95,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <a href="{{url('/categories/edit').'/'.$category->id}}"
+                                    <a href="{{url('/admin/categories/edit').'/'.$category->id}}"
                                        class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
@@ -131,7 +131,7 @@
         function delCategory(id) {
             if (confirm("Do you want delete this category?\nThe data related to this category (Products) will be also deleted.")) {
                 $.ajax({
-                    url: '{{url('/categories/del')}}',
+                    url: '{{url('/admin/categories/del')}}',
                     type: "POST",
                     data: {
                         "id": id,
@@ -151,7 +151,7 @@
             $(document).on('change', "[name^='show-toggle-']", function () {
                 var id = this.name.split("show-toggle-")[1];
                 $.ajax({
-                    url: '{{url('/categories/toggle-visible')}}',
+                    url: '{{url('/admin/categories/toggle-visible')}}',
                     type: "POST",
                     data: {
                         "id": id,
@@ -168,7 +168,7 @@
 
             $("#sel-client").on("change", () => {
                 $.ajax({
-                    url: '{{url('/set-client-to-session')}}',
+                    url: '{{url('/admin/set-client-to-session')}}',
                     type: "POST",
                     data: {
                         "id": $("#sel-client").val(),

@@ -22,7 +22,7 @@
     <div class="content">
         <div class="row gutters-tiny push">
             <div class="col-6 col-md-4 col-xl-3">
-                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/photo19.jpg')}});" href="{{url('/employees')}}">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/photo19.jpg')}});" href="{{url('/admin/employees')}}">
                     <div class="block-content block-content-full bg-primary-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
                         <div>
                             <div class="font-size-h1 font-w300 text-white">{{$employees}}</div>
@@ -32,7 +32,7 @@
                 </a>
             </div>
             <div class="col-6 col-md-4 col-xl-3">
-                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/photo18.jpg')}});" href="{{url('/customers')}}">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/photo18.jpg')}});" href="{{url('/admin/customers')}}">
                     <div class="block-content block-content-full bg-xsmooth-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
                         <div>
                             <div class="font-size-h1 font-w300 text-white">{{$customers}}</div>
@@ -42,7 +42,7 @@
                 </a>
             </div>
             <div class="col-6 col-md-4 col-xl-3">
-                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/Food4.jpg')}});" href="{{url('/products')}}">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/Food4.jpg')}});" href="{{url('/admin/products')}}">
                     <div class="block-content block-content-full bg-xmodern-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
                         <div>
                             <div class="font-size-h1 font-w300 text-white">{{$products}}</div>
@@ -52,7 +52,7 @@
                 </a>
             </div>
             <div class="col-6 col-md-4 col-xl-3">
-                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/Food5.jpg')}});" href="{{url('/categories')}}">
+                <a class="block text-center bg-image" style="background-image: url({{asset('media/photos/Food5.jpg')}});" href="{{url('/admin/categories')}}">
                     <div class="block-content block-content-full bg-gd-sublime-op aspect-ratio-16-9 d-flex justify-content-center align-items-center">
                         <div>
                             <div class="font-size-h1 font-w300 text-white">{{$categories}}</div>

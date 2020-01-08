@@ -48,7 +48,7 @@
                     </div>
                 @endif
 
-                <form action="{{url('/categories').'/'.$customer_id.'/add'}}" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/admin/categories').'/'.$customer_id.'/add'}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- Vital Info -->
                     <h2 class="content-heading pt-0">Vital Info</h2>
@@ -102,7 +102,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-check-circle mr-1"></i> Add New Category
                                 </button>
-                                <a class="btn btn-warning" href="{{url('/categories').'/'.$customer_id}}">
+                                <a class="btn btn-warning" href="{{url('/admin/categories').'/'.$customer_id}}">
                                     <i class="fa fa-times-circle mr-1"></i> Cancel
                                 </a>
                             </div>
