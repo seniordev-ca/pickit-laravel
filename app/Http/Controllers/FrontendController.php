@@ -21,6 +21,18 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class FrontendController
 {
+    public function showLoginPage() {
+        return view('frontend.login');
+    }
+
+    public function showContactPage() {
+        return view('frontend.contact');
+    }
+
+    public function showHomePage() {
+        return view('frontend.home');
+    }
+
     public function showProductPage()
     {
         $customer_id = request('customer_id');
@@ -95,7 +107,7 @@ class FrontendController
         ]);
     }
 
-    function getProductDetail() {
+    public function getProductDetail() {
         $id = request('id');
         $product = Products::where('id', $id)->with('currency', 'category')->first();
         $product->setHidden([

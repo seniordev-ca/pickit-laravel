@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/', 'FrontendController@showHomePage');
+Route::get('/login', 'FrontendController@showLoginPage');
+Route::get('/contact', 'FrontendController@showContactPage');
 Route::get('/restaurant/{customer_id}', 'FrontendController@showProductPage');
 Route::post('/product/get', 'FrontendController@getProductDetail');
 

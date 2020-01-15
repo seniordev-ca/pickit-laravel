@@ -68,3 +68,208 @@ div.block {
 #text-search:focus{
     outline: none;
 }
+
+.frontend2-container {
+    background-image: url("../media/backgrounds/joinus.jpg");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+}
+
+.frontend2-container header {
+    background: #1f1f1f1c !important;
+}
+
+.frontend2-container footer {
+    background: #000 !important;
+}
+
+.footer-column-menu .name {
+    padding: 50px 0 10px 0;
+    font-size: 1.5em;
+    color: #32c1d6;
+}
+
+.footer-column-menu-ul {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding: 10px 0;
+    margin: 0;
+    list-style: none;
+}
+
+.footer-column-menu-ul > li {
+    display: block;
+    position: relative;
+    padding: 8px 0;
+    height: auto;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+.footer-column-menu-ul a {
+    color: #a1a1a1;
+    font-size: 1.125em;
+}
+
+.footer-column-menu-ul a i {
+    color: #32c1d6;
+}
+
+#page-footer .logo {
+    padding: 24px 0px 17px 0px;
+}
+
+#page-footer .logo img {
+    max-height: 50px;
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+}
+
+.social-links a {
+    margin-right: 15px;
+    color: #a1a1a1;
+}
+
+.social-links a:hover {
+    color: #32c1d6;
+}
+
+.copy-right {
+    padding: 20px 0;
+    text-align: center;
+    color: #a1a1a1;
+}
+
+.copy-right a {
+    color: #a1a1a1;
+}
+
+.main-menu {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+}
+
+.main-menu li {
+    margin: 10px 20px;
+}
+
+.main-menu li a {
+    color: #fefefe;
+}
+
+.main-menu li a:hover, .main-menu li a.active {
+    color: #32c1d6;
+}
+
+#page-container.frontend2-container{
+    height: auto;
+    min-height: 100%;
+}
+
+.frontend2-container #page-footer{
+    min-height: auto;
+}
+
+.auth-form-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ccc;
+}
+
+.auth-form-bottom button{
+    width: 100px;
+    padding: 10px 10px;
+    background: #32c1d6;
+}
+
+.terms-and-cond {
+    color: #32c1d6 !important;
+    font-style: italic;
+}
+
+.form-header-text {
+    padding: 15px 0;
+    color: #32c1d6;
+    font-size: 2em;
+}
+
+#main-container .content{
+    margin-bottom: 100px;
+}
+
+.btn-pickit {
+    background: #32c1d6;
+}
+
+.frontend1-container {
+    background-image: url("../media/backgrounds/home.jpg");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+}
+
+.absolute {
+    position: absolute !important;
+}
+
+.home-paragraph-header {
+    color: #32c1d6;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.home-paragraph-content {
+    color: #eee;
+    font-size: 1.125em;
+}
+
+.home-section-item {
+    margin-top: 200px;
+}
+
+.home-paragraph-content-ul {
+    list-style: none;
+    padding: 0;
+    color: #eee;
+}
+
+.home-paragraph-content-ul li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+}
+
+.home-paragraph-content-ul li i{
+    color: #fcb247;
+    margin-right: 5px;
+}
+
+.text-color-light-1 {
+    color: #eee;
+}
+
+.frontend1-container footer {
+    background: transparent !important;
+}
+
+.home-joinus-button {
+    width: 120px;
+    margin: auto;
+    background: #32c1d6;
+    border-radius: 20px;
+    color: #fff;
+}

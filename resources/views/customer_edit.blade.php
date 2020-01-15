@@ -182,7 +182,6 @@
                                         <a href="javascript:onCancelButtonClicked();" class="btn btn-danger" id="cancel-button" style="display: none">Cancel</a>
                                         <a href="javascript:;" class="btn btn-primary hidden" id="save-button" style="margin-right: 5px; display: none">Save</a>
                                         <a href="javascript:onEditButtonClicked();" class="btn btn-success" id="edit-button"><i class="fa fa-pencil-alt"></i> Edit</a>
-
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +190,7 @@
                                 <label for="dm-project-new-name">
                                     URL (Frontend Site URL)
                                 </label>
-                                <label class="form-control">{{url('/admin/restaurant').'/'.$customer->id}}</label>
+                                <label class="form-control">{{url('/restaurant').'/'.$customer->id}}</label>
                             </div>
 
                         </div>
