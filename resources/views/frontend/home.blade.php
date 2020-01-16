@@ -11,7 +11,7 @@
 
     <div class="content">
 
-        <div class="row gap-y align-items-center">
+        <div class="row gap-y align-items-center margin-top-80">
             <div class="col-lg-5 mx-auto text-center ">
                 <h1 class="text-uppercase font-size-h1" style="color: #32c1d6; font-size: 4em;">Pick it</h1>
                 <p class="color-1 lead alpha-8 my-5 text-color-light-1">“Customizing your own business”</p>
@@ -19,7 +19,7 @@
             </div>
             <div class="col-lg-6 col-md-9 mx-md-auto mx-lg-0 pr-lg-0">
                 <div class="device-twin align-items-center mt-4 mt-lg-0">
-                    <div class="browser shadow" data-aos="fade-left">
+                    <div class="browser shadow home-image-1-wrap" data-aos="fade-left">
                         <img src="{{asset('media/backgrounds/home_2.png')}}" alt="..." class="home-image-1">
                     </div>
                     <div class="front absolute d-none d-lg-block mobile-home-image-2" data-aos="fade-right" style="left: -5.5rem; bottom: -3.5rem;">
@@ -46,7 +46,7 @@
         <div class="row gap-y align-items-center py-5 home-section-item">
             <div class="col-md-8">
                 <figure data-aos="fade-right">
-                    <img src="{{asset('media/backgrounds/home_4.png')}}" class="img-responsive for-mobile-img4" alt="">
+                    <img src="{{asset('media/backgrounds/home_4.png')}}" class="img-responsive for-mobile-img4 home-image-4" alt="">
                 </figure>
             </div>
             <div class="col-md-4">

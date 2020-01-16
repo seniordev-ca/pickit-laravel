@@ -117,10 +117,13 @@ div.block {
 .footer-column-menu-ul a {
     color: #a1a1a1;
     font-size: 1.125em;
+    display: flex;
+    align-items: center;
 }
 
 .footer-column-menu-ul a i {
     color: #32c1d6;
+    margin-right: 5px;
 }
 
 #page-footer .logo {
@@ -407,19 +410,56 @@ div.block {
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 1640px) {
     .home-image-1 {
         max-width: 100%;
     }
-    .home-image-2 {
-        max-width: 50%;
-    }
+}
 
+@media (max-width: 1360px) {
+    .home-image-4 {
+        max-width: 100%;
+    }
+    .home-image-2{
+        width: 80%;
+    }
+    .mobile-home-image-2 {
+        left: -50px !important;
+        top: 130px !important;
+    }
+}
+
+
+@media (max-width: 1120px) {
     .for-mobile-img4 {
         max-width: 80%;
     }
-    .home-section-item {
-        margin-top: 10px;
+    .home-image-2{
+        width: 60%;
+    }
+    .mobile-home-image-2 {
+        left: -25px !important;
+    }
+
+}
+
+@media (max-width: 992px) {
+    .mobile-home-image-2 {
+        display: block !important;
+        left: -35px !important;
+        top: 150px !important;
+    }
+    .home-image-2{
+        width: 90%;
+    }
+}
+@media (max-width: 800px) {
+    .home-image-2 {
+        max-width: 70%;
+    }
+
+    .mobile-home-image-2 {
+        top: 120px !important;
     }
 
     .category-list-nav-bar {
@@ -440,9 +480,51 @@ div.block {
     .header-logo-img {
         max-height: 40px;
     }
+}
+
+@media (max-width: 768px) {
+    .home-image-1-wrap {
+        box-shadow: none !important;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .home-image-1 {
+        max-width: 85%;
+    }
+
     .mobile-home-image-2 {
-        display: block !important;
-        left: 5px !important;
+        left: 80px !important;
+    }
+
+}
+
+@media (max-width: 620px) {
+    .mobile-home-image-2 {
+        left: 60px !important;
+        top: 100px !important;
+    }
+
+    .home-image-2 {
+        max-width: 60%;
+    }
+
+    .home-section-item {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .mobile-home-image-2 {
+        left: 50px !important;
         top: 80px !important;
     }
+
+    .home-image-2 {
+        max-width: 50%;
+    }
+}
+
+.margin-top-80 {
+    margin-top: 80px;
 }

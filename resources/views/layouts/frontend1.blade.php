@@ -62,7 +62,7 @@
                     <div class="content-side content-side-full">
                         <ul class="nav-main main-menu">
                             <li><a href="{{url('/')}}" class="{{ request()->is('/') ? ' active' : '' }}">Home</a></li>
-                            <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>
+{{--                            <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>--}}
                             <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
                             <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
                         </ul>
@@ -77,7 +77,7 @@
                                 <div class="d-flex">
                                     <ul class="nav-main main-menu">
                                         <li><a href="{{url('/')}}" class="{{ request()->is('/') ? ' active' : '' }}">Home</a></li>
-                                        <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>
+{{--                                        <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>--}}
                                         <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
                                         <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
                                     </ul>
@@ -124,8 +124,8 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="logo"><img src="{{asset('/media/logos/logo.png')}}"></div>
                     <ul class="footer-column-menu-ul">
-                        <li><a href="{{url('/')}}"><i class="si si-envelope"></i> +965 66298383</a></li>
-                        <li><a href="{{url('/')}}"><i class="si si-call-out"></i> Info@mrfocuskw.com</a></li>
+                        <li><a href="tel:+96566298383"><i class="si si-call-out"></i>+965 66298383</a></li>
+                        <li><a href="mailto:info@pickitapps.com"><i class="si si-envelope"></i>info@pickitapps.com</a></li>
                         <li><a href="{{url('/')}}"><i class="si si-pointer"></i> Kuwait, sharq</a></li>
                     </ul>
                 </div>
@@ -158,9 +158,8 @@
                 </div>
                 <div class="col-md-3 col-sm-6 social-links">
                     <div class="">
-                        <a href="{{url('/')}}"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="https://instagram.com/pickit.app?igshid=1pzf2ajb5wv1x"><i class="fab fa-instagram fa-2x"></i></a>
                         <a href="{{url('/')}}"><i class="si si-social-facebook fa-2x"></i></a>
-                        <a href="{{url('/')}}"><i class="fab fa-linkedin-in fa-2x"></i></a>
                         <a href="{{url('/')}}"><i class="fab fa-youtube fa-2x"></i></a>
                     </div>
                 </div>
