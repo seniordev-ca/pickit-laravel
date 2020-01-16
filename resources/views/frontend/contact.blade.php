@@ -2,17 +2,16 @@
 
 @section('css_before')
     <!-- Page JS Plugins CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css">
 @endsection
 
 
 @section('content')
     <!-- Hero -->
 
+    <div class="sub-header">
+        Contact Us
+    </div>
     <div class="content">
-        <div style="height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3em; color: #eee; text-transform: uppercase;">
-            Contact Us
-        </div>
         <div class="row no-gutters justify-content-center" data-aos="fade-down">
             <div class="col-sm-12 col-xl-8">
                 <div class="offset-md-1 col-sm-10 col-xl-10">
@@ -23,20 +22,20 @@
                     </div>
                     <form class="js-validation-signup" action="be_pages_auth_all.html" method="post">
                         <div class="py-3">
-                            <div class="form-group row">
-                                <div class="col-6">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 form-group ">
                                     <input type="text" class="form-control form-control-lg form-control-alt" placeholder="First Name">
                                 </div>
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6 form-group ">
                                     <input type="text" class="form-control form-control-lg form-control-alt" placeholder="Last Name">
                                 </div>
 
                             </div>
-                            <div class="form-group row">
-                                <div class="col-6">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 form-group ">
                                     <input type="email" class="form-control form-control-lg form-control-alt" placeholder="Email">
                                 </div>
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6 form-group ">
                                     <input type="ext" class="form-control form-control-lg form-control-alt" placeholder="Phone Number">
                                 </div>
                             </div>
@@ -59,7 +58,6 @@
 
 @section('js_after')
     <!-- Page JS Plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js"></script>
     <!-- Page JS Code -->
 
     <!-- Page JS Helpers (Select2 plugin) -->

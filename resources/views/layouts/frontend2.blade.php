@@ -47,21 +47,53 @@
                 <div class="header-div-logo">
                     <!-- Logo -->
                     <a class="font-w600 font-size-lg text-white" href="{{url('/')}}">
-                        <img src="{{asset('/media/logos/logo.png')}}" style="max-height: 60px;">
+                        <img src="{{asset('/media/logos/logo.png')}}" class="header-logo-img">
                     </a>
                     <!-- END Logo -->
                 </div>
             </div>
             <!-- END Left Section -->
 
+
             <!-- Right Section -->
             <div>
-                <ul class="main-menu">
-                    <li><a href="{{url('/')}}">Home</a></li>
-                    <li><a href="{{url('/')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>
-                    <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
-                    <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
-                </ul>
+
+                <nav id="sidebar" aria-label="Main Navigation">
+                    <!-- Side Navigation -->
+                    <div class="content-side content-side-full">
+                        <ul class="nav-main main-menu">
+                            <li><a href="{{url('/')}}" class="{{ request()->is('/') ? ' active' : '' }}">Home</a></li>
+                            <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>
+                            <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
+                            <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
+                        </ul>
+                    </div>
+                    <!-- END Side Navigation -->
+                </nav>
+
+                <div>
+                    <div class="content content-full">
+                        <div class="d-flex align-items-sm-center search-bar-div" style="justify-content: space-between;">
+                            <div class="category-list-nav-bar" >
+                                <div class="d-flex">
+                                    <ul class="nav-main main-menu">
+                                        <li><a href="{{url('/')}}" class="{{ request()->is('/') ? ' active' : '' }}">Home</a></li>
+                                        <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>
+                                        <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
+                                        <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="category-list-nav-bar-button">
+                                <button type="button" class="btn btn-dual mr-1" data-toggle="layout" data-action="sidebar_toggle" style="color: white;">
+                                    <i class="fa fa-fw fa-bars"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <!-- END Right Section -->
         </div>

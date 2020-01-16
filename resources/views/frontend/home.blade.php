@@ -20,11 +20,11 @@
             <div class="col-lg-6 col-md-9 mx-md-auto mx-lg-0 pr-lg-0">
                 <div class="device-twin align-items-center mt-4 mt-lg-0">
                     <div class="browser shadow" data-aos="fade-left">
-                        <img src="{{asset('media/backgrounds/home_2.png')}}" alt="...">
+                        <img src="{{asset('media/backgrounds/home_2.png')}}" alt="..." class="home-image-1">
                     </div>
-                    <div class="front iphone-x absolute d-none d-lg-block" data-aos="fade-right" style="left: -5.5rem; bottom: -3.5rem;">
+                    <div class="front absolute d-none d-lg-block mobile-home-image-2" data-aos="fade-right" style="left: -5.5rem; bottom: -3.5rem;">
                         <div class="screen">
-                            <img src="{{asset('media/backgrounds/home_1.png')}}" alt="...">
+                            <img src="{{asset('media/backgrounds/home_1.png')}}" class="home-image-2" alt="...">
                         </div>
                     </div>
                 </div>

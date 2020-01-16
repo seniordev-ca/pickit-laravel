@@ -8,11 +8,10 @@
 
 @section('content')
     <!-- Hero -->
-
+    <div class="sub-header">
+        Sign up
+    </div>
     <div class="content">
-        <div style="height: 300px; display: flex; align-items: center; justify-content: center; font-size: 3em; color: #eee; text-transform: uppercase;">
-            Sign up
-        </div>
         <div class="row no-gutters justify-content-center" >
             <div class="col-sm-12 col-xl-6" data-aos="fade-right">
                 <div class="offset-md-1 col-sm-10 col-xl-10">

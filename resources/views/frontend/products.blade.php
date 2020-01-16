@@ -2,52 +2,65 @@
 
 @section('css_before')
     <!-- Page JS Plugins CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css">
 @endsection
 
 
 @section('content')
     <!-- Hero -->
 
-    <div class="content">
-        <div style="height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3em; color: #eee; text-transform: uppercase;">
-            Contact Us
+    <div class="sub-header-products">
+        <div class="text-uppercase font-size-h1 text-color-light-1 font-weight-bold">
+            Our Clients Shop
         </div>
-        <div class="row no-gutters justify-content-center" data-aos="fade-down">
-            <div class="col-sm-12 col-xl-8">
-                <div class="offset-md-1 col-sm-10 col-xl-10">
-                    <div class="form-header-text text-center">
-                        <span class="text-uppercase font-size-h6">Contact with us</span>
-                        <p class="text-uppercase">Write Us a Message</p>
-                        <p class="font-w700 font-size-h5 text-muted">We are committed to providing our customers with exceptional service while offering our employees the best training.</p>
+    </div>
+    <div class="content">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-3">
+                <div class="products-left-top-wrap">
+                    <div class="text-color-primary font-weight-bold text-uppercase font-size-h3 margin-bottom-10">
+                        Search Products
                     </div>
-                    <form class="js-validation-signup" action="be_pages_auth_all.html" method="post">
-                        <div class="py-3">
-                            <div class="form-group row">
-                                <div class="col-6">
-                                    <input type="text" class="form-control form-control-lg form-control-alt" placeholder="First Name">
+                    <div class="search-box-wrap">
+                        <input autocomplete="off" type="text"  placeholder="Search..." class="product-search-box" />
+                        <a href="#" class="search-icon text-color-primary">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="products-left-bottom-wrap">
+                    <div class="text-color-primary font-weight-bold text-uppercase font-size-h3 margin-bottom-10">
+                        Categories
+                    </div>
+                    <div>
+                        <ul>
+                            <li><i class="fa fa-angle-double-right"></i><a href="#">Fitness clothes (45) </a></li>
+                            <li><i class="fa fa-angle-double-right"></i><a href="#">Fitness Accessories (27) </a></li>
+                            <li><i class="fa fa-angle-double-right"></i><a href="#">Whey protein (19) </a></li>
+                            <li><i class="fa fa-angle-double-right"></i><a href="#">Muscle milk (7) </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <div>
+                    @for($i = 0; $i < 6; $i ++)
+                        <div class="product-item-one row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="product-item-image" style="background-image: url('media/images/products/appview/1570106177.jpg');">
                                 </div>
-                                <div class="col-6">
-                                    <input type="text" class="form-control form-control-lg form-control-alt" placeholder="Last Name">
-                                </div>
-
                             </div>
-                            <div class="form-group row">
-                                <div class="col-6">
-                                    <input type="email" class="form-control form-control-lg form-control-alt" placeholder="Email">
+                            <div class="product-item-detail col-md-8 col-sm-12">
+                                <div class="text-color-primary font-size-h4 font-weight-bold">Vinyl Kettlebell</div>
+                                <div class="text-color-light-3 font-size-h5 margin-bottom-10">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim
                                 </div>
-                                <div class="col-6">
-                                    <input type="ext" class="form-control form-control-lg form-control-alt" placeholder="Phone Number">
+                                <div>
+                                    <a href="#" class="btn btn-rounded btn-hero-light like-button"><i class="far fa-heart"></i></a>
+                                    <a href="#" class="btn btn-rounded btn-hero-light">Restaurant</a>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control form-control-lg form-control-alt" rows="7"></textarea>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-hero-lg btn-hero-info btn-pickit">Send Message</button>
-                        </div>
-                    </form>
+                    @endfor
                 </div>
             </div>
 
@@ -59,7 +72,7 @@
 
 @section('js_after')
     <!-- Page JS Plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js"></script>
+
     <!-- Page JS Code -->
 
     <!-- Page JS Helpers (Select2 plugin) -->

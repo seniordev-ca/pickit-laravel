@@ -21,16 +21,20 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class FrontendController
 {
+    public function showHomePage() {
+        return view('frontend.home');
+    }
+
     public function showLoginPage() {
         return view('frontend.login');
     }
 
-    public function showContactPage() {
-        return view('frontend.contact');
+    public function showProductsPage() {
+        return view('frontend.products');
     }
 
-    public function showHomePage() {
-        return view('frontend.home');
+    public function showContactPage() {
+        return view('frontend.contact');
     }
 
     public function showProductPage()
