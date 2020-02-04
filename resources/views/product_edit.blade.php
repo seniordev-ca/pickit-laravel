@@ -41,7 +41,7 @@
                     </div>
                 @endif
 
-                <form action="/products/edit" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/admin/products/edit')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <!-- Vital Info -->
                     <h2 class="content-heading pt-0">Vital Info</h2>

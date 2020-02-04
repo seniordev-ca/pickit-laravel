@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\In;
 use Intervention\Image\Facades\Image;
 use Barryvdh\DomPDF\Facade as PDF;
-use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
+//use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class AdminController
 {
@@ -791,13 +791,13 @@ class AdminController
                 $constraint->aspectRatio();
             })
             ->save($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
-        ImageOptimizer::optimize($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
+//        ImageOptimizer::optimize($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         // generate thumbnail image
         Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
             ->fit(320, 320)
             ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
-        ImageOptimizer::optimize($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
+//        ImageOptimizer::optimize($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
 
         if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match))
             $video_id = $match[1];
