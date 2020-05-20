@@ -27,7 +27,7 @@ class APIController
 
         $credentials = request(['email', 'password']);
 
-        $user = Customers::select('id','password','first_name', 'last_name', 'email', 'template_no', 'category_background_color',
+        $user = Customers::select('id', 'password', 'first_name', 'last_name', 'email', 'template_no', 'category_background_color',
             'banner_color', 'font_color', 'product_background_color', 'company_logo')
             ->where([
                 ['email', $credentials['email']],
@@ -49,11 +49,10 @@ class APIController
         $categoryList = Categories::select('id', 'name', 'name_second', 'rtl_direction')->where([
             ['customer_id', $user->id],
             ['show_flag', 1],
-        ])->orderBy('show_order')->with(['products' => function($query) {
+        ])->orderBy('show_order')->with(['products' => function ($query) {
             $query->
-            select('category_id','name','name_second','picture','video_id','price','description','description_second','video_url','currency_id')->
-                where('show_flag', 1);
-            ;
+            select('category_id', 'name', 'name_second', 'picture', 'video_id', 'price', 'description', 'description_second', 'video_url', 'currency_id')->
+            where('show_flag', 1);;
         }])->get();
 
         $user = $user->setHidden([
@@ -165,8 +164,8 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.invalid-params'));
         }
 
-        $client = Customers::select('id','password','first_name', 'last_name', 'email', 'template_no', 'category_background_color',
-            'banner_color', 'font_color', 'product_background_color',f 'company_logo')
+        $client = Customers::select('id', 'password', 'first_name', 'last_name', 'email', 'template_no', 'category_background_color',
+            'banner_color', 'font_color', 'product_background_color', 'company_logo')
             ->where([
                 ['email', $client_email],
                 ['enable_flag', 1],
@@ -179,11 +178,10 @@ class APIController
         $categoryList = Categories::select('id', 'name', 'name_second', 'rtl_direction')->where([
             ['customer_id', $client->id],
             ['show_flag', 1],
-        ])->orderBy('show_order')->with(['products' => function($query) {
+        ])->orderBy('show_order')->with(['products' => function ($query) {
             $query->
-            select('category_id','name','name_second','picture','video_id','price','description','description_second','video_url','currency_id')->
-            where('show_flag', 1);
-            ;
+            select('category_id', 'name', 'name_second', 'picture', 'video_id', 'price', 'description', 'description_second', 'video_url', 'currency_id')->
+            where('show_flag', 1);;
         }])->get();
 
         $client = $client->setHidden([
@@ -197,4 +195,82 @@ class APIController
 
     }
 
+    public function getProductsWithPageInfo()
+    {
+        $page_size = request('pageSize');
+        $current_page = request('currentPage');
+        $order_by = request('orderBy');
+        $sort = request('sort');
+        $search = request('search');
+        $user = request('user');
+
+        $where_clause = [];
+        if (isset($search) && $search != "") {
+            $where_clause[] = ['name', 'like', "%$search%"];
+            $where_clause[] = ['name_second', 'like', "%$search%"];
+            $where_clause[] = ['description', 'like', "%$search%"];
+            $where_clause[] = ['description_second', 'like', "%$search%"];
+        }
+
+        $total_count = Products::where('customer_id', $user->id)
+            ->where(function ($query) use ($where_clause) {
+                if (count($where_clause) > 0) {
+                    $query->where([$where_clause[0]]);
+                    for ($i = 1; $i < count($where_clause); $i++) {
+                        $query->orwhere([$where_clause[$i]]);
+                    }
+                }
+            })
+            ->count();
+
+        $page_size = (int)$page_size;
+        $current_page = (int)$current_page;
+        if ($page_size < 1)
+            $page_size = 10;
+
+        if ($current_page < 1)
+            $current_page = 1;
+
+        $total_page = ceil($total_count / $page_size);
+
+        if ($sort == "" || $sort != "asc" || $sort != "desc") {
+            $sort = "asc";
+        }
+
+        if ($order_by == "") {
+            $order_by = "id";
+        } else if ($order_by == "category") {
+            $order_by = "category_id";
+        } else if ($order_by == "status"){
+            $order_by = "show_flag";
+        } else if ($order_by == "name") {
+            $order_by = "name";
+        } else {
+            $order_by = "id";
+        }
+
+        $products = Products::where('customer_id', $user->id)
+            ->where(function ($query) use ($where_clause) {
+                if (count($where_clause) > 0) {
+                    $query->where([$where_clause[0]]);
+                    for ($i = 1; $i < count($where_clause); $i++) {
+                        $query->orwhere([$where_clause[$i]]);
+                    }
+                }
+            })
+            ->offset($page_size * ($current_page - 1))
+            ->limit($page_size)
+            ->orderBy($order_by, $sort)
+            ->with('category', 'currency')
+            ->get();
+
+        return Utils::makeResponse([
+            'currentPage' => $current_page,
+            'pageSize' => $page_size,
+            'totalItem' => $total_count,
+            'totalPage' => $total_page,
+            'data' => $products,
+            'status' => true
+        ]);
+    }
 }

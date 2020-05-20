@@ -22,4 +22,8 @@ Route::middleware('api-auth')->group(function (){
     Route::post('get-products', 'APIController@getProductsByCategory');
     Route::post('get-product-detail', 'APIController@getProductDetail');
     Route::post('get-client-detail', 'APIController@getClientDetail');
+
+    Route::prefix('products')->group(function () {
+        Route::get('/paging', 'APIController@getProductsWithPageInfo');
+    });
 });
