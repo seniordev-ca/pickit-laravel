@@ -18,6 +18,8 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('api-auth')->group(function (){
+    Route::get('/auth/user', 'APIController@getUserAuth');
+
     Route::post('get-categories', 'APIController@getCategoriesByClient');
     Route::post('get-products', 'APIController@getProductsByCategory');
     Route::post('get-product-detail', 'APIController@getProductDetail');
@@ -25,5 +27,12 @@ Route::middleware('api-auth')->group(function (){
 
     Route::prefix('products')->group(function () {
         Route::get('/paging', 'APIController@getProductsWithPageInfo');
+    });
+
+    Route::prefix('categories')->group(function () {
+        Route::get('/paging', 'APIController@getCategoriesWithPageInfo');
+        Route::get('/all', 'APIController@getAllCategoryList');
+        Route::post('/add', 'APIController@addCategory');
+        Route::post('/del', 'APIController@delCategory');
     });
 });

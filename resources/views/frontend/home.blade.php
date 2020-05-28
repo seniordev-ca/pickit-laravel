@@ -15,7 +15,7 @@
             <div class="col-lg-5 mx-auto text-center ">
                 <h1 class="text-uppercase font-size-h1" style="color: #32c1d6; font-size: 4em;">Pick it</h1>
                 <p class="color-1 lead alpha-8 my-5 text-color-light-1">“Customizing your own business”</p>
-                <a href="{{url('/login')}}" class="btn btn-block btn-hero-info home-joinus-button" >Join Us</a>
+                <a href="https://my.pickitapps.com" class="btn btn-block btn-hero-info home-joinus-button" >Join Us</a>
             </div>
             <div class="col-lg-6 col-md-9 mx-md-auto mx-lg-0 pr-lg-0">
                 <div class="device-twin align-items-center mt-4 mt-lg-0">

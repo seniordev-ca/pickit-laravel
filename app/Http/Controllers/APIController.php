@@ -157,6 +157,28 @@ class APIController
 
     }
 
+    public function getUserAuth()
+    {
+        $user = request('user');
+
+        $client = Customers::select('id', 'password', 'first_name', 'last_name', 'email', 'template_no', 'category_background_color',
+            'banner_color', 'font_color', 'product_background_color', 'company_logo')
+            ->where('id', $user->id)->first();
+
+        if ($client == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $client = $client->setHidden([
+            'password'
+        ]);
+
+        return Utils::makeResponse([
+            'user' => $client,
+        ]);
+
+    }
+
     public function getClientDetail()
     {
         $client_email = request('email');
@@ -241,11 +263,10 @@ class APIController
             $order_by = "id";
         } else if ($order_by == "category") {
             $order_by = "category_id";
-        } else if ($order_by == "status"){
+        } else if ($order_by == "status") {
             $order_by = "show_flag";
-        } else if ($order_by == "name") {
-            $order_by = "name";
-        } else {
+            $sort = "desc";
+        } else if ($order_by != "name") {
             $order_by = "id";
         }
 
@@ -272,5 +293,125 @@ class APIController
             'data' => $products,
             'status' => true
         ]);
+    }
+
+    public function getCategoriesWithPageInfo()
+    {
+        $page_size = request('pageSize');
+        $current_page = request('currentPage');
+        $order_by = request('orderBy');
+        $sort = request('sort');
+        $search = request('search');
+        $user = request('user');
+
+        $where_clause = [];
+        if (isset($search) && $search != "") {
+            $where_clause[] = ['name', 'like', "%$search%"];
+            $where_clause[] = ['name_second', 'like', "%$search%"];
+            $where_clause[] = ['description', 'like', "%$search%"];
+            $where_clause[] = ['description_second', 'like', "%$search%"];
+        }
+
+        $total_count = Categories::where('customer_id', $user->id)
+            ->where(function ($query) use ($where_clause) {
+                if (count($where_clause) > 0) {
+                    $query->where([$where_clause[0]]);
+                    for ($i = 1; $i < count($where_clause); $i++) {
+                        $query->orwhere([$where_clause[$i]]);
+                    }
+                }
+            })
+            ->count();
+
+        $page_size = (int)$page_size;
+        $current_page = (int)$current_page;
+        if ($page_size < 1)
+            $page_size = 10;
+
+        if ($current_page < 1)
+            $current_page = 1;
+
+        $total_page = ceil($total_count / $page_size);
+
+        if ($sort == "" || $sort != "asc" || $sort != "desc") {
+            $sort = "asc";
+        }
+
+        if ($order_by == "") {
+            $order_by = "id";
+        } else if ($order_by == "status") {
+            $order_by = "show_flag";
+            $sort = "desc";
+        } else if ($order_by != "name") {
+            $order_by = "id";
+        }
+
+        $categories = Categories::where('customer_id', $user->id)
+            ->where(function ($query) use ($where_clause) {
+                if (count($where_clause) > 0) {
+                    $query->where([$where_clause[0]]);
+                    for ($i = 1; $i < count($where_clause); $i++) {
+                        $query->orwhere([$where_clause[$i]]);
+                    }
+                }
+            })
+            ->offset($page_size * ($current_page - 1))
+            ->limit($page_size)
+            ->orderBy($order_by, $sort)
+            ->get();
+
+        return Utils::makeResponse([
+            'currentPage' => $current_page,
+            'pageSize' => $page_size,
+            'totalItem' => $total_count,
+            'totalPage' => $total_page,
+            'data' => $categories,
+            'status' => true
+        ]);
+    }
+
+    public function getAllCategoryList()
+    {
+        $user = request('user');
+
+        $categories = Categories::where([
+            ['customer_id', $user->id],
+            ['show_flag', 1],
+        ])
+            ->select('id as value', 'name as label', 'id as key')
+            ->get();
+
+        return Utils::makeResponse([
+            'category_list' => $categories,
+        ]);
+    }
+
+    public function addCategory()
+    {
+        $user = request('user');
+        $name = request('category-name');
+        $status = request('status');
+
+        request()->validate([
+            'category-name' => 'required',
+        ]);
+
+        $category = new Categories();
+        $category->customer_id = $user->id;
+        $category->name = $name;
+        $category->show_flag = $status;
+
+        $category->save();
+
+        return Utils::makeResponse();
+    }
+
+    public function delCategory()
+    {
+        $id = request('id');
+        Categories::where('id', $id)->delete();
+        Products::where('category_id', $id)->delete();
+
+        return Utils::makeResponse();
     }
 }

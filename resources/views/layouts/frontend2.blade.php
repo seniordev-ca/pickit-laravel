@@ -65,7 +65,7 @@
                             <li><a href="{{url('/')}}" class="{{ request()->is('/') ? ' active' : '' }}">Home</a></li>
 {{--                            <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>--}}
                             <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
-                            <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
+                            <li><a href="https://my.pickitapps.com" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
                         </ul>
                     </div>
                     <!-- END Side Navigation -->
@@ -80,7 +80,7 @@
                                         <li><a href="{{url('/')}}" class="{{ request()->is('/') ? ' active' : '' }}">Home</a></li>
 {{--                                        <li><a href="{{url('/products')}}" class="{{ request()->is('products*') ? ' active' : '' }}">Our Clients Shop</a></li>--}}
                                         <li><a href="{{url('/contact')}}" class="{{ request()->is('contact*') ? ' active' : '' }}">Contact Us</a></li>
-                                        <li><a href="{{url('/login')}}" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
+                                        <li><a href="https://my.pickitapps.com" class="{{ request()->is('login*') ? ' active' : '' }}">Log In</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                         <li><a href="{{url('/')}}">Home</a></li>
                         <li><a href="{{url('/')}}">Shops</a></li>
                         <li><a href="{{url('/')}}">Contact Us</a></li>
-                        <li><a href="{{url('/login')}}">Join US</a></li>
+                        <li><a href="https://my.pickitapps.com">Join US</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 col-sm-6">
