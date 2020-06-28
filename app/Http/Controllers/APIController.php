@@ -4,12 +4,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Models\Categories;
+use App\Http\Models\Currency;
 use App\Http\Models\Customers;
 use App\Http\Models\Products;
 use App\Http\Utils\Utils;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 use Validator;
-use function foo\func;
 
 
 class APIController
@@ -46,6 +47,10 @@ class APIController
             return Utils::makeResponse([], config('constants.response-message.error-generate-api-token'));
         }
 
+        $user = $user->setHidden([
+            'password'
+        ]);
+
         $categoryList = Categories::select('id', 'name', 'name_second', 'rtl_direction')->where([
             ['customer_id', $user->id],
             ['show_flag', 1],
@@ -54,10 +59,6 @@ class APIController
             select('category_id', 'name', 'name_second', 'picture', 'video_id', 'price', 'description', 'description_second', 'video_url', 'currency_id')->
             where('show_flag', 1);;
         }])->get();
-
-        $user = $user->setHidden([
-            'password'
-        ]);
 
         return Utils::makeResponse([
             'api_token' => $token,
@@ -157,28 +158,6 @@ class APIController
 
     }
 
-    public function getUserAuth()
-    {
-        $user = request('user');
-
-        $client = Customers::select('id', 'password', 'first_name', 'last_name', 'email', 'template_no', 'category_background_color',
-            'banner_color', 'font_color', 'product_background_color', 'company_logo')
-            ->where('id', $user->id)->first();
-
-        if ($client == null) {
-            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
-        }
-
-        $client = $client->setHidden([
-            'password'
-        ]);
-
-        return Utils::makeResponse([
-            'user' => $client,
-        ]);
-
-    }
-
     public function getClientDetail()
     {
         $client_email = request('email');
@@ -214,6 +193,167 @@ class APIController
             'client' => $client,
             'category_array' => $categoryList
         ]);
+
+    }
+
+    public function userLogin()
+    {
+        $validation = Validator::make(request()->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $credentials = request(['email', 'password']);
+
+        $user = Customers::where([
+            ['email', $credentials['email']],
+            ['enable_flag', 1],
+        ])->first();
+
+        if ($user == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-credentials'));
+        }
+
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-credentials'));
+        }
+
+        if (!$token = auth()->attempt($credentials)) {
+            return Utils::makeResponse([], config('constants.response-message.error-generate-api-token'));
+        }
+
+        $user_info = [
+            'firstName' => $user->first_name,
+            'lastName' => $user->last_name,
+            'email' => $user->email,
+            'birthday' => $user->birthday,
+            'startDate' => $user->start_date,
+            'expireDate' => $user->expire_date,
+            'price' => $user->price,
+            'company' => $user->company,
+            'street' => $user->address,
+            'city' => $user->city,
+            'state' => $user->state,
+            'zipCode' => $user->zipcode,
+            'avatar' => $user->avatar,
+            'phone' => $user->phonenumber,
+            'companyLogo' => $user->company_logo
+        ];
+
+        $menu_app_settings = [
+            'templateNo' => $user->template_no,
+            'bannerColor' => $user->banner_color,
+            'categoryBgColor' => $user->category_background_color,
+            'productBgColor' => $user->product_background_color,
+            'fontColor' => $user->font_color,
+            'companyLogo' => $user->company_logo
+        ];
+
+        return Utils::makeResponse([
+            'apiToken' => $token,
+            'userInfo' => $user_info,
+            'menuAppConfig' => $menu_app_settings
+        ]);
+    }
+
+    public function getUserAuth()
+    {
+        $user = request('user');
+
+        $client = Customers::select('id', 'first_name', 'last_name', 'email', 'template_no', 'category_background_color',
+            'banner_color', 'font_color', 'product_background_color', 'company_logo')
+            ->where('id', $user->id)->first();
+
+        if ($client == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        return Utils::makeResponse([
+            'user' => $client,
+        ]);
+
+    }
+
+    public function updateMenuAppLogo()
+    {
+        $user = request('user');
+        if (isset(request()->file)) {
+            $imageName = time() . '.' . request()->file->getClientOriginalExtension();
+
+            $original_image_path = public_path('media/company_logos');
+            if (!file_exists($original_image_path)) {
+                mkdir($original_image_path);
+            }
+
+            request()->file->move($original_image_path, $imageName);
+
+            Customers::where('id', $user->id)->update(['company_logo' => $imageName]);
+
+            $client = Customers::select('template_no as templateNo', 'category_background_color as categoryBgColor',
+                'banner_color as bannerColor', 'font_color as fontColor', 'product_background_color as productBgColor',
+                'company_logo as companyLogo')
+                ->where('id', $user->id)->first();
+
+            if ($client == null) {
+                return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+            }
+
+            return Utils::makeResponse(
+                $client
+            );
+        }
+
+    }
+
+    public function updateMenuAppColors()
+    {
+        $user = request('user');
+        $template_no = request('template-no');
+        $category_background_color = request('category-background-color');
+        $product_background_color = request('product-background-color');
+        $banner_color = request('banner-color');
+        $font_color = request('font-color');
+
+        $update_array = array();
+
+        if (isset($category_background_color)) {
+            $update_array['category_background_color'] = $category_background_color;
+        }
+
+        if (isset($product_background_color)) {
+            $update_array['product_background_color'] = $product_background_color;
+        }
+
+        if (isset($banner_color)) {
+            $update_array['banner_color'] = $banner_color;
+        }
+
+        if (isset($font_color)) {
+            $update_array['font_color'] = $font_color;
+        }
+
+        if (isset($template_no)) {
+            $update_array['template_no'] = $template_no;
+        }
+
+        Customers::where('id', $user->id)->update($update_array);
+
+        $client = Customers::select('template_no as templateNo', 'category_background_color as categoryBgColor',
+            'banner_color as bannerColor', 'font_color as fontColor', 'product_background_color as productBgColor',
+            'company_logo as companyLogo')
+            ->where('id', $user->id)->first();
+
+        if ($client == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        return Utils::makeResponse(
+            $client
+        );
 
     }
 
@@ -295,6 +435,273 @@ class APIController
         ]);
     }
 
+    public function getProductInfo()
+    {
+        $product_id = request('productId');
+        $user = request('user');
+
+        if (!isset($product_id)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = Products::where([
+            ['id', $product_id],
+            ['customer_id', $user->id]
+        ])
+            ->first();
+
+        if ($product == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = $product->setHidden([
+            'customer_id'
+        ]);
+
+        $categories = Categories::where([
+            ['customer_id', $user->id],
+            ['show_flag', 1]
+        ])
+            ->select('id as value', 'name as label', 'id as key')
+            ->get();
+
+        $currencyList = Currency::select('id as value', 'name as label')->get();
+
+        return Utils::makeResponse([
+            'product' => $product,
+            'categoryList' => $categories,
+            'currencyList' => $currencyList
+        ]);
+    }
+
+    public function addProduct()
+    {
+        $user = request('user');
+        $name = request('name');
+        $category_id = request('category');
+        $price = request('price');
+        $description = request('description');
+        $currency = request('currency');
+        $status = request('status');
+
+        $validation = Validator::make(request()->all(), [
+            'name' => 'required',
+            //'category' => 'required',
+            //'currency' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = new Products();
+        $product->customer_id = $user->id;
+        $product->name = $name;
+        $product->price = $price;
+        $product->currency_id = $currency;
+        $product->category_id = $category_id;
+        $product->description = $description;
+        $product->show_flag = $status;
+
+        if ($product->save()) {
+            return Utils::makeResponse($product->id);
+        }
+        return Utils::makeResponse([], config('constants.response-message.fail'));
+    }
+
+    public function updateProduct()
+    {
+        $id = request('id');
+        $name = request('name');
+        $category_id = request('category');
+        $price = request('price');
+        $description = request('description');
+        $currency = request('currency');
+        $video_url = request('video-url');
+        $status = request('state');
+        $user = request('user');
+
+        $validation = Validator::make(request()->all(), [
+            'name' => 'required',
+            //'category' => 'required',
+            //'currency' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = Products::where([
+            ['id', $id],
+            ['customer_id', $user->id]
+        ])
+            ->first();
+        if ($product == null)
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match))
+            $video_id = $match[1];
+        else $video_id = $video_url;
+
+        if (isset(request()->image)) {
+            $imageName = time() . '.' . request()->image->getClientOriginalExtension();
+
+            $original_image_path = public_path('media/images/products/original');
+            if (!file_exists($original_image_path)) {
+                mkdir($original_image_path);
+            }
+
+            $appview_image_path = public_path('media/images/products/appview');
+            if (!file_exists($appview_image_path)) {
+                mkdir($appview_image_path);
+            }
+
+            $thumbnail_image_path = public_path('media/images/products/thumbnail');
+            if (!file_exists($thumbnail_image_path)) {
+                mkdir($thumbnail_image_path);
+            }
+
+            //Save original image
+            request()->image->move($original_image_path, $imageName);
+
+            // generate appview image
+            Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
+                ->resize(1200, 1200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($appview_image_path . DIRECTORY_SEPARATOR . $imageName);
+
+
+            // generate thumbnail image
+            Image::make($original_image_path . DIRECTORY_SEPARATOR . $imageName)
+                ->fit(320, 320)
+                ->save($thumbnail_image_path . DIRECTORY_SEPARATOR . $imageName);
+
+            Products::where('id', $id)->update([
+                'name' => $name,
+                'price' => $price,
+                'currency_id' => $currency,
+                'category_id' => $category_id,
+                'description' => $description,
+                'video_id' => $video_id,
+                'video_url' => $video_url,
+                'picture' => $imageName,
+                'show_flag' => $status
+            ]);
+            return Utils::makeResponse([$imageName]);
+        } else {
+            Products::where('id', $id)->update([
+                'name' => $name,
+                'price' => $price,
+                'currency_id' => $currency,
+                'category_id' => $category_id,
+                'description' => $description,
+                'video_id' => $video_id,
+                'video_url' => $video_url,
+                'show_flag' => $status
+            ]);
+            return Utils::makeResponse();
+        }
+
+    }
+
+    public function toggleActiveProduct()
+    {
+        $product_id = request('productId');
+        $user = request('user');
+
+        if (!isset($product_id)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = Products::where([
+            ['id', $product_id],
+            ['customer_id', $user->id]
+        ])
+            ->first();
+
+        if ($product == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $show_flag = Products::where('id', $product_id)->first()->show_flag;
+
+        Products::where('id', $product_id)->update([
+            'show_flag' => 1 - $show_flag,
+        ]);
+
+        return Utils::makeResponse();
+    }
+
+    public function changeProductsState()
+    {
+        $product_ids = request('productIds');
+        $state = request('state');
+        $user = request('user');
+
+        $product_ids = json_decode($product_ids);
+
+        if (!isset($product_ids) || !isset($state) || count($product_ids) < 1 || ($state != 0 && $state != 1)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = Products::where('customer_id', $user->id)
+            ->whereIn('id', $product_ids)
+            ->get();
+
+        if ($product == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        Products::where('customer_id', $user->id)
+            ->whereIn('id', $product_ids)
+            ->update([
+                'show_flag' => $state
+            ]);
+
+        return Utils::makeResponse();
+    }
+
+    public function toggleProductAllVisible()
+    {
+        $user = request('user');
+        Products::where('customer_id', $user->id)->update(['show_flag' => 1]);
+        return Utils::makeResponse();
+    }
+
+    public function toggleProductAllInvisible()
+    {
+        $user = request('user');
+        Products::where('customer_id', $user->id)->update(['show_flag' => 0]);
+        return Utils::makeResponse();
+    }
+
+    public function deleteProducts()
+    {
+        $product_ids = request('productIds');
+        $user = request('user');
+
+        $product_ids = json_decode($product_ids);
+
+        if (!isset($product_ids) || count($product_ids) < 1) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $product = Products::where('customer_id', $user->id)
+            ->whereIn('id', $product_ids)
+            ->get();
+
+        if ($product == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        Products::where('customer_id', $user->id)
+            ->whereIn('id', $product_ids)
+            ->delete();
+
+        return Utils::makeResponse();
+    }
+
     public function getCategoriesWithPageInfo()
     {
         $page_size = request('pageSize');
@@ -308,8 +715,6 @@ class APIController
         if (isset($search) && $search != "") {
             $where_clause[] = ['name', 'like', "%$search%"];
             $where_clause[] = ['name_second', 'like', "%$search%"];
-            $where_clause[] = ['description', 'like', "%$search%"];
-            $where_clause[] = ['description_second', 'like', "%$search%"];
         }
 
         $total_count = Categories::where('customer_id', $user->id)
@@ -386,6 +791,34 @@ class APIController
         ]);
     }
 
+    public function getCategoryInfo()
+    {
+        $category_id = request('categoryId');
+        $user = request('user');
+
+        if (!isset($category_id)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $category = Categories::where([
+            ['id', $category_id],
+            ['customer_id', $user->id]
+        ])
+            ->first();
+
+        if ($category == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $category = $category->setHidden([
+            'customer_id'
+        ]);
+
+        return Utils::makeResponse([
+            'category' => $category
+        ]);
+    }
+
     public function addCategory()
     {
         $user = request('user');
@@ -406,11 +839,130 @@ class APIController
         return Utils::makeResponse();
     }
 
-    public function delCategory()
+    public function updateCategory()
     {
         $id = request('id');
-        Categories::where('id', $id)->delete();
-        Products::where('category_id', $id)->delete();
+        $name = request('name');
+        $status = request('state');
+        $user = request('user');
+
+        $validation = Validator::make(request()->all(), [
+            'name' => 'required',
+        ]);
+
+        if ($validation->fails()) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $category = Categories::where([
+            ['id', $id],
+            ['customer_id', $user->id]
+        ])
+            ->first();
+        if ($category == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        Categories::where('id', $id)->update([
+            'name' => $name,
+            'show_flag' => $status
+        ]);
+        return Utils::makeResponse();
+    }
+
+    public function toggleActiveCategory()
+    {
+        $category_id = request('categoryId');
+        $user = request('user');
+
+        if (!isset($category_id)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $category = Categories::where([
+            ['id', $category_id],
+            ['customer_id', $user->id]
+        ])
+            ->first();
+
+        if ($category == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $show_flag = Categories::where('id', $category_id)->first()->show_flag;
+
+        Products::where('id', $category_id)->update([
+            'show_flag' => 1 - $show_flag,
+        ]);
+
+        return Utils::makeResponse();
+    }
+
+    public function changeCategoriesState()
+    {
+        $user = request('user');
+        $category_ids = request('categoryIds');
+        $state = request('state');
+
+        $category_ids = json_decode($category_ids);
+
+        if (!isset($category_ids) || !isset($state) || count($category_ids) < 1 || ($state != 0 && $state != 1)) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $category = Categories::where('customer_id', $user->id)
+            ->whereIn('id', $category_ids)
+            ->get();
+
+        if ($category == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        Categories::where('customer_id', $user->id)
+            ->whereIn('id', $category_ids)
+            ->update([
+                'show_flag' => $state
+            ]);
+
+        return Utils::makeResponse();
+    }
+
+    public function toggleCategoryAllVisible()
+    {
+        $user = request('user');
+        Categories::where('customer_id', $user->id)->update(['show_flag' => 1]);
+        return Utils::makeResponse();
+    }
+
+    public function toggleCategoryAllInvisible()
+    {
+        $user = request('user');
+        Categories::where('customer_id', $user->id)->update(['show_flag' => 0]);
+        return Utils::makeResponse();
+    }
+
+    public function deleteCategories()
+    {
+        $user = request('user');
+        $category_ids = request('categoryIds');
+
+        $category_ids = json_decode($category_ids);
+
+        if (!isset($category_ids) || count($category_ids) < 1) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        $category = Categories::where('customer_id', $user->id)
+            ->whereIn('id', $category_ids)
+            ->get();
+
+        if ($category == null) {
+            return Utils::makeResponse([], config('constants.response-message.invalid-params'));
+        }
+
+        Categories::where('customer_id', $user->id)
+            ->whereIn('id', $category_ids)
+            ->delete();
 
         return Utils::makeResponse();
     }
